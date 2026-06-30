@@ -1,0 +1,92 @@
+/* Header.module.css */
+.headerContainer {
+  font-family: inherit;
+  width: 100%;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Top Bar */
+.topBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f6efe6;
+  padding: 8px 5%;
+  font-size: 14px;
+  color: #111;
+  font-weight: 500;
+}
+
+.topBarLeft, .topBarRight {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.topBarItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topBarIcon {
+  width: 16px;
+  height: 16px;
+  color: inherit;
+}
+
+/* Main Nav */
+.mainNav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 12px 5%;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.logoImage {
+  object-fit: contain;
+  width: auto;
+  height: 60px;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: #111;
+  font-weight: 700;
+  font-size: 15px;
+  transition: color 0.2s ease;
+}
+
+.navLink:hover {
+  color: #d87e00;
+}
+
+.bookNowBtn {
+  background-color: #e08b00;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.bookNowBtn:hover {
+  background-color: #c07700;
+}

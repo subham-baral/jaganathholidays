@@ -1,0 +1,72 @@
+.recognizedSection {
+  background-color: #fcf6ef;
+  padding: 60px 5% 80px;
+  width: 100%;
+}
+
+.container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.heading {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: 40px;
+}
+
+.logoGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.logoCard {
+  background-color: #ffffff;
+  border: 1px solid #c1a04f;
+  border-radius: 6px;
+  padding: 20px;
+  width: calc(16.666% - 17px);
+  min-width: 160px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.logoCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(0,0,0,0.05);
+}
+
+.logoImg {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  opacity: 0.9;
+  transition: opacity 0.2s ease;
+}
+
+.logoCard:hover .logoImg {
+  opacity: 1;
+}
+
+@media (max-width: 1024px) {
+  .logoCard {
+    width: calc(33.333% - 14px);
+  }
+}
+
+@media (max-width: 600px) {
+  .logoCard {
+    width: calc(50% - 10px);
+  }
+  .heading {
+    font-size: 28px;
+  }
+}

@@ -1,0 +1,81 @@
+.windowsSection {
+  position: relative;
+  z-index: 10;
+  background-color: #fcf6ef;
+  padding-bottom: 0;
+  width: 100%;
+}
+
+.windowsContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  transform: translateY(-130px);
+  padding: 0 2%;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  padding-bottom: 20px;
+}
+
+.windowsContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.windowFrame {
+  opacity: 0;
+  flex-shrink: 0;
+  width: 200px;
+  height: auto;
+  transition: transform .3s;
+  animation: slideUpFade .6s cubic-bezier(.2, .8, .2, 1) forwards;
+  display: flex;
+}
+
+@keyframes slideUpFade {
+  0% {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.windowFrame:hover {
+  transform: translateY(-5px);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+  filter: drop-shadow(0 15px 5px #0000004d);
+}
+
+.windowFrame:hover .image {
+  transform: scale(1.08);
+}
+
+@media (max-width: 1024px) {
+  .windowFrame {
+    width: 160px;
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .windowsContainer {
+    transform: translateY(-50px);
+    gap: 15px;
+  }
+  .windowFrame {
+    width: 120px;
+    height: auto;
+  }
+}
