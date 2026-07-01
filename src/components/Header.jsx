@@ -5,7 +5,7 @@ import styles from './Header.module.css';
 
 export default function Header() {
   return (
-    <header className={styles.headerContainer}>
+    <>
       {/* Top Bar */}
       <div className={styles.topBar}>
         <div className={styles.topBarLeft}>
@@ -27,7 +27,7 @@ export default function Header() {
       </div>
 
       {/* Main Navigation */}
-      <div className={styles.mainNav}>
+      <header className={styles.mainNav}>
         <div className={styles.logoContainer}>
           <Link href="/">
             <Image 
@@ -54,7 +54,7 @@ export default function Header() {
         <button className={styles.bookNowBtn}>
           BOOK NOW
         </button>
-      </div>
-    </header>
+      </header>
+    </>
   );
 }

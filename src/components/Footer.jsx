@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './Footer.module.css';
 import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaGlobe, FaFacebookF, FaLinkedinIn, FaYoutube, FaTripadvisor, FaTwitter } from 'react-icons/fa';
 
@@ -9,8 +10,8 @@ export default function Footer() {
         <div className={styles.topSection}>
           <div className={styles.brandColumn}>
             <div className={styles.logos}>
-              <img src="https://picsum.photos/80/80?random=80" alt="Odisha Logo 1" className={styles.logoImage} />
-              <img src="https://picsum.photos/80/80?random=81" alt="Odisha Logo 2" className={styles.logoImage} />
+              <img src="/footer-1.png" alt="Odisha Logo 1" className={styles.logoImage} />
+              <img src="/footer-2.png" alt="Odisha Logo 2" className={styles.logoImage} />
             </div>
             
             <ul className={styles.contactList}>
@@ -39,12 +40,12 @@ export default function Footer() {
           <div className={styles.linkColumn}>
             <h3 className={styles.columnTitle}>Quick Links</h3>
             <ul className={styles.linkList}>
-              <li><a href="#">About Us</a></li>
+              <li><Link href="/about">About Us</Link></li>
               <li><a href="#">Testimonials</a></li>
               <li><a href="#">Terms & Conditions</a></li>
               <li><a href="#">Privacy Policy</a></li>
               <li><a href="#">Reservation Policy</a></li>
-              <li><a href="#">Contact Us</a></li>
+              <li><Link href="/contact">Contact Us</Link></li>
             </ul>
           </div>
 

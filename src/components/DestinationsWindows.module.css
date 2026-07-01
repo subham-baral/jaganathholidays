@@ -2,37 +2,38 @@
   position: relative;
   z-index: 10;
   background-color: #fcf6ef;
+  padding-top: 0.1px;
   padding-bottom: 0;
   width: 100%;
 }
 
 .windowsContainer {
-  display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
-  gap: 20px;
-  max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
-  transform: translateY(-130px);
-  padding: 0 2%;
-  overflow-x: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  padding-bottom: 20px;
+  margin-top: -130px;
+  padding-bottom: 50px;
+  overflow: hidden;
 }
 
-.windowsContainer::-webkit-scrollbar {
-  display: none;
+.slider {
+  width: 100%;
+}
+
+.slideWrapper {
+  padding: 0 10px;
+  outline: none;
 }
 
 .windowFrame {
   opacity: 0;
-  flex-shrink: 0;
-  width: 200px;
+  width: 160px;
+  margin: 0 auto;
   height: auto;
   transition: transform .3s;
   animation: slideUpFade .6s cubic-bezier(.2, .8, .2, 1) forwards;
   display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 @keyframes slideUpFade {
@@ -47,7 +48,8 @@
 }
 
 .windowFrame:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px) scale(1.08);
+  z-index: 2;
 }
 
 .image {
@@ -58,24 +60,33 @@
   filter: drop-shadow(0 15px 5px #0000004d);
 }
 
-.windowFrame:hover .image {
-  transform: scale(1.08);
+.destName {
+  margin-top: 15px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #111;
+  text-align: center;
+  text-transform: capitalize;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(255,255,255,0.8);
 }
 
 @media (max-width: 1024px) {
   .windowFrame {
-    width: 160px;
+    width: 140px;
     height: auto;
   }
 }
 
 @media (max-width: 768px) {
   .windowsContainer {
-    transform: translateY(-50px);
-    gap: 15px;
+    margin-top: -50px;
   }
   .windowFrame {
-    width: 120px;
+    width: 160px;
     height: auto;
+  }
+  .destName {
+    font-size: 13px;
   }
 }

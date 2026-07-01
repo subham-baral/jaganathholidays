@@ -2,12 +2,12 @@ import styles from './RecognizedSection.module.css';
 
 export default function RecognizedSection() {
   const logos = [
-    { name: "OTOAI", img: "https://picsum.photos/150/80?random=120" },
-    { name: "ODISHA", img: "https://picsum.photos/150/80?random=121" },
-    { name: "IATA", img: "https://picsum.photos/150/80?random=122" },
-    { name: "EcoTour ODISHA", img: "https://picsum.photos/150/80?random=123" },
-    { name: "Eco Retreat ODISHA", img: "https://picsum.photos/150/80?random=124" },
-    { name: "ATOAI", img: "https://picsum.photos/150/80?random=125" }
+    { name: "OTOAI", img: "/Recognized (1).png" },
+    { name: "ODISHA", img: "/Recognized (2).png" },
+    { name: "IATA", img: "/Recognized (3).png" },
+    { name: "EcoTour ODISHA", img: "/Recognized (4).png" },
+    { name: "Eco Retreat ODISHA", img: "/Recognized (5).png" },
+    { name: "ATOAI", img: "/Recognized (6).png" }
   ];
 
   return (

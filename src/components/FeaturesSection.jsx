@@ -27,7 +27,6 @@ export default function FeaturesSection() {
 
   return (
     <section className={styles.featuresSection}>
-      <div className={styles.overlay}></div>
       <div className={styles.container}>
         {features.map((feature, index) => (
           <div key={index} className={styles.featureItem}>
