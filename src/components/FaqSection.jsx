@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import styles from './FaqSection.module.css';
+import AnimatedButton from './AnimatedButton';
 
 export default function FaqSection() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -40,7 +41,7 @@ export default function FaqSection() {
                 {activeIndex === index && (
                   <div className={styles.faqContent}>
                     <p className={styles.faqAnswer}>{faq.answer}</p>
-                    <button className={styles.learnMoreBtn}>Learn More</button>
+                    <AnimatedButton className={styles.learnMoreBtn}>Learn More</AnimatedButton>
                   </div>
                 )}
               </div>

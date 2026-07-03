@@ -1,4 +1,5 @@
 import styles from './AboutSection.module.css';
+import AnimatedButton from './AnimatedButton';
 
 export default function AboutSection() {
   return (
@@ -27,19 +28,30 @@ export default function AboutSection() {
             exceptional customer support.
           </p>
 
-          <button className={styles.readMoreBtn}>
+          <AnimatedButton className={styles.readMoreBtn}>
             Read More
-          </button>
+          </AnimatedButton>
         </div>
 
-        {/* Right Column - Image Collage Placeholder */}
-        <div className={styles.imageColumn}>
-          <div className={styles.imageWrapper}>
+        {/* Right Column - Images Grid */}
+        <div className={styles.imageGrid}>
+          <div className={styles.mainImageWrapper}>
             <img 
-              src="/360-section-image.png" 
-              alt="About Jagannath Holidays" 
-              className={styles.collageImage}
+              src="https://picsum.photos/400/500?random=1" 
+              alt="Cultural site" 
+              className={styles.mainImage}
             />
+          </div>
+          <div className={styles.secondaryImages}>
+            <img 
+              src="https://picsum.photos/250/200?random=2" 
+              alt="Traveler" 
+              className={styles.smallImage}
+            />
+            <div className={styles.experienceBadge}>
+              <span className={styles.years}>15+</span>
+              <span className={styles.text}>Years Of Experience</span>
+            </div>
           </div>
         </div>
       </div>

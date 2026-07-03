@@ -11,7 +11,7 @@ import EcoRetreatSection from "@/components/EcoRetreatSection";
 import NewsSection from "@/components/NewsSection";
 import FaqSection from "@/components/FaqSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import RecognizedSection from "@/components/RecognizedSection";
+import TeamSection from "@/components/TeamSection";
 
 export default function Home() {
   return (
@@ -29,7 +29,7 @@ export default function Home() {
       <NewsSection />
       <TestimonialsSection />
       <FaqSection />
-      <RecognizedSection />
+      <TeamSection />
     </main>
   );
 }

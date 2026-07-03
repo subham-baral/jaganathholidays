@@ -4,7 +4,6 @@ import VisionMissionSection from '@/components/VisionMissionSection';
 import WhyChooseUs from '@/components/WhyChooseUs';
 import LovedDestinations from '@/components/LovedDestinations';
 import TestimonialsSection from '@/components/TestimonialsSection';
-import RecognizedSection from '@/components/RecognizedSection';
 import StatsSection from '@/components/StatsSection';
 
 export default function AboutPage() {
@@ -27,7 +26,6 @@ export default function AboutPage() {
        <StatsSection />
       <LovedDestinations />
       <TestimonialsSection />
-      <RecognizedSection />
     </main>
   );
 }

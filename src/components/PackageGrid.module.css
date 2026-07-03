@@ -1,0 +1,319 @@
+.gridSection {
+  padding: 60px 5%;
+  background-color: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.subtitle {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: #d87e00;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 800;
+  color: #111;
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.tourCard {
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  transition: transform 0.3s ease;
+}
+
+.tourCard:hover {
+  transform: translateY(-8px);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+
+.tourCard:hover .image {
+  transform: scale(1.08);
+}
+
+.priceTag {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #d87e00;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-weight: 800;
+  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1.1;
+  box-shadow: 0 4px 10px rgba(216, 126, 0, 0.4);
+  z-index: 2;
+}
+
+.startsFrom {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  opacity: 0.9;
+}
+
+.locationTag {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+}
+
+.cardContent {
+  padding: 25px 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.duration {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #0284c7; /* A nice blue to contrast */
+  background-color: #e0f2fe;
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #475569;
+}
+
+.starIcon {
+  color: #fbbf24;
+  font-size: 15px;
+}
+
+.metaIcon {
+  font-size: 14px;
+}
+
+.cardTitle {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+}
+
+.cardDescription {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0 0 25px 0;
+  flex-grow: 1;
+}
+
+.bookBtn {
+  width: 100% !important;
+  text-align: center !important;
+  justify-content: center !important;
+  padding: 12px 20px !important;
+  font-size: 15px !important;
+  border-radius: 12px !important;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 60px;
+  gap: 10px;
+}
+
+.pageBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #f1f5f9;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.pageBtn:hover:not(:disabled) {
+  background-color: #e2e8f0;
+}
+
+.pageBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pageNumberBtn {
+  background-color: transparent;
+  border: 1px solid #e2e8f0;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.pageNumberBtn:hover {
+  background-color: #f1f5f9;
+}
+
+.activePage {
+  background-color: #d87e00 !important;
+  color: white !important;
+  border-color: #d87e00 !important;
+}
+
+/* Responsive Grid Adjustments */
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Force 2 columns on mobile as requested */
+@media (max-width: 768px) {
+  .gridSection {
+    padding: 40px 5%;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr); /* Ensure 2 columns */
+    gap: 15px; /* Smaller gap */
+  }
+
+  .imageWrapper {
+    height: 180px; 
+  }
+
+  .cardContent {
+    padding: 15px 5px 5px 5px; 
+  }
+
+  .cardTitle {
+    font-size: 16px; 
+    margin: 0 0 8px 0;
+  }
+
+  .cardDescription {
+    font-size: 13px; 
+    margin: 0 0 15px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .priceTag {
+    font-size: 13px;
+    padding: 4px 10px;
+  }
+  
+  .startsFrom {
+    font-size: 9px;
+  }
+
+  .locationTag {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  .metaRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .bookBtn {
+    padding: 10px !important;
+    font-size: 13px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination {
+    gap: 5px;
+  }
+  
+  .pageBtn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .pageNumberBtn {
+    width: 35px;
+    height: 35px;
+  }
+}

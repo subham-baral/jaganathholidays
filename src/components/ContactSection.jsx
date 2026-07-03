@@ -1,5 +1,6 @@
 import { FiMapPin, FiPhone, FiMail } from 'react-icons/fi';
 import styles from './ContactSection.module.css';
+import AnimatedButton from './AnimatedButton';
 
 export default function ContactSection() {
   return (
@@ -21,8 +22,8 @@ export default function ContactSection() {
                 Connect with Jagannath Holidays – Your Gateway to Exceptional Service! Contact us through the channels below to get in touch with our dedicated travel experts. We're here to assist you every step of the way.
               </p>
               <div className={styles.buttonGroup}>
-                <button className={styles.primaryBtn}>Book a Tour</button>
-                <button className={styles.secondaryBtn}>Explore Packages</button>
+                <AnimatedButton className={styles.primaryBtn}>Book a Tour</AnimatedButton>
+                <AnimatedButton className={styles.secondaryBtn}>Explore Packages</AnimatedButton>
               </div>
             </div>
           </div>
@@ -62,7 +63,7 @@ export default function ContactSection() {
                 <textarea rows="5"></textarea>
               </div>
 
-              <button type="button" className={styles.submitBtn}>Submit</button>
+              <AnimatedButton type="button" className={styles.submitBtn}>Submit</AnimatedButton>
             </form>
           </div>
         </div>

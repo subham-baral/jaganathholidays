@@ -1,5 +1,6 @@
 import styles from './Banner.module.css';
 import { FaStar } from 'react-icons/fa';
+import AnimatedButton from './AnimatedButton';
 
 export default function Banner() {
   return (
@@ -28,9 +29,9 @@ export default function Banner() {
           across India and beyond.
         </p>
         
-        <button className={styles.btnDestinations}>
+        <AnimatedButton className={styles.btnDestinations}>
           View All Destinations
-        </button>
+        </AnimatedButton>
       </div>
     </section>
   );

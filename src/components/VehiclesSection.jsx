@@ -1,6 +1,8 @@
 "use client";
 
+import { FiUsers, FiBriefcase, FiWind, FiCheck } from 'react-icons/fi';
 import styles from './VehiclesSection.module.css';
+import AnimatedButton from './AnimatedButton';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
@@ -91,7 +93,7 @@ export default function VehiclesSection() {
                         <span className={styles.price}>{vehicle.price}</span>
                         <span className={styles.duration}>/{vehicle.hours}</span>
                       </div>
-                      <button className={styles.bookBtn}>Book Now</button>
+                      <AnimatedButton className={styles.bookBtn}>Book Now</AnimatedButton>
                     </div>
                   </div>
                 </div>

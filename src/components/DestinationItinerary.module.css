@@ -1,0 +1,169 @@
+.itinerarySection {
+  padding: 30px 5%;
+  background-color: #ffffff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionTitle {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 800;
+  color: #111;
+  margin-bottom: 50px;
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 0; /* managed by the line height */
+}
+
+/* Indicator (Left Side) */
+.timelineIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60px;
+  flex-shrink: 0;
+}
+
+.dayCircle {
+  width: 60px;
+  height: 60px;
+  background-color: #d87e00;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  z-index: 2;
+  box-shadow: 0 4px 10px rgba(216, 126, 0, 0.3);
+}
+
+.timelineLine {
+  width: 2px;
+  background-color: #fde68a; /* light yellow/orange line */
+  flex-grow: 1;
+  min-height: 40px;
+  margin: 10px 0;
+}
+
+/* Content Box (Right Side) */
+.timelineContent {
+  flex-grow: 1;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 40px; /* spacing between boxes */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  transition: box-shadow 0.3s ease;
+}
+
+.timelineItem:last-child .timelineContent {
+  margin-bottom: 0;
+}
+
+.timelineContent:hover {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+}
+
+.contentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  gap: 20px;
+}
+
+.contentTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.timeTag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.clockIcon {
+  font-size: 16px;
+}
+
+.description {
+  font-size: 15px;
+  color: #475569;
+  line-height: 1.7;
+  margin: 0;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .itinerarySection {
+    padding: 40px 5%;
+  }
+
+  .timelineItem {
+    gap: 15px;
+  }
+
+  .dayCircle {
+    width: 50px;
+    height: 50px;
+    font-size: 13px;
+  }
+
+  .timelineIndicator {
+    width: 50px;
+  }
+
+  .contentHeader {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .contentTitle {
+    font-size: 17px;
+  }
+}
+
+@media (max-width: 576px) {
+  .timelineItem {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .timelineIndicator {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    gap: 15px;
+  }
+
+  .timelineLine {
+    height: 2px;
+    width: auto;
+    min-height: 2px;
+    margin: 0;
+  }
+}

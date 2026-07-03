@@ -1,4 +1,7 @@
+import Image from 'next/image';
+import { FiClock, FiMapPin, FiStar } from 'react-icons/fi';
 import styles from './PopularTourPackages.module.css';
+import AnimatedButton from './AnimatedButton';
 
 export default function PopularTourPackages() {
   const packages = [
@@ -45,7 +48,7 @@ export default function PopularTourPackages() {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.heading}>Popular Tour Packages</h2>
-          <button className={styles.viewAllBtn}>View All</button>
+          <AnimatedButton className={styles.viewAllBtn}>View All</AnimatedButton>
         </div>
 
         <div className={styles.grid}>
@@ -59,7 +62,7 @@ export default function PopularTourPackages() {
                 <p className={styles.cardDescription}>{pkg.description}</p>
                 <div className={styles.cardFooter}>
                   <span className={styles.duration}>{pkg.duration}</span>
-                  <button className={styles.bookNowBtn}>Book Now</button>
+                  <AnimatedButton className={styles.bookNowBtn}>Book Now</AnimatedButton>
                 </div>
               </div>
             </div>

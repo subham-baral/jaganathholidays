@@ -1,0 +1,215 @@
+.destinationsSection {
+  padding: 80px 5%;
+  background-color: #f8f9fa;
+  width: 100%;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+/* Card Styling */
+.card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 220px;
+}
+
+.priceTag {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: #d87e00;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 14px;
+  z-index: 2;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.cardContent {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.locationWrapper {
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+.icon {
+  margin-right: 6px;
+  color: #d87e00;
+}
+
+.cardTitle {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.cardDescription {
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.durationWrapper {
+  display: flex;
+  align-items: center;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.bookNowBtn {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: 2px solid #c07700;
+}
+
+.bookNowBtn span {
+  font-size: 12px;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.pageBtn {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #333;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.pageBtn:hover:not(:disabled) {
+  background-color: #fcf6ef;
+  border-color: #d87e00;
+  color: #d87e00;
+}
+
+.activePage {
+  background-color: #d87e00;
+  color: white;
+  border-color: #d87e00;
+}
+
+.activePage:hover:not(:disabled) {
+  background-color: #b56a00;
+  color: white;
+}
+
+.pageBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f1f1f1;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 992px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .destinationsSection {
+    padding: 50px 5%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .imageWrapper {
+    height: 150px;
+  }
+
+  .cardContent {
+    padding: 15px;
+  }
+
+  .cardTitle {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .cardDescription {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+
+  .priceTag {
+    font-size: 12px;
+    padding: 4px 8px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .cardFooter {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .bookNowBtn {
+    width: 100%;
+    padding: 6px 10px;
+  }
+
+  .pageBtn {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}

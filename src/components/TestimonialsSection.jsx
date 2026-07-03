@@ -1,6 +1,7 @@
 "use client";
 
 import styles from './TestimonialsSection.module.css';
+import AnimatedButton from './AnimatedButton';
 import Slider from "react-slick";
 import { FaStar } from 'react-icons/fa';
 import "slick-carousel/slick/slick.css"; 
@@ -66,7 +67,7 @@ export default function TestimonialsSection() {
       <div className={styles.container}>
         <div className={styles.header}>
           <h2 className={styles.heading}>Our Happy Customers</h2>
-          <button className={styles.viewAllBtn}>View All Reviews</button>
+          <AnimatedButton className={styles.viewAllBtn}>View All Reviews</AnimatedButton>
         </div>
         
         <div className={styles.sliderContainer}>

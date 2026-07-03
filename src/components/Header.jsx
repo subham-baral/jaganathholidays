@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { FiMapPin, FiPhone, FiMail } from 'react-icons/fi';
+import { FiMapPin, FiPhone, FiMail, FiChevronDown } from 'react-icons/fi';
 import styles from './Header.module.css';
+import AnimatedButton from './AnimatedButton';
 
 export default function Header() {
   return (
@@ -44,16 +45,30 @@ export default function Header() {
         <nav className={styles.navLinks}>
           <Link href="/" className={styles.navLink}>Home</Link>
           <Link href="/about" className={styles.navLink}>About Us</Link>
-          <Link href="/packages" className={styles.navLink}>Tour Packages</Link>
-          <Link href="/destinations" className={styles.navLink}>Destinations</Link>
+          <div className={styles.dropdown}>
+            <Link href="/packages" className={`${styles.navLink} ${styles.dropdownTrigger}`}>
+              Tour Packages <FiChevronDown className={styles.dropdownArrow} />
+            </Link>
+            <div className={styles.dropdownContent}>
+              <Link href="/packages/details" className={styles.dropdownLink}>Package Details</Link>
+            </div>
+          </div>
+          <div className={styles.dropdown}>
+            <Link href="/destinations" className={`${styles.navLink} ${styles.dropdownTrigger}`}>
+              Destinations <FiChevronDown className={styles.dropdownArrow} />
+            </Link>
+            <div className={styles.dropdownContent}>
+              <Link href="/destinations/details" className={styles.dropdownLink}>Destinations Details</Link>
+            </div>
+          </div>
           <Link href="/gallery" className={styles.navLink}>Gallery</Link>
           <Link href="/blogs" className={styles.navLink}>Blogs</Link>
           <Link href="/contact" className={styles.navLink}>Contact Us</Link>
         </nav>
 
-        <button className={styles.bookNowBtn}>
+        <AnimatedButton>
           BOOK NOW
-        </button>
+        </AnimatedButton>
       </header>
     </>
   );
