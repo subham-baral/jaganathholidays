@@ -1,32 +1,44 @@
 "use client";
 
-import { FiUsers, FiBriefcase, FiWind, FiCheck } from 'react-icons/fi';
+import { useState } from 'react';
+import { FiUsers, FiBriefcase, FiWind, FiCheck, FiSend, FiTag } from 'react-icons/fi';
 import styles from './VehiclesSection.module.css';
 import AnimatedButton from './AnimatedButton';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
+import EnquiryModal from './EnquiryModal';
 
 export default function VehiclesSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedVehicle, setSelectedVehicle] = useState('');
+
   const settings = {
     dots: true,
     arrows: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 4000,
     responsive: [
       {
-        breakpoint: 1024,
+        breakpoint: 1300,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        }
+      },
+      {
+        breakpoint: 992,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
         }
       },
       {
-        breakpoint: 768,
+        breakpoint: 640,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1
@@ -38,42 +50,73 @@ export default function VehiclesSection() {
   const vehicles = [
     {
       title: "Tempo Traveller",
-      capacity: "13 Seater",
-      description: "Travel together in comfort with our Tempo Traveller rental services. Ideal for family vacations, group tours, corporate trips, pilgrimages, and weekend getaways, our well-maintained Tempo Travellers.",
-      price: "4500",
-      hours: "8 Hours",
+      capacity: "13+1 Seater",
+      specs: {
+        seats: "13+1 Seats",
+        luggage: "6 Bags",
+        ac: "Dual AC",
+        drive: "Manual"
+      },
       image: "https://picsum.photos/400/250?random=60"
     },
     {
-      title: "10 Seater Urbania",
-      capacity: "13 Seater",
-      description: "Travel in style and comfort with our 10 Seater Urbania, perfect for family trips, corporate travel, airport transfers, and group tours. Featuring spacious seating, modern interiors and air conditioning.",
-      price: "4500",
-      hours: "8 Hours",
+      title: "Force Urbania",
+      capacity: "10 Seater",
+      specs: {
+        seats: "10 Seats",
+        luggage: "5 Bags",
+        ac: "Roof AC",
+        drive: "Manual"
+      },
       image: "https://picsum.photos/400/250?random=61"
     },
     {
-      title: "SML Coach - 13 Seater",
-      capacity: "13 Seater",
-      description: "Travel comfortably with our 13-seater SML Coach, perfect for family trips, corporate outings, airport transfers, and small group tours. Enjoy spacious seating, air-conditioned comfort, and a smooth ride.",
-      price: "4500",
-      hours: "8 Hours",
+      title: "SML Coach Bus",
+      capacity: "17 Seater",
+      specs: {
+        seats: "17 Seats",
+        luggage: "10 Bags",
+        ac: "Cabin AC",
+        drive: "Manual"
+      },
       image: "https://picsum.photos/400/250?random=62"
     },
     {
-      title: "Luxury Innova Crysta",
+      title: "Innova Crysta",
       capacity: "7 Seater",
-      description: "Experience premium travel with our Luxury Innova Crysta. Ideal for family trips, corporate executives, and private tours. Offers top-notch comfort, spacious legroom, and excellent suspension for a smooth ride.",
-      price: "3500",
-      hours: "8 Hours",
+      specs: {
+        seats: "7 Seats",
+        luggage: "3 Bags",
+        ac: "Auto AC",
+        drive: "Auto/Manual"
+      },
       image: "https://picsum.photos/400/250?random=63"
+    },
+    {
+      title: "Toyota Fortuner",
+      capacity: "7 Seater",
+      specs: {
+        seats: "7 Seats",
+        luggage: "3 Bags",
+        ac: "All-Row AC",
+        drive: "4x4 Auto"
+      },
+      image: "https://picsum.photos/400/250?random=64"
     }
   ];
+
+  const handleOpenEnquiry = (vehicleName) => {
+    setSelectedVehicle(vehicleName);
+    setIsModalOpen(true);
+  };
 
   return (
     <section className={styles.vehicleSection}>
       <div className={styles.container}>
-        <h2 className={styles.heading}>Our Vehicle to Travel</h2>
+        <div className={styles.header}>
+          <span className={styles.pretitle}>Premium Fleet</span>
+          <h2 className={styles.heading}>Our Vehicles to Travel</h2>
+        </div>
         
         <div className={styles.sliderContainer}>
           <Slider {...settings}>
@@ -82,18 +125,38 @@ export default function VehiclesSection() {
                 <div className={styles.card}>
                   <div className={styles.imageWrapper}>
                     <img src={vehicle.image} alt={vehicle.title} className={styles.cardImage} />
+                    <span className={styles.capacityBadge}>{vehicle.capacity}</span>
                   </div>
                   <div className={styles.cardContent}>
                     <h3 className={styles.cardTitle}>{vehicle.title}</h3>
-                    <div className={styles.capacity}>Seating Capacity: {vehicle.capacity}</div>
-                    <p className={styles.description}>{vehicle.description}</p>
-                    <div className={styles.footer}>
-                      <div className={styles.priceContainer}>
-                        <span className={styles.currency}>₹</span>
-                        <span className={styles.price}>{vehicle.price}</span>
-                        <span className={styles.duration}>/{vehicle.hours}</span>
+                    
+                    {/* Specifications Grid */}
+                    <div className={styles.specsGrid}>
+                      <div className={styles.specItem}>
+                        <FiUsers className={styles.specIcon} />
+                        <span>{vehicle.specs.seats}</span>
                       </div>
-                      <AnimatedButton className={styles.bookBtn}>Book Now</AnimatedButton>
+                      <div className={styles.specItem}>
+                        <FiBriefcase className={styles.specIcon} />
+                        <span>{vehicle.specs.luggage}</span>
+                      </div>
+                      <div className={styles.specItem}>
+                        <FiWind className={styles.specIcon} />
+                        <span>{vehicle.specs.ac}</span>
+                      </div>
+                      <div className={styles.specItem}>
+                        <FiTag className={styles.specIcon} />
+                        <span>{vehicle.specs.drive}</span>
+                      </div>
+                    </div>
+
+                    <div className={styles.footer}>
+                      <AnimatedButton 
+                        className={styles.bookBtn}
+                        onClick={() => handleOpenEnquiry(vehicle.title)}
+                      >
+                        <FiSend className={styles.sendIcon} /> Enquire Now
+                      </AnimatedButton>
                     </div>
                   </div>
                 </div>
@@ -102,6 +165,13 @@ export default function VehiclesSection() {
           </Slider>
         </div>
       </div>
+
+      <EnquiryModal 
+        show={isModalOpen} 
+        handleClose={() => setIsModalOpen(false)} 
+        itemName={selectedVehicle} 
+        itemType="vehicle" 
+      />
     </section>
   );
 }

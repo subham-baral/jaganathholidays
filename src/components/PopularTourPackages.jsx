@@ -6,40 +6,84 @@ import AnimatedButton from './AnimatedButton';
 export default function PopularTourPackages() {
   const packages = [
     {
-      title: 'Golden Triangle Tour Packages of Odisha',
-      description: 'Odisha is known as the Golden Triangle and is been very much celebrated among travelers and includes the three most picturesque and prime cities of the state Bhubaneswar...',
-      duration: '2 Nights 3 Days',
+      title: 'Golden Triangle Tour of Odisha',
+      description: 'Explore the three most picturesque and celebrated cities of Odisha: Bhubaneswar, Puri, and Konark.',
+      duration: '2N / 3D',
+      location: 'Puri - Konark - Bhubaneswar',
+      price: '₹4,999',
+      rating: '4.8',
+      badge: 'Best Seller',
       image: 'https://picsum.photos/400/300?random=40'
     },
     {
       title: 'Odisha Adventure Tour Packages',
-      description: 'The adventure tour package is a visual treat to the eyes and that could pump to visit it again and again. Are you an adventure lover and always desire to go for adventure tour packages to explore different places.',
-      duration: '8 Nights 10 Days',
+      description: 'An ultimate thriller package through wildlife sanctuaries, waterfalls, and scenic gorges of Similipal.',
+      duration: '8N / 10D',
+      location: 'Similipal - Satkosia',
+      price: '₹14,499',
+      rating: '4.9',
+      badge: 'Adventure',
       image: 'https://picsum.photos/400/300?random=41'
     },
     {
-      title: 'Puri Jagannath Rath Yatra Tour Packages of Odisha',
-      description: 'Odisha is known as the Golden Triangle and is been very much celebrated among travelers and includes the three most picturesque and prime cities of the state Bhubaneswar...',
-      duration: '3 Nights 4 Days',
+      title: 'Puri Jagannath Rath Yatra Tour',
+      description: 'Witness the grand and holy festival of Chariots in Puri with premium hospitality and VIP darshan.',
+      duration: '3N / 4D',
+      location: 'Puri Jagannath Temple',
+      price: '₹6,999',
+      rating: '4.7',
+      badge: 'Devotional',
       image: 'https://picsum.photos/400/300?random=42'
     },
     {
-      title: 'Authentic Tribal Tour Packages in Odisha',
-      description: 'The state Odisha is been assessed as a country of in excess of 60 sorts of tribes and more than 29% of the tribal populace. There isn\'t anything more gutsy, learned, and shrewd than to know a greater amount.',
-      duration: '2 Nights 3 Days',
+      title: 'Authentic Tribal Tour Packages',
+      description: 'A unique opportunity to connect with local tribal communities and experience their heritage.',
+      duration: '5N / 6D',
+      location: 'Koraput & Rayagada',
+      price: '₹7,999',
+      rating: '4.8',
+      badge: 'Cultural',
       image: 'https://picsum.photos/400/300?random=43'
     },
     {
-      title: 'Satkosia Wildlife Adventure & Nature Tour Packages',
-      description: 'Might it be said that you are the person who essentially loves natural life and is consistently prepared to look at the uncommon assortments in fauna and flora?',
-      duration: '8 Nights 10 Days',
+      title: 'Satkosia Wildlife & Nature Tour',
+      description: 'Stay in luxury tents, enjoy boat cruises, and look out for rare fauna in Satkosia Tiger Reserve.',
+      duration: '3N / 4D',
+      location: 'Satkosia Gorge Reserve',
+      price: '₹12,999',
+      rating: '4.9',
+      badge: 'Wildlife',
       image: 'https://picsum.photos/400/300?random=44'
     },
     {
-      title: 'Romantic Odisha Honeymoon Tour Packages',
-      description: 'Odisha is for sure an optimal spot for honeymooners and young couples. Odisha is known for its religious festivals, that really charm countless newlywed couples from every corner of the nation.',
-      duration: '3 Nights 4 Days',
+      title: 'Romantic Odisha Honeymoon Tour',
+      description: 'Celebrate love along the pristine beaches of Gopalpur and scenic valleys of Daringbadi.',
+      duration: '4N / 5D',
+      location: 'Gopalpur - Daringbadi',
+      price: '₹9,999',
+      rating: '5.0',
+      badge: 'Honeymoon',
       image: 'https://picsum.photos/400/300?random=45'
+    },
+    {
+      title: 'Chilika Lake & Island Exploration',
+      description: 'Experience Asia\'s largest brackish water lagoon, spot dolphins, and view thousands of migratory birds.',
+      duration: '2N / 3D',
+      location: 'Chilika - Mangalajodi',
+      price: '₹5,499',
+      rating: '4.8',
+      badge: 'Nature',
+      image: 'https://picsum.photos/400/300?random=46'
+    },
+    {
+      title: 'Heritage & Crafts Tour of Raghurajpur',
+      description: 'Discover traditional Patachitra painters, wood crafts, and Odissi dance recitals at the heritage village.',
+      duration: '1N / 2D',
+      location: 'Raghurajpur Heritage Village',
+      price: '₹3,999',
+      rating: '4.9',
+      badge: 'Heritage',
+      image: 'https://picsum.photos/400/300?random=47'
     }
   ];
 
@@ -47,21 +91,42 @@ export default function PopularTourPackages() {
     <section className={styles.tourSection}>
       <div className={styles.container}>
         <div className={styles.header}>
-          <h2 className={styles.heading}>Popular Tour Packages</h2>
-          <AnimatedButton className={styles.viewAllBtn}>View All</AnimatedButton>
+          <div className={styles.titleArea}>
+            <span className={styles.pretitle}>Featured Offers</span>
+            <h2 className={styles.heading}>Popular Tour Packages</h2>
+          </div>
+          <AnimatedButton className={styles.viewAllBtn}>View All Packages</AnimatedButton>
         </div>
 
         <div className={styles.grid}>
           {packages.map((pkg, index) => (
             <div key={index} className={styles.card}>
               <div className={styles.imageWrapper}>
-                <img src={pkg.image} alt={pkg.title} className={styles.cardImage} />
+                <img src={pkg.image} alt={pkg.title} className={pkg.cardImage} />
+                <div className={styles.imageOverlay}></div>
+                {pkg.badge && <span className={styles.badge}>{pkg.badge}</span>}
+                {pkg.price && (
+                  <div className={styles.priceTag}>
+                    <span className={styles.startsFrom}>Starts from</span>
+                    <span className={styles.priceVal}>{pkg.price}</span>
+                  </div>
+                )}
               </div>
               <div className={styles.cardContent}>
+                <div className={styles.locationRow}>
+                  <span className={styles.location}>
+                    <FiMapPin className={styles.locationIcon} /> {pkg.location}
+                  </span>
+                  <span className={styles.rating}>
+                    <FiStar className={styles.starIcon} /> {pkg.rating}
+                  </span>
+                </div>
                 <h3 className={styles.cardTitle}>{pkg.title}</h3>
-                <p className={styles.cardDescription}>{pkg.description}</p>
+                {/* <p className={styles.cardDescription}>{pkg.description}</p> */}
                 <div className={styles.cardFooter}>
-                  <span className={styles.duration}>{pkg.duration}</span>
+                  <span className={styles.duration}>
+                    <FiClock className={styles.durationIcon} /> {pkg.duration}
+                  </span>
                   <AnimatedButton className={styles.bookNowBtn}>Book Now</AnimatedButton>
                 </div>
               </div>
