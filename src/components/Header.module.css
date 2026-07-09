@@ -271,3 +271,162 @@
   font-weight: 600;
   z-index: 3;
 }
+
+/* --- Mobile Menu Styles --- */
+
+.hamburgerBtn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #111;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.mobileOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlayActive {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sideMenu {
+  position: fixed;
+  top: 0;
+  left: -320px; /* Hidden off-screen to the left by default */
+  width: 300px;
+  height: 100vh;
+  background-color: #ffffff;
+  z-index: 10000;
+  box-shadow: 5px 0 30px rgba(0, 0, 0, 0.1);
+  transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.menuActive {
+  left: 0;
+}
+
+.sideMenuHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  font-size: 26px;
+  color: #64748b;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.closeBtn:hover {
+  color: #ef4444;
+}
+
+.mobileNavLinks {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileNavLink, .mobileDropdownTrigger {
+  padding: 15px 25px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0f172a;
+  text-decoration: none;
+  border-bottom: 1px solid #f8fafc;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.mobileNavLink:active, .mobileDropdownTrigger:active {
+  background-color: #f8fafc;
+}
+
+.mobileDropdownArrow {
+  transition: transform 0.3s ease;
+}
+
+.arrowUp {
+  transform: rotate(180deg);
+  color: #d87e00;
+}
+
+.mobileDropdownContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  background-color: #f8fafc;
+}
+
+.contentOpen {
+  max-height: 200px; /* Large enough to hold the links */
+}
+
+.mobileSubLink {
+  display: block;
+  padding: 12px 25px 12px 40px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #475569;
+  text-decoration: none;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.mobileAction {
+  padding: 30px 25px;
+  margin-top: auto; /* Pushes button to bottom if space allows */
+}
+
+.mobileBookBtn {
+  width: 100% !important;
+  justify-content: center !important;
+}
+
+/* --- Media Queries --- */
+@media (max-width: 992px) {
+  .topBar {
+    display: none;
+  }
+  
+  .navLinks, .desktopAction {
+    display: none;
+  }
+
+  .hamburgerBtn {
+    display: block;
+  }
+
+  .mainNav {
+    padding: 15px 5%;
+  }
+
+  .logoImage {
+    height: 45px;
+  }
+}

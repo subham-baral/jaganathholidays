@@ -1,10 +1,30 @@
+"use client";
+
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FiMapPin, FiPhone, FiMail, FiChevronDown } from 'react-icons/fi';
+import { FiMapPin, FiPhone, FiMail, FiChevronDown, FiMenu, FiX } from 'react-icons/fi';
 import styles from './Header.module.css';
 import AnimatedButton from './AnimatedButton';
 
 export default function Header() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isPackagesOpen, setIsPackagesOpen] = useState(false);
+  const [isDestinationsOpen, setIsDestinationsOpen] = useState(false);
+
+  // Prevent scrolling when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
+
+  const closeMenu = () => setIsMenuOpen(false);
   return (
     <>
       {/* Top Bar */}
@@ -66,10 +86,83 @@ export default function Header() {
           <Link href="/contact" className={styles.navLink}>Contact Us</Link>
         </nav>
 
-        <AnimatedButton>
-          BOOK NOW
-        </AnimatedButton>
+        <div className={styles.desktopAction}>
+          <AnimatedButton>
+            BOOK NOW
+          </AnimatedButton>
+        </div>
+
+        {/* Hamburger Icon for Mobile */}
+        <button 
+          className={styles.hamburgerBtn}
+          onClick={() => setIsMenuOpen(true)}
+          aria-label="Open Menu"
+        >
+          <FiMenu />
+        </button>
       </header>
+
+      {/* Mobile Overlay (dims background) */}
+      <div className={`${styles.mobileOverlay} ${isMenuOpen ? styles.overlayActive : ''}`} onClick={closeMenu}></div>
+
+      {/* Left Side Menu */}
+      <div className={`${styles.sideMenu} ${isMenuOpen ? styles.menuActive : ''}`}>
+        <div className={styles.sideMenuHeader}>
+          <Image 
+            src="/jaganath-holidays-logo.png" 
+            alt="Jagannath Holidays Logo" 
+            width={180} 
+            height={45} 
+            className={styles.logoImage}
+          />
+          <button className={styles.closeBtn} onClick={closeMenu} aria-label="Close Menu">
+            <FiX />
+          </button>
+        </div>
+
+        <nav className={styles.mobileNavLinks}>
+          <Link href="/" className={styles.mobileNavLink} onClick={closeMenu}>Home</Link>
+          <Link href="/about" className={styles.mobileNavLink} onClick={closeMenu}>About Us</Link>
+          
+          <div className={styles.mobileDropdown}>
+            <div 
+              className={styles.mobileDropdownTrigger} 
+              onClick={() => setIsPackagesOpen(!isPackagesOpen)}
+            >
+              Tour Packages 
+              <FiChevronDown className={`${styles.mobileDropdownArrow} ${isPackagesOpen ? styles.arrowUp : ''}`} />
+            </div>
+            <div className={`${styles.mobileDropdownContent} ${isPackagesOpen ? styles.contentOpen : ''}`}>
+              <Link href="/packages" className={styles.mobileSubLink} onClick={closeMenu}>All Tour Packages</Link>
+              <Link href="/packages/details" className={styles.mobileSubLink} onClick={closeMenu}>Package Details</Link>
+            </div>
+          </div>
+
+          <div className={styles.mobileDropdown}>
+            <div 
+              className={styles.mobileDropdownTrigger} 
+              onClick={() => setIsDestinationsOpen(!isDestinationsOpen)}
+            >
+              Destinations 
+              <FiChevronDown className={`${styles.mobileDropdownArrow} ${isDestinationsOpen ? styles.arrowUp : ''}`} />
+            </div>
+            <div className={`${styles.mobileDropdownContent} ${isDestinationsOpen ? styles.contentOpen : ''}`}>
+              <Link href="/destinations" className={styles.mobileSubLink} onClick={closeMenu}>All Destinations</Link>
+              <Link href="/destinations/details" className={styles.mobileSubLink} onClick={closeMenu}>Destinations Details</Link>
+            </div>
+          </div>
+
+          <Link href="/gallery" className={styles.mobileNavLink} onClick={closeMenu}>Gallery</Link>
+          <Link href="/blogs" className={styles.mobileNavLink} onClick={closeMenu}>Blogs</Link>
+          <Link href="/contact" className={styles.mobileNavLink} onClick={closeMenu}>Contact Us</Link>
+        </nav>
+
+        <div className={styles.mobileAction}>
+          <AnimatedButton className={styles.mobileBookBtn}>
+            BOOK NOW
+          </AnimatedButton>
+        </div>
+      </div>
     </>
   );
 }

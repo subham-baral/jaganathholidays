@@ -83,7 +83,8 @@
     margin-top: -50px;
   }
   .windowFrame {
-    width: 160px;
+    width: 100%;
+    max-width: 160px;
     height: auto;
   }
   .destName {

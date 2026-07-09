@@ -33,25 +33,14 @@ export default function AboutSection() {
           </AnimatedButton>
         </div>
 
-        {/* Right Column - Images Grid */}
-        <div className={styles.imageGrid}>
-          <div className={styles.mainImageWrapper}>
+        {/* Right Column - Images */}
+        <div className={styles.imageColumn}>
+          <div className={styles.imageWrapper}>
             <img 
-              src="https://picsum.photos/400/500?random=1" 
-              alt="Cultural site" 
-              className={styles.mainImage}
+              src="/360-view-new.webp" 
+              alt="Jagannath Holidays 360 View" 
+              className={styles.collageImage}
             />
-          </div>
-          <div className={styles.secondaryImages}>
-            <img 
-              src="https://picsum.photos/250/200?random=2" 
-              alt="Traveler" 
-              className={styles.smallImage}
-            />
-            <div className={styles.experienceBadge}>
-              <span className={styles.years}>15+</span>
-              <span className={styles.text}>Years Of Experience</span>
-            </div>
           </div>
         </div>
       </div>
