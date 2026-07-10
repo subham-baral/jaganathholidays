@@ -1,52 +1,50 @@
 "use client";
 
 import { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
-import { FiMapPin, FiClock } from 'react-icons/fi';
-import styles from './DestinationsList.module.css';
-import AnimatedButton from './AnimatedButton';
+import styles from './BlogList.module.css';
 
-export default function DestinationsList() {
+export default function BlogList() {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 12;
+  const itemsPerPage = 9;
 
-  // Generate 18 dummy destinations
-  const destinations = Array.from({ length: 18 }).map((_, index) => ({
+  // Generate 24 dummy blogs
+  const blogs = Array.from({ length: 24 }).map((_, index) => ({
     id: index + 1,
-    title: `Destination ${index + 1}`,
-    location: "Odisha, India",
-    duration: "3 Days / 2 Nights",
-    description: "Experience the vibrant culture, serene temples, and beautiful landscapes of this amazing destination.",
-    image: `https://picsum.photos/600/400?random=${index + 10}`,
-    price: `₹${(Math.floor(Math.random() * 15) + 5) * 1000}`
+    title: `Exploring the hidden gems of Odisha ${index + 1}`,
+    description: "Discover the heritage and beauty of Puri, Konark, and Bhubaneswar. A complete guide to a memorable journey across the beautiful state of Odisha.",
+    date: `Date: ${21 - (index % 15)} Jun 2026`,
+    image: `https://picsum.photos/600/400?random=${index + 100}`
   }));
 
-  const totalPages = Math.ceil(destinations.length / itemsPerPage);
+  const totalPages = Math.ceil(blogs.length / itemsPerPage);
   
   // Calculate items for current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = destinations.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = blogs.slice(indexOfFirstItem, indexOfLastItem);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    // Scroll to top of the list
-    window.scrollTo({ top: 400, behavior: 'smooth' });
+    window.scrollTo({ top: 300, behavior: 'smooth' });
   };
 
   return (
-    <section className={styles.destinationsSection}>
+    <section className={styles.blogSection}>
       <div className={styles.container}>
         <div className={styles.grid}>
-          {currentItems.map((dest) => (
-            <div key={dest.id} className={styles.card}>
-              <img src={dest.image} alt={dest.title} className={styles.cardImage} />
+          {currentItems.map((blog) => (
+            <Link href="/blogs/details" key={blog.id} className={styles.card}>
+              <img src={blog.image} alt={blog.title} className={styles.cardImage} />
               <div className={styles.cardOverlay}>
-                <h3 className={styles.cardTitle}>{dest.title}</h3>
-                <Link href="/packages" className={styles.bookNow}>Book Now</Link>
+                <h3 className={styles.cardTitle}>{blog.title}</h3>
+                <p className={styles.cardDescription}>{blog.description}</p>
+                <div className={styles.cardFooter}>
+                  <div className={styles.cardDate}>{blog.date}</div>
+                  <div className={styles.readMore}>Read More &rarr;</div>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 

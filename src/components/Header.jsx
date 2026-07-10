@@ -11,6 +11,7 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isPackagesOpen, setIsPackagesOpen] = useState(false);
   const [isDestinationsOpen, setIsDestinationsOpen] = useState(false);
+  const [isBlogsOpen, setIsBlogsOpen] = useState(false);
 
   // Prevent scrolling when mobile menu is open
   useEffect(() => {
@@ -73,16 +74,16 @@ export default function Header() {
               <Link href="/packages/details" className={styles.dropdownLink}>Package Details</Link>
             </div>
           </div>
+          <Link href="/destinations" className={styles.navLink}>Destinations</Link>
+          <Link href="/gallery" className={styles.navLink}>Gallery</Link>
           <div className={styles.dropdown}>
-            <Link href="/destinations" className={`${styles.navLink} ${styles.dropdownTrigger}`}>
-              Destinations <FiChevronDown className={styles.dropdownArrow} />
+            <Link href="/blogs" className={`${styles.navLink} ${styles.dropdownTrigger}`}>
+              Blogs <FiChevronDown className={styles.dropdownArrow} />
             </Link>
             <div className={styles.dropdownContent}>
-              <Link href="/destinations/details" className={styles.dropdownLink}>Destinations Details</Link>
+              <Link href="/blogs/details" className={styles.dropdownLink}>Blog Details</Link>
             </div>
           </div>
-          <Link href="/gallery" className={styles.navLink}>Gallery</Link>
-          <Link href="/blogs" className={styles.navLink}>Blogs</Link>
           <Link href="/contact" className={styles.navLink}>Contact Us</Link>
         </nav>
 
@@ -138,22 +139,23 @@ export default function Header() {
             </div>
           </div>
 
+          <Link href="/destinations" className={styles.mobileNavLink} onClick={closeMenu}>Destinations</Link>
+
+          <Link href="/gallery" className={styles.mobileNavLink} onClick={closeMenu}>Gallery</Link>
+          
           <div className={styles.mobileDropdown}>
             <div 
               className={styles.mobileDropdownTrigger} 
-              onClick={() => setIsDestinationsOpen(!isDestinationsOpen)}
+              onClick={() => setIsBlogsOpen(!isBlogsOpen)}
             >
-              Destinations 
-              <FiChevronDown className={`${styles.mobileDropdownArrow} ${isDestinationsOpen ? styles.arrowUp : ''}`} />
+              Blogs 
+              <FiChevronDown className={`${styles.mobileDropdownArrow} ${isBlogsOpen ? styles.arrowUp : ''}`} />
             </div>
-            <div className={`${styles.mobileDropdownContent} ${isDestinationsOpen ? styles.contentOpen : ''}`}>
-              <Link href="/destinations" className={styles.mobileSubLink} onClick={closeMenu}>All Destinations</Link>
-              <Link href="/destinations/details" className={styles.mobileSubLink} onClick={closeMenu}>Destinations Details</Link>
+            <div className={`${styles.mobileDropdownContent} ${isBlogsOpen ? styles.contentOpen : ''}`}>
+              <Link href="/blogs/details" className={styles.mobileSubLink} onClick={closeMenu}>Blog Details</Link>
             </div>
           </div>
 
-          <Link href="/gallery" className={styles.mobileNavLink} onClick={closeMenu}>Gallery</Link>
-          <Link href="/blogs" className={styles.mobileNavLink} onClick={closeMenu}>Blogs</Link>
           <Link href="/contact" className={styles.mobileNavLink} onClick={closeMenu}>Contact Us</Link>
         </nav>
 

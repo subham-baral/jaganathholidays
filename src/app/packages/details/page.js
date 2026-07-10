@@ -1,29 +1,23 @@
-import BreadcrumbBanner from '@/components/BreadcrumbBanner';
-import PackageDetailsBanner from '@/components/PackageDetailsBanner';
-import PackageDetailsContent from '@/components/PackageDetailsContent';
-import PackageItinerary from '@/components/PackageItinerary';
+import DestinationDetailsBanner from '@/components/DestinationDetailsBanner';
+import DestinationDetailsContent from '@/components/DestinationDetailsContent';
+import DestinationWhatToExpect from '@/components/DestinationWhatToExpect';
+import DestinationItinerary from '@/components/DestinationItinerary';
 import DestinationGallery from '@/components/DestinationGallery';
-import PackageGrid from '@/components/PackageGrid';
+import DestinationRelatedTours from '@/components/DestinationRelatedTours';
+import TestimonialsSection from '@/components/TestimonialsSection';
+import FaqSection from '@/components/FaqSection';
 
 export default function PackageDetailsPage() {
-  const breadcrumbs = [
-    { label: 'Home', link: '/' },
-    { label: 'Tour Packages', link: '/packages' },
-    { label: 'Premium Puri Gangasagar Tour Package' }
-  ];
-
   return (
     <main>
-      <BreadcrumbBanner 
-        title="Package Details" 
-        breadcrumbs={breadcrumbs} 
-        bgImage="/jaganath-banner.webp"
-      />
-      <PackageDetailsBanner />
-      <PackageDetailsContent />
-      <PackageItinerary />
+      <DestinationDetailsBanner />
+      <DestinationDetailsContent />
+      <DestinationWhatToExpect />
+      <DestinationItinerary />
       <DestinationGallery />
-      <PackageGrid title="Related Packages" subtitle="Discover more" limit={3} />
+      <DestinationRelatedTours />
+      <TestimonialsSection />
+      <FaqSection />
     </main>
   );
 }
