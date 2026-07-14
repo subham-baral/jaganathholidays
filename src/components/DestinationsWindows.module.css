@@ -47,8 +47,9 @@
 }
 
 .windowFrame:hover {
-  transform: translateY(-5px) scale(1.08);
+  transform: translateY(10px);
   z-index: 2;
+  cursor: pointer;
 }
 
 .image {
@@ -89,4 +90,9 @@
   .destName {
     font-size: 13px;
   }
+}
+
+.linkWrapper {
+  text-decoration: none;
+  display: block;
 }

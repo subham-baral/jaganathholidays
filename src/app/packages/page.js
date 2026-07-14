@@ -19,6 +19,7 @@ export default function PackagesPage() {
         title="Tour Packages" 
         breadcrumbs={breadcrumbs} 
         bgImage="/jaganath-banner.webp"
+        bgVideo="/videos/road.mp4"
       />
       <PackageFeatures />
       <PackageGrid />

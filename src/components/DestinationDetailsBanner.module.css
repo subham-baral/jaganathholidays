@@ -122,24 +122,62 @@
   font-weight: 600;
   color: #333;
   cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s ease;
 }
 
 .tabBtn:hover {
   border-color: #d87e00;
   color: #d87e00;
+  text-decoration: none;
 }
 
 .activeTab {
   background-color: #d87e00;
-  color: white;
+  color: white !important;
   border-color: #d87e00;
 }
 
 .activeTab:hover {
   background-color: #b56a00;
   border-color: #b56a00;
-  color: white;
+  color: white !important;
+}
+
+/* Sticky Tabs styling when scrolled up */
+.tabsContainer.sticky {
+  position: fixed;
+  top: 0; /* Sticky at the very top of the viewport */
+  bottom: auto;
+  left: 0;
+  width: 100%;
+  padding: 10px 5%;
+  background-color: #ffffff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid #eaeaea;
+  z-index: 999;
+  animation: slideDown 0.25s ease-out;
+}
+
+.tabsContainer.sticky .tabsBox {
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
 }
 
 /* Responsive */
@@ -154,6 +192,11 @@
   
   .tabsContainer {
     bottom: -80px;
+  }
+
+  .tabsContainer.sticky {
+    top: 0; /* Sticky at the very top of the viewport on mobile */
+    padding: 8px 5%;
   }
   
   .tabsBox {

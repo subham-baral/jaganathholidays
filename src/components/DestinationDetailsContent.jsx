@@ -1,6 +1,6 @@
-import { FiCheck, FiX, FiMapPin, FiUsers, FiClock, FiUser, FiSmartphone, FiCalendar, FiMessageSquare, FiSend, FiGift, FiPhone, FiMail } from 'react-icons/fi';
+import { FiCheck, FiX, FiMapPin, FiUsers, FiClock, FiGift, FiPhone, FiMail } from 'react-icons/fi';
 import styles from './DestinationDetailsContent.module.css';
-import AnimatedButton from './AnimatedButton';
+import PlanJourneyForm from './PlanJourneyForm';
 
 export default function DestinationDetailsContent() {
   return (
@@ -23,29 +23,23 @@ export default function DestinationDetailsContent() {
             <h3 className={styles.boxTitle}><FiCheck className={styles.titleIcon} /> Price Includes</h3>
             <ul className={styles.includesList}>
               <li><FiCheck className={styles.checkIcon} /> On Arrival Well Come Kits (Welcome Flower Bouquet, Lord Jagannath Photo, Soft Drinks, Tissue Paper, and Water Bottle).</li>
-              <li><FiCheck className={styles.checkIcon} /> Every Paid Night 5 Breakfasts</li>
-              <li><FiCheck className={styles.checkIcon} /> Transportation by well-condition AC Vehicle</li>
-              <li><FiCheck className={styles.checkIcon} /> Driver allowance, Toll Tax, Parking, and State Govt. Tax</li>
-              <li><FiCheck className={styles.checkIcon} /> Railway Station / Airport Pick up and Drop and Hotel Taxes</li>
-              <li><FiCheck className={styles.checkIcon} /> Here the vehicle is entirely booked for your family only, so it's not a shared vehicle.</li>
-              <li><FiCheck className={styles.checkIcon} /> If require Wheel Chair, Baby Trolley, Ice Box, Walker & Etc.</li>
+              <li><FiCheck className={styles.checkIcon} /> Accommodation on twin sharing basis.</li>
+              <li><FiCheck className={styles.checkIcon} /> All transfers & sightseeing by AC vehicle.</li>
+              <li><FiCheck className={styles.checkIcon} /> Toll, parking, driver allowance, and night halt charges.</li>
             </ul>
           </div>
 
           <div className={styles.excludesBlock}>
             <h3 className={styles.boxTitle}><FiX className={styles.titleIcon} /> Price Excludes</h3>
             <ul className={styles.excludesList}>
-              <li><FiX className={styles.crossIcon} /> Any personal expenses Fees for Camera & Video Camera</li>
-              <li><FiX className={styles.crossIcon} /> Monument entry fees, Boating & Guide charges</li>
-              <li><FiX className={styles.crossIcon} /> Porterage at hotels and airports</li>
-              <li><FiX className={styles.crossIcon} /> Birthday Celebrations, tips, insurance & laundry</li>
-              <li><FiX className={styles.crossIcon} /> Liquors, wine & telephone charges</li>
-              <li><FiX className={styles.crossIcon} /> Air / Train fare and Any other</li>
+              <li><FiX className={styles.crossIcon} /> Any meals other than those mentioned in the itinerary.</li>
+              <li><FiX className={styles.crossIcon} /> Entry fees, camera charges, and guide services.</li>
+              <li><FiX className={styles.crossIcon} /> Personal expenses like laundry, phone calls, tips, etc.</li>
             </ul>
           </div>
 
           <div className={styles.complementariesBlock}>
-            <h3 className={styles.boxTitle}><FiGift className={styles.titleIcon} /> Complementaries</h3>
+            <h3 className={styles.boxTitle}><FiGift className={styles.titleIcon} /> Complementary Gifts</h3>
             <ul className={styles.complementariesList}>
               <li><FiGift className={styles.giftIcon} /> Jagannath Darshan by our Temple priest</li>
               <li><FiGift className={styles.giftIcon} /> Welcome Flower Bouquet</li>
@@ -96,57 +90,8 @@ export default function DestinationDetailsContent() {
           </div>
 
           {/* Booking Form Box */}
-          <div className={styles.formBox}>
-            <h3 className={styles.sidebarTitle}>Plan Your Journey</h3>
-            <form className={styles.bookingForm}>
-              
-              <div className={styles.formGroup}>
-                <label><FiUser className={styles.inputIcon} /> Name *</label>
-                <input type="text" placeholder="Enter your full name" required />
-              </div>
+          <PlanJourneyForm />
 
-              <div className={styles.formGroup}>
-                <label><FiSmartphone className={styles.inputIcon} /> Mobile *</label>
-                <div className={styles.phoneInput}>
-                  <div className={styles.countryCode}>
-                    <span>🇮🇳</span> +91
-                  </div>
-                  <input type="tel" placeholder="Enter mobile number" required />
-                </div>
-              </div>
-
-              <div className={styles.formRow}>
-                <div className={styles.formGroup}>
-                  <label><FiCalendar className={styles.inputIcon} /> Arrival Date</label>
-                  <input type="date" />
-                </div>
-                <div className={styles.formGroup}>
-                  <label><FiCalendar className={styles.inputIcon} /> Departure Date</label>
-                  <input type="date" />
-                </div>
-              </div>
-
-              <div className={styles.formGroup}>
-                <label><FiUsers className={styles.inputIcon} /> No. of Persons</label>
-                <input type="number" min="1" placeholder="Enter number of persons" />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label><FiUsers className={styles.inputIcon} /> No. of Children</label>
-                <input type="number" min="0" placeholder="Enter number of children" />
-              </div>
-
-              <div className={styles.formGroup}>
-                <label><FiMessageSquare className={styles.inputIcon} /> Message</label>
-                <textarea rows="4" placeholder="Tell us about your travel preferences..."></textarea>
-              </div>
-
-              <AnimatedButton className={styles.submitBtn} type="button">
-                <FiSend className={styles.sendIcon}/> Submit Inquiry
-              </AnimatedButton>
-              
-            </form>
-          </div>
           {/* Need Help Box */}
           <div className={styles.needHelpBox}>
             <h3 className={styles.needHelpTitle}>Need Help?</h3>

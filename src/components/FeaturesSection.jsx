@@ -5,23 +5,23 @@ export default function FeaturesSection() {
   const features = [
     {
       icon: <FiGlobe className={styles.icon} />,
-      title: '100+ DESTINATIONS',
-      subtitle: 'Dream, explore & discover'
+      title: '150+ DESTINATIONS',
+      subtitle: 'Explore curated religious, historical, and adventure spots across India.'
     },
     {
       icon: <FiPercent className={styles.icon} />,
       title: 'BEST PRICE GUARANTEE',
-      subtitle: 'The price of liberty is eternal care'
+      subtitle: 'Top-tier luxury holiday experiences offered at competitive and fair rates.'
     },
     {
       icon: <FiHome className={styles.icon} />,
-      title: 'GREAT CUSTOMER',
-      subtitle: 'Satisfaction Beyond Expectations'
+      title: 'GREAT CUSTOMER SUPPORT',
+      subtitle: 'Dedicated round-the-clock client assistance and local tour guides.'
     },
     {
       icon: <FiShield className={styles.icon} />,
-      title: 'SECURE PAYMENT',
-      subtitle: 'A unique payment processing'
+      title: '100% SECURE PAYMENT',
+      subtitle: 'Safe and encrypted online booking and invoicing systems.'
     }
   ];
 

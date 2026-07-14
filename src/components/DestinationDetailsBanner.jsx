@@ -14,26 +14,34 @@ export default function DestinationDetailsBanner() {
   ];
 
   const [activeTab, setActiveTab] = useState("introduction");
-
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      const y = element.getBoundingClientRect().top + window.scrollY - 100;
-      window.scrollTo({ top: y, behavior: 'smooth' });
-      setActiveTab(id);
-    }
-  };
+  const [isSticky, setIsSticky] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 150;
+      const currentScrollY = window.scrollY;
 
+      // 1. Scroll Spy: Detect which section is in view
+      // Use getBoundingClientRect().top for viewport-relative measurement
+      const spyThreshold = 180; // height of sticky header + sticky tabs + margin
       for (let i = tabs.length - 1; i >= 0; i--) {
         const element = document.getElementById(tabs[i].id);
-        if (element && element.offsetTop <= scrollPosition) {
-          setActiveTab(tabs[i].id);
-          break;
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          if (rect.top <= spyThreshold) {
+            setActiveTab(tabs[i].id);
+            break;
+          }
         }
+      }
+
+      // 2. Sticky Tab: Make tabs sticky when scroll position reaches the threshold
+      const isMobile = window.innerWidth <= 768;
+      const stickyThreshold = isMobile ? 350 : 300;
+
+      if (currentScrollY >= stickyThreshold) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
       }
     };
 
@@ -80,17 +88,17 @@ export default function DestinationDetailsBanner() {
         </div>
       </div>
 
-      {/* Floating Tab Box */}
-      <div className={styles.tabsContainer}>
+      {/* Floating/Sticky Tab Box */}
+      <div className={`${styles.tabsContainer} ${isSticky ? styles.sticky : ''}`}>
         <div className={styles.tabsBox}>
           {tabs.map((tab, index) => (
-            <button 
+            <a 
               key={index}
+              href={`#${tab.id}`}
               className={`${styles.tabBtn} ${activeTab === tab.id ? styles.activeTab : ''}`}
-              onClick={() => scrollToSection(tab.id)}
             >
               {tab.name}
-            </button>
+            </a>
           ))}
         </div>
       </div>

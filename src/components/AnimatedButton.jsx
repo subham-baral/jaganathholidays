@@ -1,3 +1,4 @@
+"use client"
 import styles from './AnimatedButton.module.css';
 
 export default function AnimatedButton({ children, className = '', onClick, type = 'button' }) {

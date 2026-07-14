@@ -1,11 +1,15 @@
 "use client";
 
+import { useRef } from 'react';
+import Link from 'next/link';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import styles from './DestinationsWindows.module.css';
 
 export default function DestinationsWindows() {
+  const sliderRef = useRef(null);
+
   const baseImages = [
     { src: '/destination-window-1.png', name: 'Puri' },
     { src: '/destination-window-2.png', name: 'Daringbadi' },
@@ -63,23 +67,32 @@ export default function DestinationsWindows() {
 
   return (
     <section className={styles.windowsSection}>
-      <div className={styles.windowsContainer}>
-        <Slider {...settings} className={styles.slider}>
-          {destinationImages.map((dest, index) => (
-            <div key={index} className={styles.slideWrapper}>
-              <div 
-                className={styles.windowFrame}
-                style={{ animationDelay: `${0.1 + (index * 0.15)}s` }}
-              >
-                <img 
-                  src={dest.src} 
-                  alt={dest.name} 
-                  className={styles.image} 
-                />
-                <h4 className={styles.destName}>{dest.name}</h4>
+      <div 
+        className={styles.windowsContainer}
+        onMouseEnter={() => sliderRef.current?.slickPause()}
+        onMouseLeave={() => sliderRef.current?.slickPlay()}
+      >
+        <Slider ref={sliderRef} {...settings} className={styles.slider}>
+          {destinationImages.map((dest, index) => {
+            const slug = dest.name.toLowerCase().replace(/\s+/g, '-');
+            return (
+              <div key={index} className={styles.slideWrapper}>
+                <Link href={`/package/${slug}`} className={styles.linkWrapper}>
+                  <div 
+                    className={styles.windowFrame}
+                    style={{ animationDelay: `${0.1 + (index * 0.15)}s` }}
+                  >
+                    <img 
+                      src={dest.src} 
+                      alt={dest.name} 
+                      className={styles.image} 
+                    />
+                    <h4 className={styles.destName}>{dest.name}</h4>
+                  </div>
+                </Link>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </Slider>
       </div>
     </section>

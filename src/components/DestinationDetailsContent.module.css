@@ -217,6 +217,25 @@
   box-shadow: 0 4px 15px rgba(0,0,0,0.03);
 }
 
+.stickyForm {
+  position: sticky;
+  top: 80px; /* Right below sticky tabs on desktop */
+  z-index: 98;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  animation: formSlideDown 0.3s ease-out;
+}
+
+@keyframes formSlideDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0.9;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 .sidebarTitle {
   font-size: 22px;
   color: #111;

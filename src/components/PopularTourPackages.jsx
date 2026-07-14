@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Link from 'next/link';
 import { FiClock, FiMapPin, FiStar } from 'react-icons/fi';
 import styles from './PopularTourPackages.module.css';
 import AnimatedButton from './AnimatedButton';
@@ -99,39 +99,46 @@ export default function PopularTourPackages() {
         </div>
 
         <div className={styles.grid}>
-          {packages.map((pkg, index) => (
-            <div key={index} className={styles.card}>
-              <div className={styles.imageWrapper}>
-                <img src={pkg.image} alt={pkg.title} className={pkg.cardImage} />
-                <div className={styles.imageOverlay}></div>
-                {pkg.badge && <span className={styles.badge}>{pkg.badge}</span>}
-                {pkg.price && (
-                  <div className={styles.priceTag}>
-                    <span className={styles.startsFrom}>Starts from</span>
-                    <span className={styles.priceVal}>{pkg.price}</span>
+          {packages.map((pkg, index) => {
+            const slug = pkg.title.toLowerCase().replace(/\s+/g, '-');
+            return (
+              <div key={index} className={styles.card}>
+                <div className={`${styles.imageWrapper} shineEffect`}>
+                  <img src={pkg.image} alt={pkg.title} className={pkg.cardImage} />
+                  <div className={styles.imageOverlay}></div>
+                  {pkg.badge && <span className={styles.badge}>{pkg.badge}</span>}
+                  {pkg.price && (
+                    <div className={styles.priceTag}>
+                      <span className={styles.startsFrom}>Starts from</span>
+                      <span className={styles.priceVal}>{pkg.price}</span>
+                    </div>
+                  )}
+                </div>
+                <div className={styles.cardContent}>
+                  <div className={styles.locationRow}>
+                    <span className={styles.location}>
+                      <FiMapPin className={styles.locationIcon} /> {pkg.location}
+                    </span>
+                    <span className={styles.rating}>
+                      <FiStar className={styles.starIcon} /> {pkg.rating}
+                    </span>
                   </div>
-                )}
-              </div>
-              <div className={styles.cardContent}>
-                <div className={styles.locationRow}>
-                  <span className={styles.location}>
-                    <FiMapPin className={styles.locationIcon} /> {pkg.location}
-                  </span>
-                  <span className={styles.rating}>
-                    <FiStar className={styles.starIcon} /> {pkg.rating}
-                  </span>
-                </div>
-                <h3 className={styles.cardTitle}>{pkg.title}</h3>
-                {/* <p className={styles.cardDescription}>{pkg.description}</p> */}
-                <div className={styles.cardFooter}>
-                  <span className={styles.duration}>
-                    <FiClock className={styles.durationIcon} /> {pkg.duration}
-                  </span>
-                  <AnimatedButton className={styles.bookNowBtn}>Book Now</AnimatedButton>
+                  <h3 className={styles.cardTitle}>
+                    <Link href={`/package/${slug}`} className={styles.titleLink}>
+                      {pkg.title}
+                    </Link>
+                  </h3>
+                  {/* <p className={styles.cardDescription}>{pkg.description}</p> */}
+                  <div className={styles.cardFooter}>
+                    <span className={styles.duration}>
+                      <FiClock className={styles.durationIcon} /> {pkg.duration}
+                    </span>
+                    <AnimatedButton className={styles.bookNowBtn}>Book Now</AnimatedButton>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

@@ -2,9 +2,23 @@ import Link from 'next/link';
 import { FiChevronRight } from 'react-icons/fi';
 import styles from './BreadcrumbBanner.module.css';
 
-export default function BreadcrumbBanner({ title, breadcrumbs, bgImage = '/jaganath-banner.webp' }) {
+export default function BreadcrumbBanner({ title, breadcrumbs, bgImage = '/jaganath-banner.webp', bgVideo }) {
+  const inlineStyle = bgVideo ? {} : { backgroundImage: `url(${bgImage})` };
+
   return (
-    <section className={styles.bannerSection} style={{ backgroundImage: `url(${bgImage})` }}>
+    <section className={styles.bannerSection} style={inlineStyle}>
+      {bgVideo && (
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          playsInline 
+          className={styles.bgVideo}
+          poster={bgImage}
+        >
+          <source src={bgVideo} type="video/mp4" />
+        </video>
+      )}
       <div className={styles.overlay}></div>
       <div className={styles.container}>
         <h1 className={styles.title}>{title}</h1>
