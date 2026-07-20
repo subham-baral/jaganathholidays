@@ -11,8 +11,8 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
   margin-bottom: 50px;
 }
 
@@ -21,7 +21,7 @@
   position: relative;
   border-radius: 20px;
   overflow: hidden;
-  height: 380px;
+  height: 300px;
   cursor: pointer;
   box-shadow: 0 10px 20px rgba(0,0,0,0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -40,7 +40,7 @@
 }
 
 .card:hover .cardImage {
-  transform: scale(1.08);
+  transform: scale(1.01);
 }
 
 .cardOverlay {
@@ -58,16 +58,16 @@
 
 .cardTitle {
   color: #fff;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   margin-bottom: 6px;
 }
 
 .bookNow {
-  color: #fff;
+  color: #b56a00;
   font-size: 14px;
   font-weight: 600;
-  text-decoration: none;
+  text-decoration: underline;
   border-bottom: 1px solid transparent;
   display: inline-block;
   width: max-content;
@@ -75,7 +75,7 @@
 }
 
 .bookNow:hover {
-  border-color: #fff;
+  opacity: 0.8;
 }
 
 /* Pagination */
@@ -95,18 +95,30 @@
   color: #333;
   font-weight: 600;
   transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.pageBtn:hover:not(:disabled) {
+.pageBtn:hover {
   background-color: #fcf6ef;
   border-color: #d87e00;
   color: #d87e00;
 }
 
 .activePage {
-  background-color: #d87e00;
-  color: white;
-  border-color: #d87e00;
+  background-color: #d87e00 !important;
+  color: white !important;
+  border-color: #d87e00 !important;
+}
+
+.disabledBtn {
+  pointer-events: none;
+  opacity: 0.5;
+  background-color: #f1f1f1 !important;
+  border-color: #ddd !important;
+  color: #999 !important;
 }
 
 .activePage:hover:not(:disabled) {
@@ -121,6 +133,12 @@
 }
 
 /* Mobile Responsiveness */
+@media (max-width: 1200px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 992px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);

@@ -1,7 +1,7 @@
 import BreadcrumbBanner from '@/components/BreadcrumbBanner';
 import DestinationsList from '@/components/DestinationsList';
 
-export default function DestinationsPage() {
+export default async function DestinationsPage({ searchParams }) {
   const breadcrumbs = [
     { label: 'Home', href: '/' },
     { label: 'Destinations' }
@@ -14,7 +14,7 @@ export default function DestinationsPage() {
         breadcrumbs={breadcrumbs} 
         bgImage="/loved-destination-1.png"
       />
-      <DestinationsList />
+      <DestinationsList searchParams={searchParams} />
     </main>
   );
 }
