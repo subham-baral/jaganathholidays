@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiMapPin, FiPhone, FiMail, FiChevronDown, FiMenu, FiX } from 'react-icons/fi';
@@ -8,8 +9,10 @@ import styles from './Header.module.css';
 import AnimatedButton from './AnimatedButton';
 
 export default function Header() {
+  const pathname = usePathname();
+  const isPackageDetailsPage = pathname?.startsWith('/package/');
+  
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isPackagesOpen, setIsPackagesOpen] = useState(false);
   const [isDestinationsOpen, setIsDestinationsOpen] = useState(false);
   const [isBlogsOpen, setIsBlogsOpen] = useState(false);
 
@@ -49,7 +52,7 @@ export default function Header() {
       </div>
 
       {/* Main Navigation */}
-      <header className={styles.mainNav}>
+      <header className={`${styles.mainNav} ${!isPackageDetailsPage ? styles.stickyNav : ''}`}>
         <div className={styles.logoContainer}>
           <Link href="/">
             <Image 
@@ -66,14 +69,7 @@ export default function Header() {
         <nav className={styles.navLinks}>
           <Link href="/" className={styles.navLink}>Home</Link>
           <Link href="/about" className={styles.navLink}>About Us</Link>
-          <div className={styles.dropdown}>
-            <Link href="/packages" className={`${styles.navLink} ${styles.dropdownTrigger}`}>
-              Tour Packages <FiChevronDown className={styles.dropdownArrow} />
-            </Link>
-            <div className={styles.dropdownContent}>
-              <Link href="/packages/details" className={styles.dropdownLink}>Package Details</Link>
-            </div>
-          </div>
+          <Link href="/packages" className={styles.navLink}>Tour Packages</Link>
           <Link href="/destinations" className={styles.navLink}>Destinations</Link>
           <Link href="/gallery" className={styles.navLink}>Gallery</Link>
           <div className={styles.dropdown}>
@@ -125,19 +121,7 @@ export default function Header() {
           <Link href="/" className={styles.mobileNavLink} onClick={closeMenu}>Home</Link>
           <Link href="/about" className={styles.mobileNavLink} onClick={closeMenu}>About Us</Link>
           
-          <div className={styles.mobileDropdown}>
-            <div 
-              className={styles.mobileDropdownTrigger} 
-              onClick={() => setIsPackagesOpen(!isPackagesOpen)}
-            >
-              Tour Packages 
-              <FiChevronDown className={`${styles.mobileDropdownArrow} ${isPackagesOpen ? styles.arrowUp : ''}`} />
-            </div>
-            <div className={`${styles.mobileDropdownContent} ${isPackagesOpen ? styles.contentOpen : ''}`}>
-              <Link href="/packages" className={styles.mobileSubLink} onClick={closeMenu}>All Tour Packages</Link>
-              <Link href="/packages/details" className={styles.mobileSubLink} onClick={closeMenu}>Package Details</Link>
-            </div>
-          </div>
+          <Link href="/packages" className={styles.mobileNavLink} onClick={closeMenu}>Tour Packages</Link>
 
           <Link href="/destinations" className={styles.mobileNavLink} onClick={closeMenu}>Destinations</Link>
 

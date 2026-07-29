@@ -29,7 +29,7 @@ export default function Home() {
       <NewsSection />
       <TestimonialsSection />
       <FaqSection />
-      <TeamSection />
+      {/* <TeamSection /> */}
     </main>
   );
 }

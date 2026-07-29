@@ -9,16 +9,27 @@ export default async function DestinationsList({ searchParams }) {
 
   const itemsPerPage = 12;
 
-  // Generate 18 dummy destinations
-  const destinations = Array.from({ length: 18 }).map((_, index) => ({
-    id: index + 1,
-    title: `Destination ${index + 1}`,
-    location: "Odisha, India",
-    duration: "3 Days / 2 Nights",
-    description: "Experience the vibrant culture, serene temples, and beautiful landscapes of this amazing destination.",
-    image: `https://picsum.photos/600/400?random=${index + 10}`,
-    price: `₹${(Math.floor(Math.random() * 15) + 5) * 1000}`
-  }));
+  // Fetch destinations from the API
+  let destinations = [];
+  try {
+    const res = await fetch(`${process.env.CMS_API_URL}/api/v1/delivery/taxonomies?slug=destinations`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.CMS_TOKEN}`
+      },
+      next: { revalidate: 3600 } // Cache for 1 hour
+    });
+    const result = await res.json();
+    if (result.success && result.data && result.data.length > 0) {
+      destinations = result.data[0].terms || [];
+    }
+  } catch (error) {
+    console.error("Error fetching destinations:", error);
+  }
+
+  // Fallback to empty array if no destinations
+  if (!destinations) destinations = [];
 
   const totalPages = Math.ceil(destinations.length / itemsPerPage);
   const currentPage = Math.min(Math.max(Number(resolvedParams.page || 1), 1), totalPages || 1);
@@ -32,15 +43,41 @@ export default async function DestinationsList({ searchParams }) {
     <section className={styles.destinationsSection}>
       <div className={styles.container}>
         <div className={styles.grid}>
-          {currentItems.map((dest) => (
-            <div key={dest.id} className={`${styles.card} shineEffect`}>
-              <img src={dest.image} alt={dest.title} className={styles.cardImage} />
-              <div className={styles.cardOverlay}>
-                <h3 className={styles.cardTitle}>{dest.title}</h3>
-                <Link href="/destination/puri" className={styles.bookNow}>View Packages</Link>
+          {currentItems.map((dest, index) => {
+            const preloadColors = [
+              '#0f766e', // Teal
+              '#0369a1', // Light Blue
+              '#a21caf', // Fuchsia
+              '#b45309', // Amber
+              '#be123c', // Rose
+              '#4d7c0f', // Lime
+            ];
+            
+            let imageUrl = null;
+            if (dest.featured_image) {
+              if (typeof dest.featured_image === 'string') {
+                imageUrl = dest.featured_image.startsWith('http') ? dest.featured_image : `${process.env.CMS_MEDIA_URL}/${dest.featured_image}`;
+              } else if (dest.featured_image.file_path) {
+                imageUrl = `${process.env.CMS_MEDIA_URL}/${dest.featured_image.file_path}`;
+              }
+            }
+            
+            const bgColor = preloadColors[index % preloadColors.length];
+            
+            return (
+              <div key={dest.id} className={`${styles.card} shineEffect`}>
+                {imageUrl ? (
+                  <img src={imageUrl} alt={dest.name} className={styles.cardImage} />
+                ) : (
+                  <div className={styles.cardImage} style={{ backgroundColor: bgColor }} />
+                )}
+                <div className={styles.cardOverlay}>
+                  <h3 className={styles.cardTitle}>{dest.name}</h3>
+                  <Link href={`/destination/${dest.slug}`} className={styles.bookNow}>View Packages</Link>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Pagination Controls */}

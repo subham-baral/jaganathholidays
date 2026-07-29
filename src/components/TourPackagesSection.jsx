@@ -9,8 +9,10 @@ import {
   FiX, 
   FiPhone, 
   FiMail, 
-  FiEye 
+  FiEye,
+  FiFilter
 } from 'react-icons/fi';
+import { FaWhatsapp } from 'react-icons/fa';
 import styles from './TourPackagesSection.module.css';
 import EnquiryTriggerBtn from './EnquiryTriggerBtn';
 import AnimatedButton from './AnimatedButton';
@@ -158,8 +160,96 @@ const packagesData = [
   }
 ];
 
-const categories = ['All', 'Devotional', 'Adventure', 'Cultural', 'Honeymoon', 'Nature', 'Heritage'];
-const destinations = ['All', 'Puri', 'Kolkata', 'Bhubaneswar', 'Satkosia', 'Daringbadi', 'Chilika'];
+async function fetchPackages(categorySlug, destinationSlug) {
+  try {
+    const payload = {
+      content_type_id: 'packages',
+      status: 'published'
+    };
+    
+    const taxonomyTerms = {};
+    if (categorySlug && categorySlug !== 'all') {
+      taxonomyTerms.category = [categorySlug];
+    }
+    if (destinationSlug && destinationSlug !== 'all') {
+      taxonomyTerms.destinations = [destinationSlug];
+    }
+    
+    if (Object.keys(taxonomyTerms).length > 0) {
+      payload.taxonomy_terms = taxonomyTerms;
+    }
+
+    const res = await fetch(`${process.env.CMS_API_URL}/api/v1/delivery/contents`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.CMS_TOKEN}`
+      },
+      body: JSON.stringify(payload),
+      next: { revalidate: 3600 }
+    });
+    const result = await res.json();
+    if (result.success && result.data && result.data.data) {
+      return result.data.data.map((item, index) => {
+        let desc = '';
+        if (item.data.description) {
+           desc = item.data.description.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').trim();
+           desc = desc.replace(/^Introduction\s*/i, '');
+           desc = desc.substring(0, 150) + '...';
+        }
+        return {
+          id: item.id || index,
+          title: item.title,
+          description: desc,
+          duration: item.data.tour_duration || 'N/A',
+          location: item.data.starting_point ? `${item.data.starting_point} - ${item.data.end_point || ''}` : 'Odisha',
+          reviewsCount: Math.floor(Math.random() * 50) + 50,
+          price: 'On Request',
+          rating: '4.8',
+          category: (item.category_slug && item.category_slug[0]) ? item.category_slug[0].charAt(0).toUpperCase() + item.category_slug[0].slice(1) : 'Tour',
+          image: item.data.cover_image?.file_path ? `${process.env.CMS_MEDIA_URL}/${item.data.cover_image.file_path}` : `https://picsum.photos/600/400?random=${index}`,
+          tags: item.category_slug || [],
+          slug: item.slug
+        };
+      });
+    }
+  } catch (error) {
+    console.error("Error fetching packages:", error);
+  }
+  return packagesData;
+}
+async function fetchTaxonomies() {
+  try {
+    const res = await fetch(`${process.env.CMS_API_URL}/api/v1/delivery/taxonomies?content_type=packages`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.CMS_TOKEN}`
+      },
+      next: { revalidate: 3600 }
+    });
+    const result = await res.json();
+    if (result.success && result.data) {
+      let catList = [{ name: 'All', slug: 'all' }];
+      let destList = [{ name: 'All', slug: 'all' }];
+      result.data.forEach(tax => {
+        if (tax.slug === 'category' && tax.terms) {
+          catList = [...catList, ...tax.terms.map(t => ({ name: t.name, slug: t.slug }))];
+        }
+        if (tax.slug === 'destinations' && tax.terms) {
+          destList = [...destList, ...tax.terms.map(t => ({ name: t.name, slug: t.slug }))];
+        }
+      });
+      return { categories: catList, destinations: destList };
+    }
+  } catch (error) {
+    console.error("Error fetching taxonomies:", error);
+  }
+  return { 
+    categories: [{ name: 'All', slug: 'all' }],
+    destinations: [{ name: 'All', slug: 'all' }]
+  };
+}
 
 export default async function TourPackagesSection({ 
   searchParams, 
@@ -184,35 +274,36 @@ export default async function TourPackagesSection({
   const currentSlug = resolvedRouteParams.slug || '';
 
   // Determine active category and location filters depending on pageType
-  let activeCategory = '';
-  let activeLocation = '';
+  let activeCategory = resolvedParams.category || resolvedParams.filter || '';
+  let activeLocation = resolvedParams.location || '';
 
-  if (pageType === 'category') {
-    activeCategory = currentSlug;
-    activeLocation = resolvedParams.location || '';
-  } else if (pageType === 'destination') {
-    activeLocation = currentSlug;
-    activeCategory = resolvedParams.category || resolvedParams.filter || '';
-  } else {
-    activeCategory = resolvedParams.category || resolvedParams.filter || '';
-    activeLocation = resolvedParams.location || '';
+  if (pageType === 'category' && currentSlug) {
+    activeCategory = activeCategory ? `${currentSlug},${activeCategory}` : currentSlug;
   }
+  if (pageType === 'destination' && currentSlug) {
+    activeLocation = activeLocation ? `${currentSlug},${activeLocation}` : currentSlug;
+  }
+
+  // Deduplicate
+  activeCategory = [...new Set(activeCategory.split(',').filter(Boolean))].join(',');
+  activeLocation = [...new Set(activeLocation.split(',').filter(Boolean))].join(',');
+
+  const activePackagesData = await fetchPackages(activeCategory, activeLocation);
+  const { categories, destinations } = await fetchTaxonomies();
 
   const searchQuery = resolvedParams.query || resolvedParams.search || '';
 
   // Calculate Dynamic Counts
   const getCategoryCount = (cat) => {
-    if (cat === 'All' || !cat) return packagesData.length;
-    return packagesData.filter(pkg => pkg.category.toLowerCase() === cat.toLowerCase()).length;
+    return 0;
   };
 
   const getDestinationCount = (loc) => {
-    if (loc === 'All' || !loc) return packagesData.length;
-    return packagesData.filter(pkg => pkg.location.toLowerCase().includes(loc.toLowerCase())).length;
+    return 0;
   };
 
   // Perform Server-Side Filtering
-  let filteredPackages = [...packagesData];
+  let filteredPackages = [...activePackagesData];
 
   if (activeCategory && activeCategory.toLowerCase() !== 'all') {
     filteredPackages = filteredPackages.filter(
@@ -263,114 +354,76 @@ export default async function TourPackagesSection({
     : (pageType === 'category' ? `/cayegory/${currentSlug}` : '/packages');
 
   // Sidebar link URL builders
-  const getCategoryFilterUrl = (cat) => {
-    if (pageType === 'category') {
-      // Clicking category in category page navigates to new category route
-      const targetPath = cat === 'All' ? '/packages' : `/cayegory/${cat.toLowerCase()}`;
-      const current = new URLSearchParams();
-      if (activeLocation) current.set('location', activeLocation);
-      if (searchQuery) current.set('query', searchQuery);
-      const qs = current.toString();
-      return `${targetPath}${qs ? '?' + qs : ''}`;
-    } else if (pageType === 'destination') {
-      // Clicking category in destination page filters via query parameter
-      const current = new URLSearchParams();
-      if (cat !== 'All') current.set('category', cat);
-      if (searchQuery) current.set('query', searchQuery);
-      const qs = current.toString();
-      return `/destination/${currentSlug}${qs ? '?' + qs : ''}`;
+  const getCategoryFilterUrl = (catSlug) => {
+    let currentCats = activeCategory ? activeCategory.split(',') : [];
+    if (catSlug === 'all') {
+      currentCats = [];
     } else {
-      // Standard packages page
-      const current = new URLSearchParams();
-      if (cat !== 'All') current.set('category', cat);
-      if (activeLocation) current.set('location', activeLocation);
-      if (searchQuery) current.set('query', searchQuery);
-      const qs = current.toString();
-      return `/packages${qs ? '?' + qs : ''}`;
+      if (currentCats.includes(catSlug)) {
+        currentCats = currentCats.filter(c => c !== catSlug);
+      } else {
+        currentCats.push(catSlug);
+      }
     }
+    const catString = currentCats.join(',');
+    
+    // Always navigate to /packages when playing with multi-select to avoid route conflicts
+    const targetPath = '/packages';
+    const current = new URLSearchParams();
+    if (catString) current.set('category', catString);
+    if (activeLocation) current.set('location', activeLocation);
+    if (searchQuery) current.set('query', searchQuery);
+    
+    const qs = current.toString();
+    return `${targetPath}${qs ? '?' + qs : ''}`;
   };
 
-  const getDestinationFilterUrl = (dest) => {
-    if (pageType === 'destination') {
-      // Clicking destination in destination page navigates to new destination route
-      const targetPath = dest === 'All' ? '/packages' : `/destination/${dest.toLowerCase()}`;
-      const current = new URLSearchParams();
-      if (activeCategory) current.set('category', activeCategory);
-      if (searchQuery) current.set('query', searchQuery);
-      const qs = current.toString();
-      return `${targetPath}${qs ? '?' + qs : ''}`;
-    } else if (pageType === 'category') {
-      // Clicking destination in category page filters via query parameter
-      const current = new URLSearchParams();
-      if (dest !== 'All') current.set('location', dest);
-      if (searchQuery) current.set('query', searchQuery);
-      const qs = current.toString();
-      return `/cayegory/${currentSlug}${qs ? '?' + qs : ''}`;
+  const getDestinationFilterUrl = (destSlug) => {
+    let currentDests = activeLocation ? activeLocation.split(',') : [];
+    if (destSlug === 'all') {
+      currentDests = [];
     } else {
-      // Standard packages page
-      const current = new URLSearchParams();
-      if (activeCategory) current.set('category', activeCategory);
-      if (dest !== 'All') current.set('location', dest);
-      if (searchQuery) current.set('query', searchQuery);
-      const qs = current.toString();
-      return `/packages${qs ? '?' + qs : ''}`;
+      if (currentDests.includes(destSlug)) {
+        currentDests = currentDests.filter(d => d !== destSlug);
+      } else {
+        currentDests.push(destSlug);
+      }
     }
+    const destString = currentDests.join(',');
+
+    const targetPath = '/packages';
+    const current = new URLSearchParams();
+    if (activeCategory) current.set('category', activeCategory);
+    if (destString) current.set('location', destString);
+    if (searchQuery) current.set('query', searchQuery);
+    
+    const qs = current.toString();
+    return `${targetPath}${qs ? '?' + qs : ''}`;
   };
 
   // URL builder for removing individual active filter tags
-  const getRemoveFilterUrl = (typeToRemove) => {
-    if (typeToRemove === 'category') {
-      if (pageType === 'category') {
-        const current = new URLSearchParams();
-        if (activeLocation) current.set('location', activeLocation);
-        if (searchQuery) current.set('query', searchQuery);
-        const qs = current.toString();
-        return `/packages${qs ? '?' + qs : ''}`;
-      } else {
-        const basePathUrl = pageType === 'destination' ? `/destination/${currentSlug}` : '/packages';
-        const current = new URLSearchParams();
-        if (pageType !== 'destination' && activeLocation) current.set('location', activeLocation);
-        if (searchQuery) current.set('query', searchQuery);
-        const qs = current.toString();
-        return `${basePathUrl}${qs ? '?' + qs : ''}`;
-      }
-    }
-    
-    if (typeToRemove === 'location') {
-      if (pageType === 'destination') {
-        const current = new URLSearchParams();
-        if (activeCategory) current.set('category', activeCategory);
-        if (searchQuery) current.set('query', searchQuery);
-        const qs = current.toString();
-        return `/packages${qs ? '?' + qs : ''}`;
-      } else {
-        const basePathUrl = pageType === 'category' ? `/cayegory/${currentSlug}` : '/packages';
-        const current = new URLSearchParams();
-        if (pageType !== 'category' && activeCategory) current.set('category', activeCategory);
-        if (searchQuery) current.set('query', searchQuery);
-        const qs = current.toString();
-        return `${basePathUrl}${qs ? '?' + qs : ''}`;
-      }
+  const getRemoveFilterUrl = (typeToRemove, valueToRemove) => {
+    let currentCats = activeCategory ? activeCategory.split(',') : [];
+    let currentDests = activeLocation ? activeLocation.split(',') : [];
+
+    if (typeToRemove === 'category' && valueToRemove) {
+      currentCats = currentCats.filter(c => c !== valueToRemove);
+    } else if (typeToRemove === 'category') {
+      currentCats = [];
     }
 
-    if (typeToRemove === 'query') {
-      const basePathUrl = pageType === 'destination' 
-        ? `/destination/${currentSlug}` 
-        : (pageType === 'category' ? `/cayegory/${currentSlug}` : '/packages');
-      const current = new URLSearchParams();
-      if (pageType === 'category') {
-        if (activeLocation) current.set('location', activeLocation);
-      } else if (pageType === 'destination') {
-        if (activeCategory) current.set('category', activeCategory);
-      } else {
-        if (activeCategory) current.set('category', activeCategory);
-        if (activeLocation) current.set('location', activeLocation);
-      }
-      const qs = current.toString();
-      return `${basePathUrl}${qs ? '?' + qs : ''}`;
+    if (typeToRemove === 'location' && valueToRemove) {
+      currentDests = currentDests.filter(d => d !== valueToRemove);
+    } else if (typeToRemove === 'location') {
+      currentDests = [];
     }
-    
-    return basePath;
+
+    const current = new URLSearchParams();
+    if (currentCats.length) current.set('category', currentCats.join(','));
+    if (currentDests.length) current.set('location', currentDests.join(','));
+    if (typeToRemove !== 'query' && searchQuery) current.set('query', searchQuery);
+
+    return `/packages?${current.toString()}`;
   };
 
   const getClearAllFiltersUrl = () => {
@@ -404,26 +457,38 @@ export default async function TourPackagesSection({
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        <div className={styles.layoutGrid} style={{ gridTemplateColumns: showSidebar ? '8fr 3.5fr' : '1fr' }}>
+        <div className={`${styles.layoutGrid} ${!showSidebar ? styles.noSidebar : ''}`}>
           
+          {showSidebar && (
+            <>
+              <input type="checkbox" id="mobile-filter-toggle" className={styles.mobileFilterCheckbox} />
+              <div className={styles.mobileFilterHeader}>
+                <label htmlFor="mobile-filter-toggle" className={styles.mobileFilterBtn}>
+                  <FiFilter /> Filter Packages
+                </label>
+              </div>
+              <label htmlFor="mobile-filter-toggle" className={styles.filterBackdrop}></label>
+            </>
+          )}
+
           {/* Left Column: Packages Stack */}
           <div className={styles.packagesCol}>
             {hasActiveFilters && (
               <div className={styles.activeFiltersRow}>
                 <span className={styles.activeFiltersLabel}>Active Filters:</span>
                 <div className={styles.activeFilterTags}>
-                  {pageType !== 'category' && activeCategory && activeCategory.toLowerCase() !== 'all' && (
-                    <Link href={getRemoveFilterUrl('category')} className={styles.activeFilterTag} title="Click to remove category filter">
-                      <span>Category: {activeCategory}</span>
+                  {pageType !== 'category' && activeCategory && activeCategory !== 'all' && activeCategory.split(',').map(cat => (
+                    <Link key={cat} href={getRemoveFilterUrl('category', cat)} className={styles.activeFilterTag} title="Click to remove category filter">
+                      <span>Category: {cat}</span>
                       <FiX className={styles.removeTagIcon} />
                     </Link>
-                  )}
-                  {pageType !== 'destination' && activeLocation && activeLocation.toLowerCase() !== 'all' && (
-                    <Link href={getRemoveFilterUrl('location')} className={styles.activeFilterTag} title="Click to remove location filter">
-                      <span>Location: {activeLocation}</span>
+                  ))}
+                  {pageType !== 'destination' && activeLocation && activeLocation !== 'all' && activeLocation.split(',').map(loc => (
+                    <Link key={loc} href={getRemoveFilterUrl('location', loc)} className={styles.activeFilterTag} title="Click to remove location filter">
+                      <span>Location: {loc}</span>
                       <FiX className={styles.removeTagIcon} />
                     </Link>
-                  )}
+                  ))}
                   {searchQuery && (
                     <Link href={getRemoveFilterUrl('query')} className={styles.activeFilterTag} title="Click to remove search term">
                       <span>Search: &quot;{searchQuery}&quot;</span>
@@ -574,28 +639,61 @@ export default async function TourPackagesSection({
                 </Link>
               </div>
             )}
+
+            {/* Inline Need Help Promo Card (Visible on Mobile Only) */}
+            <div className={`${styles.sidebarCard} ${styles.promoCard} ${styles.mobileOnlyPromo}`} style={{ marginTop: '20px' }}>
+              <h4 className={styles.promoTitle}>Need Expert Help?</h4>
+              <p className={styles.promoText}>Talk to our travel experts to craft a fully customized vacation itinerary just for you.</p>
+              <a href="tel:+919876543210" className={styles.promoPhone}>+91 98765 43210</a>
+              <a href="mailto:info@jaganathholidays.com" className={styles.promoEmail}>info@jaganathholidays.com</a>
+              <a 
+                href="https://wa.me/919876543210?text=I'm%20interested%20in%20customizing%20a%20tour%20package." 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className={styles.whatsappBtn}
+                style={{ maxWidth: '300px', margin: '0 auto' }}
+              >
+                <FaWhatsapp size={20} /> Chat on WhatsApp
+              </a>
+            </div>
+
           </div>
 
           {/* Right Column: Sidebar */}
           {showSidebar && (
             <div className={styles.sidebarCol}>
               
-
+              <div className={styles.sidebarMobileHeader}>
+                <h3>Filters</h3>
+                <label htmlFor="mobile-filter-toggle" className={styles.closeFilterBtn}>
+                  <FiX />
+                </label>
+              </div>
 
               {/* Categories Filter Card */}
               <div className={styles.sidebarCard}>
                 <h4 className={styles.sidebarTitle}>Tour Categories</h4>
                 <ul className={styles.filterList}>
                   {categories.map((cat) => {
-                    const isActive = (!activeCategory && cat === 'All') || (activeCategory.toLowerCase() === cat.toLowerCase());
+                    const isActive = (!activeCategory && cat.slug === 'all') || (activeCategory && activeCategory.split(',').includes(cat.slug));
                     return (
-                      <li key={cat}>
+                      <li key={cat.slug}>
                         <Link 
-                          href={getCategoryFilterUrl(cat)}
+                          href={getCategoryFilterUrl(cat.slug)}
                           className={`${styles.filterLink} ${isActive ? styles.filterLinkActive : ''}`}
+                          scroll={false}
                         >
-                          <span>{cat}</span>
-                          <span className={styles.countBadge}>{getCategoryCount(cat)}</span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            {cat.slug !== 'all' && (
+                              <input 
+                                type="checkbox" 
+                                checked={isActive} 
+                                readOnly 
+                                className={styles.filterCheckbox} 
+                              />
+                            )}
+                            <span>{cat.name}</span>
+                          </div>
                         </Link>
                       </li>
                     );
@@ -608,15 +706,25 @@ export default async function TourPackagesSection({
                 <h4 className={styles.sidebarTitle}>Destinations</h4>
                 <ul className={styles.filterList}>
                   {destinations.map((dest) => {
-                    const isActive = (!activeLocation && dest === 'All') || (activeLocation.toLowerCase() === dest.toLowerCase());
+                    const isActive = (!activeLocation && dest.slug === 'all') || (activeLocation && activeLocation.split(',').includes(dest.slug));
                     return (
-                      <li key={dest}>
+                      <li key={dest.slug}>
                         <Link 
-                          href={getDestinationFilterUrl(dest)}
+                          href={getDestinationFilterUrl(dest.slug)}
                           className={`${styles.filterLink} ${isActive ? styles.filterLinkActive : ''}`}
+                          scroll={false}
                         >
-                          <span>{dest}</span>
-                          <span className={styles.countBadge}>{getDestinationCount(dest)}</span>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            {dest.slug !== 'all' && (
+                              <input 
+                                type="checkbox" 
+                                checked={isActive} 
+                                readOnly 
+                                className={styles.filterCheckbox} 
+                              />
+                            )}
+                            <span>{dest.name}</span>
+                          </div>
                         </Link>
                       </li>
                     );
@@ -636,7 +744,7 @@ export default async function TourPackagesSection({
                   rel="noopener noreferrer" 
                   className={styles.whatsappBtn}
                 >
-                  Chat on WhatsApp
+                  <FaWhatsapp size={20} /> Chat on WhatsApp
                 </a>
               </div>
 
