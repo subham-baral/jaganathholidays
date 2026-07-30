@@ -59,6 +59,8 @@ export default async function DestinationsList({ searchParams }) {
                 imageUrl = dest.featured_image.startsWith('http') ? dest.featured_image : `${process.env.CMS_MEDIA_URL}/${dest.featured_image}`;
               } else if (dest.featured_image.file_path) {
                 imageUrl = `${process.env.CMS_MEDIA_URL}/${dest.featured_image.file_path}`;
+              } else if (dest.featured_image.url) {
+                imageUrl = dest.featured_image.url;
               }
             }
             
@@ -66,11 +68,14 @@ export default async function DestinationsList({ searchParams }) {
             
             return (
               <div key={dest.id} className={`${styles.card} shineEffect`}>
-                {imageUrl ? (
-                  <img src={imageUrl} alt={dest.name} className={styles.cardImage} />
-                ) : (
-                  <div className={styles.cardImage} style={{ backgroundColor: bgColor }} />
-                )}
+                <div 
+                  className={styles.cardImage} 
+                  style={
+                    imageUrl 
+                      ? { backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover', backgroundPosition: 'center' } 
+                      : { backgroundColor: bgColor }
+                  } 
+                />
                 <div className={styles.cardOverlay}>
                   <h3 className={styles.cardTitle}>{dest.name}</h3>
                   <Link href={`/destination/${dest.slug}`} className={styles.bookNow}>View Packages</Link>
