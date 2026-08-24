@@ -2,7 +2,47 @@ import { FiCheck, FiX, FiMapPin, FiUsers, FiClock, FiGift, FiPhone, FiMail } fro
 import styles from './DestinationDetailsContent.module.css';
 import PlanJourneyForm from './PlanJourneyForm';
 
-export default function DestinationDetailsContent() {
+export default function DestinationDetailsContent({
+  description = "",
+  priceIncludes = [],
+  priceExcludes = [],
+  complementaries = [],
+  termsConditions = [],
+  startingPoint = "Bhubaneswar",
+  endPoint = "Bhubaneswar",
+  duration = "05 Nights 06 Days",
+  packageTitle = "Tour Package"
+}) {
+  const defaultIncludes = [
+    "Welcome drink on arrival (Non-alcoholic)",
+    "Well-appointed A/C Accommodation",
+    "Bed Tea and Breakfast on Paid Nights",
+    "Transportation by well-condition AC Vehicle",
+    "Driver allowance, Toll Tax, Parking, and State Govt. Tax",
+    "Railway Station / Airport Pick up and Drop and Hotel Taxes"
+  ];
+
+  const defaultExcludes = [
+    "Any personal expenses Fees for Camera & Video Camera",
+    "Monument entry fees, Boating & Guide charges",
+    "Porterage at hotels and airports",
+    "Birthday Celebrations, tips, insurance & laundry",
+    "Liquors, wine & telephone charges",
+    "Air / Train fare and Any other which was not mentioned on tour inclusion"
+  ];
+
+  const defaultComplementaries = [
+    "Jagannath Darshan by our Temple priest",
+    "Sanitizer",
+    "One Entrance Fees (Optional)"
+  ];
+
+  const incList = Array.isArray(priceIncludes) && priceIncludes.length > 0 ? priceIncludes : defaultIncludes;
+  const excList = Array.isArray(priceExcludes) && priceExcludes.length > 0 ? priceExcludes : defaultExcludes;
+  const compList = Array.isArray(complementaries) && complementaries.length > 0 ? complementaries : defaultComplementaries;
+
+  const isHtmlDescription = typeof description === 'string' && (description.includes('<p') || description.includes('<h2') || description.includes('<div') || description.includes('<span'));
+
   return (
     <section id="introduction" className={styles.contentSection}>
       <div className={styles.container}>
@@ -10,44 +50,80 @@ export default function DestinationDetailsContent() {
         {/* Left Column: Information */}
         <div className={styles.leftColumn}>
           <div className={styles.introBlock}>
-            <h2 className={styles.sectionTitle}>Introduction</h2>
-            <p className={styles.paragraph}>
-              Our tour package is one of the ideal choices to explore the most religious and historical places in the country. It will cover the visit to Lord of Universe Jagannath Darshan, Puri, and UNESCO World Heritage Site Konark Sun Temple Known as (Black Pagoda) and Chilika Lake on Satpada – The Largest Ramsar Site in Asia. Cruise to Sea-Mouth viewing Rare Irrawaddy Dolphins and Rajhans Island which are located on the Eastern India coast and as per Vedic literature and mythology.
-            </p>
-            <p className={styles.paragraph}>
-              It is been said that it will be divine to take a holy dip in Sangam then visit Kapil Muni Ashram, Ganga Sagar (Bay Of Bengal), which in turn will help to purify and clean the soul of an individual. It could be one of the best ways to be on a spiritual tour with your family and loved ones, spend some quality time with them on one end, and on the other seek blessings of the divine deities. Puri Ganga Sagar tour package will take travellers to divinity and will cover visits to Gurudwara, Kali Ghat, Victoria Memorial and Sri Santha Samaj.
-            </p>
+            <h2 className={styles.sectionTitle}>Overview & Details</h2>
+            {isHtmlDescription ? (
+              <div 
+                className={styles.richDescription}
+                dangerouslySetInnerHTML={{ __html: description }} 
+              />
+            ) : description ? (
+              <p className={styles.paragraph}>{description}</p>
+            ) : (
+              <>
+                <p className={styles.paragraph}>
+                  Our tour package is one of the ideal choices to explore the most religious and historical places in the country. It will cover the visit to Lord of Universe Jagannath Darshan, Puri, and UNESCO World Heritage Site Konark Sun Temple Known as (Black Pagoda) and Chilika Lake on Satpada – The Largest Ramsar Site in Asia. Cruise to Sea-Mouth viewing Rare Irrawaddy Dolphins and Rajhans Island which are located on the Eastern India coast and as per Vedic literature and mythology.
+                </p>
+                <p className={styles.paragraph}>
+                  It is been said that it will be divine to take a holy dip in Sangam then visit Kapil Muni Ashram, Ganga Sagar (Bay Of Bengal), which in turn will help to purify and clean the soul of an individual.
+                </p>
+              </>
+            )}
           </div>
 
-          <div className={styles.includesBlock}>
-            <h3 className={styles.boxTitle}><FiCheck className={styles.titleIcon} /> Price Includes</h3>
-            <ul className={styles.includesList}>
-              <li><FiCheck className={styles.checkIcon} /> On Arrival Well Come Kits (Welcome Flower Bouquet, Lord Jagannath Photo, Soft Drinks, Tissue Paper, and Water Bottle).</li>
-              <li><FiCheck className={styles.checkIcon} /> Accommodation on twin sharing basis.</li>
-              <li><FiCheck className={styles.checkIcon} /> All transfers & sightseeing by AC vehicle.</li>
-              <li><FiCheck className={styles.checkIcon} /> Toll, parking, driver allowance, and night halt charges.</li>
-            </ul>
-          </div>
+          {incList.length > 0 && (
+            <div className={styles.includesBlock}>
+              <h3 className={styles.boxTitle}><FiCheck className={styles.titleIcon} /> Price Includes</h3>
+              <ul className={styles.includesList}>
+                {incList.map((item, idx) => (
+                  <li key={idx}>
+                    <FiCheck className={styles.checkIcon} />
+                    <span>{typeof item === 'string' ? item : item?.text || item?.title || JSON.stringify(item)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          <div className={styles.excludesBlock}>
-            <h3 className={styles.boxTitle}><FiX className={styles.titleIcon} /> Price Excludes</h3>
-            <ul className={styles.excludesList}>
-              <li><FiX className={styles.crossIcon} /> Any meals other than those mentioned in the itinerary.</li>
-              <li><FiX className={styles.crossIcon} /> Entry fees, camera charges, and guide services.</li>
-              <li><FiX className={styles.crossIcon} /> Personal expenses like laundry, phone calls, tips, etc.</li>
-            </ul>
-          </div>
+          {excList.length > 0 && (
+            <div className={styles.excludesBlock}>
+              <h3 className={styles.boxTitle}><FiX className={styles.titleIcon} /> Price Excludes</h3>
+              <ul className={styles.excludesList}>
+                {excList.map((item, idx) => (
+                  <li key={idx}>
+                    <FiX className={styles.crossIcon} />
+                    <span>{typeof item === 'string' ? item : item?.text || item?.title || JSON.stringify(item)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          <div className={styles.complementariesBlock}>
-            <h3 className={styles.boxTitle}><FiGift className={styles.titleIcon} /> Complementary Gifts</h3>
-            <ul className={styles.complementariesList}>
-              <li><FiGift className={styles.giftIcon} /> Jagannath Darshan by our Temple priest</li>
-              <li><FiGift className={styles.giftIcon} /> Welcome Flower Bouquet</li>
-              <li><FiGift className={styles.giftIcon} /> Lord Jagannath Photo</li>
-              <li><FiGift className={styles.giftIcon} /> Tissue Paper</li>
-              <li><FiGift className={styles.giftIcon} /> 1 Water Bottle per Person Only on Day 1</li>
-            </ul>
-          </div>
+          {compList.length > 0 && (
+            <div className={styles.complementariesBlock}>
+              <h3 className={styles.boxTitle}><FiGift className={styles.titleIcon} /> Complementary Gifts</h3>
+              <ul className={styles.complementariesList}>
+                {compList.map((item, idx) => (
+                  <li key={idx}>
+                    <FiGift className={styles.giftIcon} />
+                    <span>{typeof item === 'string' ? item : item?.text || item?.title || JSON.stringify(item)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {Array.isArray(termsConditions) && termsConditions.length > 0 && (
+            <div className={styles.termsBlock}>
+              <h3 className={styles.boxTitle}>Terms & Conditions</h3>
+              <ul className={styles.termsList}>
+                {termsConditions.map((term, idx) => (
+                  <li key={idx}>
+                    <span>{typeof term === 'string' ? term : term?.text || term?.title || JSON.stringify(term)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         {/* Right Column: Sidebar */}
@@ -57,40 +133,46 @@ export default function DestinationDetailsContent() {
           <div className={styles.infoBox}>
             <h3 className={styles.sidebarTitle}>Tour Information</h3>
             <div className={styles.infoItemList}>
-              <div className={styles.infoItem}>
-                <div className={styles.iconWrapper}>
-                  <FiMapPin />
+              {(startingPoint || endPoint) && (
+                <div className={styles.infoItem}>
+                  <div className={styles.iconWrapper}>
+                    <FiMapPin />
+                  </div>
+                  <div className={styles.infoText}>
+                    <span className={styles.infoLabel}>Start Point - End Point</span>
+                    <span className={styles.infoValue}>
+                      {startingPoint && endPoint ? `${startingPoint} - ${endPoint}` : startingPoint || endPoint}
+                    </span>
+                  </div>
                 </div>
-                <div className={styles.infoText}>
-                  <span className={styles.infoLabel}>Start Point-End Point</span>
-                  <span className={styles.infoValue}>Kolkata - Puri</span>
-                </div>
-              </div>
+              )}
               
               <div className={styles.infoItem}>
                 <div className={styles.iconWrapper}>
                   <FiUsers />
                 </div>
                 <div className={styles.infoText}>
-                  <span className={styles.infoLabel}>Max People</span>
-                  <span className={styles.infoValue}>150</span>
+                  <span className={styles.infoLabel}>Tour Type</span>
+                  <span className={styles.infoValue}>Customizable / Private</span>
                 </div>
               </div>
               
-              <div className={styles.infoItem}>
-                <div className={styles.iconWrapper}>
-                  <FiClock />
+              {duration && (
+                <div className={styles.infoItem}>
+                  <div className={styles.iconWrapper}>
+                    <FiClock />
+                  </div>
+                  <div className={styles.infoText}>
+                    <span className={styles.infoLabel}>Duration</span>
+                    <span className={styles.infoValue}>{duration}</span>
+                  </div>
                 </div>
-                <div className={styles.infoText}>
-                  <span className={styles.infoLabel}>Duration</span>
-                  <span className={styles.infoValue}>05 Nights 06 Days</span>
-                </div>
-              </div>
+              )}
             </div>
           </div>
 
           {/* Booking Form Box */}
-          <PlanJourneyForm />
+          <PlanJourneyForm defaultPackage={packageTitle} />
 
           {/* Need Help Box */}
           <div className={styles.needHelpBox}>

@@ -468,6 +468,74 @@
   font-size: 16px;
 }
 
+.termsBlock {
+  border-radius: 12px;
+  padding: 30px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+}
+
+.termsBlock .boxTitle {
+  color: #334155;
+}
+
+.termsList {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #475569;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.richDescription {
+  color: #4b5563;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.richDescription h1,
+.richDescription h2,
+.richDescription h3,
+.richDescription h4 {
+  color: #111827;
+  font-weight: 700;
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+.richDescription h2 {
+  font-size: 24px;
+}
+
+.richDescription h3 {
+  font-size: 20px;
+}
+
+.richDescription p {
+  margin-bottom: 16px;
+  line-height: 1.8;
+}
+
+.richDescription ul,
+.richDescription ol {
+  padding-left: 24px;
+  margin-bottom: 16px;
+}
+
+.richDescription li {
+  margin-bottom: 8px;
+}
+
+.richDescription strong,
+.richDescription b {
+  color: #111827;
+  font-weight: 600;
+}
+
 /* Responsive */
 @media (max-width: 992px) {
   .container {

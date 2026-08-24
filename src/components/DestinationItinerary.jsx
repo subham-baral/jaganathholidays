@@ -1,8 +1,8 @@
 import { FiClock } from 'react-icons/fi';
 import styles from './DestinationItinerary.module.css';
 
-export default function DestinationItinerary() {
-  const itineraryData = [
+export default function DestinationItinerary({ itinerary = [] }) {
+  const defaultItineraryData = [
     {
       day: "Day 1",
       title: "Arrival at Bhubaneswar > Puri Local Sightseeing > Puri Stay",
@@ -24,6 +24,14 @@ export default function DestinationItinerary() {
       description: "The morning after breakfast check out from hotel at 8:00 AM and Udayagiri and Khandagiri Caves, Iskon Temple. Then Visit to Temple Famous Lord Lingaraj, Rajarani, Mukteswar, Kedar Gouri, Rajarani, Ram Mandir, , to Nandankanan Zoogical Park, Udayagiri and Khandagiri Caves, after sightseeing drop at Bhubaneshwar Bus stand in the evening for your further journey to your Kolkata destination."
     }
   ];
+
+  const itineraryData = Array.isArray(itinerary) && itinerary.length > 0
+    ? itinerary.map((item, index) => ({
+        day: item.day_number ? `Day ${item.day_number}` : (item.day || `Day ${index + 1}`),
+        title: item.title || `Day ${index + 1} Sightseeing`,
+        description: item.description || ''
+      }))
+    : defaultItineraryData;
 
   return (
     <section id="tour-itinerary" className={styles.itinerarySection}>
