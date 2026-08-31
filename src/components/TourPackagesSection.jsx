@@ -186,7 +186,7 @@ async function fetchPackages(categorySlug, destinationSlug) {
         'Authorization': `Bearer ${process.env.CMS_TOKEN}`
       },
       body: JSON.stringify(payload),
-      next: { revalidate: 3600 }
+      next: { revalidate: 30 } // Revalidate every 30s (testing mode)
     });
     const result = await res.json();
     if (result.success && result.data && result.data.data) {
@@ -226,7 +226,7 @@ async function fetchTaxonomies() {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.CMS_TOKEN}`
       },
-      next: { revalidate: 3600 }
+      next: { revalidate: 30 } // Revalidate every 30s (testing mode)
     });
     const result = await res.json();
     if (result.success && result.data) {

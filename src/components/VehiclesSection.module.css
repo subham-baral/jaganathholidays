@@ -217,9 +217,90 @@
 
 @media (max-width: 768px) {
   .heading {
-    font-size: 32px;
+    font-size: 30px;
   }
   .vehicleSection {
-    padding: 50px 5%;
+    padding: 45px 5% 10px;
+  }
+  .header {
+    margin-bottom: 30px;
+  }
+}
+
+/* ── Mobile (≤576px) — Single card per view ── */
+@media (max-width: 576px) {
+  .vehicleSection {
+    padding: 36px 4% 15px;
+  }
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .pretitle {
+    font-size: 11px;
+  }
+
+  .heading {
+    font-size: 22px;
+  }
+
+  .sliderContainer {
+    padding: 5px 0 35px;
+  }
+
+  .sliderContainer :global(.slick-slide) {
+    padding: 0 4px;
+  }
+
+  .card {
+    min-height: auto;
+    margin-bottom: 12px;
+    border-radius: 14px;
+  }
+
+  .imageWrapper {
+    height: 180px;
+  }
+
+  .capacityBadge {
+    top: 10px;
+    left: 10px;
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .cardContent {
+    padding: 12px;
+  }
+
+  .cardTitle {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .specsGrid {
+    gap: 8px;
+    padding: 9px;
+    margin-bottom: 10px;
+  }
+
+  .specItem {
+    font-size: 11px;
+    gap: 5px;
+  }
+
+  .specIcon {
+    font-size: 13px;
+  }
+
+  .footer {
+    padding-top: 10px;
+  }
+
+  .bookBtn {
+    font-size: 12px;
+    padding: 8px 14px;
+    width: 100%;
   }
 }

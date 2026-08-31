@@ -91,14 +91,60 @@
 @media (max-width: 1024px) {
   .cardsGrid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .heading {
+    font-size: 34px;
+  }
+
+  .card {
+    height: 300px;
   }
 }
 
-@media (max-width: 600px) {
-  .cardsGrid {
-    grid-template-columns: 1fr;
+/* ── Mobile (≤576px) — 2x2 Grid ── */
+@media (max-width: 576px) {
+  .accommodationsSection {
+    padding: 6px 4% 20px;
   }
+
+  .headingArea {
+    margin-bottom: 24px;
+  }
+
+  .subheading {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
   .heading {
-    font-size: 32px;
+    font-size: 22px;
+  }
+
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr); /* 2x2 grid */
+    gap: 12px;
+  }
+
+  .card {
+    height: 180px;
+    border-radius: 12px;
+  }
+
+  .cardOverlay {
+    padding: 12px;
+    height: 70%;
+  }
+
+  .cardTitle {
+    font-size: 13px;
+    margin-bottom: 2px;
+    line-height: 1.25;
+  }
+
+  .cardLocation {
+    font-size: 10px;
+    color: #e2e8f0;
   }
 }

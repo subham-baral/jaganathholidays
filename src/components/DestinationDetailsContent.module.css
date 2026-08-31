@@ -540,15 +540,159 @@
 @media (max-width: 992px) {
   .container {
     grid-template-columns: 1fr;
+    gap: 35px;
   }
 }
 
 @media (max-width: 768px) {
   .contentSection {
-    padding: 40px 5%;
+    padding: 40px 4%;
+  }
+}
+
+/* ── Mobile (≤576px) ── */
+@media (max-width: 576px) {
+  .contentSection {
+    padding: 70px 4% 30px;
+  }
+
+  .container {
+    gap: 24px;
+  }
+
+  .leftColumn, .rightColumn {
+    gap: 20px;
+  }
+
+  .sectionTitle {
+    font-size: 22px;
+    margin-bottom: 12px;
+  }
+
+  .paragraph, .richDescription {
+    font-size: 13.5px;
+    line-height: 1.65;
+  }
+
+  .includesBlock, .excludesBlock, .complementariesBlock, .termsBlock {
+    padding: 18px 14px;
+    border-radius: 10px;
+  }
+
+  .boxTitle {
+    font-size: 18px;
+    margin-bottom: 14px;
+    gap: 8px;
+  }
+
+  .titleIcon {
+    font-size: 18px;
+  }
+
+  .includesList, .excludesList, .complementariesList, .termsList {
+    gap: 12px;
+  }
+
+  .includesList li, .excludesList li, .complementariesList li, .termsList li {
+    font-size: 13px;
+    line-height: 1.5;
+    gap: 8px;
+  }
+
+  .checkIcon, .crossIcon, .giftIcon {
+    font-size: 16px;
+    margin-top: 2px;
+  }
+
+  .infoBox, .formBox, .needHelpBox {
+    padding: 18px 14px;
+    border-radius: 10px;
+  }
+
+  .sidebarTitle {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .bookingForm {
+    gap: 12px;
   }
 
   .formRow {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Side-by-side on mobile */
+    gap: 10px;
+  }
+
+  .formGroup {
+    gap: 4px;
+  }
+
+  .formGroup label {
+    font-size: 11px;
+    gap: 4px;
+  }
+
+  .inputIcon {
+    font-size: 11px;
+  }
+
+  .formGroup input, 
+  .formGroup textarea {
+    padding: 8px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+
+  .phoneInput .countryCode {
+    padding: 0 8px;
+    font-size: 12px;
+    gap: 4px;
+  }
+
+  .submitBtn {
+    padding: 10px;
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  .infoItem {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .iconWrapper {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
+  .infoLabel {
+    font-size: 11px;
+  }
+
+  .infoValue {
+    font-size: 13.5px;
+  }
+
+  .needHelpTitle {
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+
+  .needHelpText {
+    font-size: 12.5px;
+    margin-bottom: 14px;
+  }
+
+  .contactItem {
+    font-size: 12.5px;
+    gap: 10px;
+  }
+
+  .contactIconWrapper {
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
   }
 }

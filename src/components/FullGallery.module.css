@@ -50,7 +50,7 @@
 
 .imageWrapper:nth-child(4n - 2),
 .imageWrapper:nth-child(4n - 1) {
-  padding-top: 120%; /* Add some height variety for visual interest */
+  padding-top: 120%;
 }
 
 .imageWrapper:hover {
@@ -102,6 +102,29 @@
   transform: scale(1);
 }
 
+/* Mobile Zoom Badge - Hidden on Desktop */
+.mobileZoomBadge {
+  display: none;
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  background-color: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  z-index: 3;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
+.mobileZoomIcon {
+  font-size: 14px;
+}
+
 /* Lightbox Styling */
 .lightbox {
   position: fixed;
@@ -109,13 +132,34 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.92);
   z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 40px;
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.25s ease;
+}
+
+.lightboxContent {
+  position: relative;
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.counterBadge {
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  font-weight: 600;
+  background: rgba(0,0,0,0.5);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.15);
 }
 
 @keyframes fadeIn {
@@ -125,60 +169,168 @@
 
 .closeBtn {
   position: absolute;
-  top: 30px;
-  right: 40px;
-  background: transparent;
-  border: none;
+  top: 25px;
+  right: 30px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   color: white;
-  font-size: 36px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
   cursor: pointer;
-  transition: transform 0.2s ease, color 0.2s ease;
-  z-index: 1001;
+  transition: transform 0.2s ease, background 0.2s ease;
+  z-index: 1003;
 }
 
 .closeBtn:hover {
   transform: scale(1.1);
-  color: #d87e00;
+  background: #d87e00;
+  border-color: #d87e00;
+}
+
+/* Lightbox Navigation Arrows */
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 1002;
+  transition: all 0.2s ease;
+}
+
+.navBtn:hover {
+  background: #d87e00;
+  border-color: #d87e00;
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prevBtn {
+  left: 25px;
+}
+
+.nextBtn {
+  right: 25px;
 }
 
 .lightboxImage {
   max-width: 100%;
-  max-height: 100%;
+  max-height: 80vh;
   object-fit: contain;
   border-radius: 8px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-  animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: zoomIn 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 @keyframes zoomIn {
-  from { transform: scale(0.9); opacity: 0; }
+  from { transform: scale(0.92); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
-/* Responsive */
+/* ── Tablet (≤1024px) ── */
 @media (max-width: 1024px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
+/* ── Tablet Small (≤768px) ── */
 @media (max-width: 768px) {
   .gallerySection {
-    padding: 50px 5%;
+    padding: 40px 4%;
   }
 
   .title {
     font-size: 32px;
   }
+}
+
+/* ── Mobile (≤576px) — 50%/50%/100% Pattern & Permanent Zoom Badge ── */
+@media (max-width: 576px) {
+  .gallerySection {
+    padding: 24px 4% 30px;
+  }
+
+  .header {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+
+  .subtitle {
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+
+  .title {
+    font-size: 22px;
+  }
 
   .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 10px;
   }
-}
 
-@media (max-width: 480px) {
-  .grid {
-    grid-template-columns: 1fr;
+  /* Pattern: 1st & 2nd 50%/50%, 3rd 100%, 4th & 5th 50%/50%, 6th 100% ... */
+  .imageWrapper:nth-child(3n) {
+    grid-column: span 2 !important;
+    padding-top: 55% !important; /* Widescreen ratio for 100% full width card */
+  }
+
+  .imageWrapper:nth-child(3n - 2),
+  .imageWrapper:nth-child(3n - 1) {
+    grid-column: span 1 !important;
+    padding-top: 100% !important; /* Square ratio for 50%/50% side-by-side cards */
+  }
+
+  .imageWrapper {
+    border-radius: 10px;
+  }
+
+  /* Show permanent magnifying glass icon on mobile */
+  .mobileZoomBadge {
+    display: flex;
+  }
+
+  /* Mobile Lightbox Controls */
+  .lightbox {
+    padding: 15px;
+  }
+
+  .closeBtn {
+    top: 15px;
+    right: 15px;
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
+  }
+
+  .navBtn {
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+  }
+
+  .prevBtn {
+    left: 10px;
+  }
+
+  .nextBtn {
+    right: 10px;
   }
 }

@@ -818,7 +818,15 @@
 
 @media (max-width: 768px) {
   .section {
-    padding: 40px 0;
+    padding: 40px 0 0px;
+  }
+  
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 0px;
+    display: flex;
   }
   
   .card {

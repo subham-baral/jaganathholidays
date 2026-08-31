@@ -54,7 +54,7 @@ export async function getPackageBySlug(slug) {
         slug: slug,
         content_type: 'packages',
       }),
-      next: { revalidate: 60 }, // ISR caching: revalidate every 60 seconds
+      next: { revalidate: 30 }, // Revalidate every 30s (testing mode)
     });
 
     if (!res.ok) {
@@ -89,7 +89,7 @@ export async function getPackagesList(limit = 6) {
       body: JSON.stringify({
         content_type: 'packages',
       }),
-      next: { revalidate: 60 },
+      next: { revalidate: 30 }, // Revalidate every 30s (testing mode)
     });
 
     if (!res.ok) return [];

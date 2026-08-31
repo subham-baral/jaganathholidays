@@ -139,23 +139,99 @@
   margin-top: 2px;
 }
 
+/* ── Tablet (≤992px) ── */
 @media (max-width: 992px) {
   .container {
     grid-template-columns: 1fr;
     gap: 40px;
   }
   .imageColumn {
-    height: 500px;
-    max-width: 600px;
+    height: 480px;
+    max-width: 550px;
     margin: 0 auto;
   }
-}
-
-@media (max-width: 768px) {
   .title {
     font-size: 32px;
   }
+}
+
+/* ── Mobile (≤576px) ── */
+@media (max-width: 576px) {
+  .storySection {
+    padding: 36px 4% 20px;
+  }
+
+  .container {
+    gap: 28px;
+  }
+
+  .imageColumn {
+    height: 300px;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .imageWrapperMain {
+    width: 82%;
+    height: 88%;
+    border-radius: 10px;
+  }
+
+  .imageWrapperSub {
+    width: 52%;
+    height: 52%;
+    border: 5px solid #ffffff;
+    border-radius: 10px;
+  }
+
+  .experienceBadge {
+    top: 10px;
+    right: 0;
+    width: 85px;
+    height: 85px;
+    box-shadow: 0 8px 18px rgba(216, 126, 0, 0.3);
+  }
+
+  .badgeNumber {
+    font-size: 24px;
+  }
+
+  .badgeText {
+    font-size: 9px;
+    padding: 0 4px;
+    margin-top: 2px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .title {
+    font-size: 22px;
+    margin-bottom: 14px;
+    line-height: 1.25;
+  }
+
+  .description {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
   .pointsList {
     grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 12px;
+  }
+
+  .pointItem {
+    font-size: 13px;
+    gap: 8px;
+  }
+
+  .checkIcon {
+    font-size: 16px;
+    margin-top: 1px;
   }
 }

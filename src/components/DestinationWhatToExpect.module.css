@@ -50,26 +50,48 @@
   font-weight: 500;
 }
 
-/* Responsive */
+/* ── Tablet (≤992px) ── */
 @media (max-width: 992px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* ── Mobile & Small Screens (≤768px) ── */
 @media (max-width: 768px) {
   .whatToExpectSection {
-    padding: 40px 5%;
+    padding: 0px 5% 40px;
   }
 
   .sectionTitle {
     font-size: 28px;
     margin-bottom: 30px;
+    text-align: left;
   }
 }
 
+/* ── Mobile Phones (≤576px) ── */
 @media (max-width: 576px) {
   .grid {
     grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .expectationCard {
+    background-color: #f8fafc;
+    border-radius: 8px;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+  }
+
+  .text {
+    font-size: 13px;
+  }
+
+  .checkIcon {
+    font-size: 16px;
   }
 }

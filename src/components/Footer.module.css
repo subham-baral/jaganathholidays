@@ -152,16 +152,86 @@
 @media (max-width: 1024px) {
   .topSection {
     grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
   }
 }
 
 @media (max-width: 768px) {
   .topSection {
     grid-template-columns: 1fr;
+    gap: 30px;
   }
   .bottomSection {
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
     text-align: center;
+  }
+}
+
+/* ── Mobile (≤576px) ── */
+@media (max-width: 576px) {
+  .footer {
+    padding-top: 36px;
+  }
+
+  .topSection {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 16px;
+    padding-bottom: 30px;
+  }
+
+  .brandColumn {
+    grid-column: span 2;
+  }
+
+  .halfWidth {
+    grid-column: span 1; /* 50% width */
+  }
+
+  .fullWidth {
+    grid-column: span 2; /* 100% width */
+  }
+
+  .logos {
+    margin-bottom: 20px;
+  }
+
+  .logoImage {
+    height: 70px;
+  }
+
+  .contactList {
+    gap: 12px;
+  }
+
+  .contactText {
+    font-size: 13px;
+  }
+
+  .columnTitle {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .linkList {
+    gap: 10px;
+  }
+
+  .linkList a {
+    font-size: 13px;
+  }
+
+  .bottomSection {
+    padding: 16px 0;
+    gap: 12px;
+  }
+
+  .copyright {
+    font-size: 12px;
+  }
+
+  .socialIcons {
+    gap: 16px;
   }
 }

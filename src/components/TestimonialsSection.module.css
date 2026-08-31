@@ -103,12 +103,73 @@
 }
 
 @media (max-width: 768px) {
+  .testimonialsSection {
+    padding: 45px 5% 15px;
+  }
   .header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
+    gap: 16px;
+    margin-bottom: 30px;
   }
   .heading {
     font-size: 28px;
+  }
+}
+
+/* ── Mobile (≤576px) — 1 Card per view ── */
+@media (max-width: 576px) {
+  .testimonialsSection {
+    padding: 36px 4% 15px;
+  }
+
+  .header {
+    margin-bottom: 20px;
+    gap: 12px;
+  }
+
+  .heading {
+    font-size: 22px;
+  }
+
+  .viewAllBtn {
+    width: 100%;
+    text-align: center;
+    font-size: 13px;
+    padding: 10px 16px;
+    justify-content: center;
+  }
+
+  .sliderContainer {
+    padding: 5px 0 35px;
+  }
+
+  .sliderContainer :global(.slick-slide) {
+    padding: 0 4px;
+  }
+
+  .card {
+    padding: 20px 16px;
+    border-radius: 14px;
+    margin-bottom: 10px;
+  }
+
+  .stars {
+    margin-bottom: 12px;
+    gap: 3px;
+  }
+
+  .starIcon {
+    font-size: 12px;
+  }
+
+  .reviewText {
+    font-size: 13px;
+    line-height: 1.55;
+    margin-bottom: 16px;
+  }
+
+  .reviewerName {
+    font-size: 13.5px;
   }
 }

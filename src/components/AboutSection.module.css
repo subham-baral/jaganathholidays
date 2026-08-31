@@ -1,11 +1,12 @@
 .aboutSection {
   background-color: #fcf6ef;
   width: 100%;
-  padding: 0 5% 50px;
+  padding: 0 5% 60px;
   position: relative;
-  z-index: 10; /* High enough to overlap other sections, but lower than header (usually 50+) */
+  z-index: 10;
 }
 
+/* ── Layout ── */
 .container {
   max-width: 1300px;
   margin: 0 auto;
@@ -20,12 +21,14 @@
   max-width: 650px;
 }
 
+/* ── Typography ── */
 .subheading {
   color: #d87e00;
   font-size: 16px;
   font-weight: 700;
   margin-bottom: 12px;
   text-transform: capitalize;
+  letter-spacing: 0.5px;
 }
 
 .heading {
@@ -37,31 +40,14 @@
 }
 
 .paragraph {
-  color: #333;
+  color: #444;
   font-size: 16px;
-  line-height: 1.6;
-  margin-bottom: 20px;
+  line-height: 1.75;
+  margin-bottom: 18px;
   font-weight: 400;
 }
 
-.readMoreBtn {
-  background-color: #d87e00;
-  color: #fff;
-  font-weight: 700;
-  font-size: 15px;
-  padding: 12px 28px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.readMoreBtn:hover {
-  background-color: #c07700;
-  transform: translateY(-2px);
-}
-
+/* ── Image ── */
 .imageColumn {
   flex: 1;
   display: flex;
@@ -79,7 +65,7 @@
 
 @keyframes continuousSpin {
   from { transform: scale(1.2) rotate(0deg); }
-  to { transform: scale(1.2) rotate(360deg); }
+  to   { transform: scale(1.2) rotate(360deg); }
 }
 
 .collageImage {
@@ -89,18 +75,58 @@
   animation: continuousSpin 35s linear infinite;
 }
 
+/* ── Responsive: Tablet (≤992px) ── */
 @media (max-width: 992px) {
   .container {
     flex-direction: column;
     text-align: center;
-    gap: 40px;
+    gap: 36px;
   }
-  
+
   .contentColumn {
     max-width: 100%;
   }
 
   .heading {
-    font-size: 26px;
+    font-size: 32px;
+  }
+
+  .paragraph {
+    font-size: 15px;
+  }
+
+  .imageWrapper {
+    max-width: 60%;
+  }
+}
+
+/* ── Responsive: Mobile (≤576px) ── */
+@media (max-width: 576px) {
+  .aboutSection {
+    padding: 0 6% 40px;
+  }
+
+  .container {
+    gap: 24px;
+  }
+
+  .subheading {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .heading {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+
+  .paragraph {
+    font-size: 14px;
+    line-height: 1.65;
+    margin-bottom: 14px;
+  }
+
+  .imageWrapper {
+    max-width: 70%;
   }
 }

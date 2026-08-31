@@ -1,15 +1,9 @@
 "use client";
 
-import { useRef } from 'react';
 import Link from 'next/link';
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
 import styles from './DestinationsWindows.module.css';
 
 export default function DestinationsWindows() {
-  const sliderRef = useRef(null);
-
   const baseImages = [
     { src: '/destination-window-1.png', name: 'Puri' },
     { src: '/destination-window-2.png', name: 'Daringbadi' },
@@ -18,82 +12,30 @@ export default function DestinationsWindows() {
     { src: '/destination-window-5.png', name: 'Nandan Kanan' },
     { src: '/destination-window-6.png', name: 'Satapada' },
   ];
-  const destinationImages = [...baseImages, ...baseImages, ...baseImages];
 
-  const settings = {
-    dots: false,
-    arrows: false,
-    infinite: true,
-    slidesToShow: 7,
-    slidesToScroll: 1,
-    autoplay: true,
-    speed: 3000,
-    autoplaySpeed: 0,
-    cssEase: "linear",
-    pauseOnHover: true,
-    responsive: [
-      {
-        breakpoint: 1400,
-        settings: {
-          slidesToShow: 6,
-        }
-      },
-      {
-        breakpoint: 1200,
-        settings: {
-          slidesToShow: 5,
-        }
-      },
-      {
-        breakpoint: 992,
-        settings: {
-          slidesToShow: 4,
-        }
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 3,
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 2,
-        }
-      }
-    ]
-  };
+  // Duplicate for seamless CSS marquee loop (animate exactly -50% = one full set)
+  const allImages = [...baseImages, ...baseImages];
 
   return (
     <section className={styles.windowsSection}>
-      <div 
-        className={styles.windowsContainer}
-        onMouseEnter={() => sliderRef.current?.slickPause()}
-        onMouseLeave={() => sliderRef.current?.slickPlay()}
-      >
-        <Slider ref={sliderRef} {...settings} className={styles.slider}>
-          {destinationImages.map((dest, index) => {
+      <div className={styles.windowsContainer}>
+        <div className={styles.marqueeTrack}>
+          {allImages.map((dest, index) => {
             const slug = dest.name.toLowerCase().replace(/\s+/g, '-');
             return (
-              <div key={index} className={styles.slideWrapper}>
-                <Link href={`/package/${slug}`} className={styles.linkWrapper}>
-                  <div 
-                    className={styles.windowFrame}
-                    style={{ animationDelay: `${0.1 + (index * 0.15)}s` }}
-                  >
-                    <img 
-                      src={dest.src} 
-                      alt={dest.name} 
-                      className={styles.image} 
-                    />
-                    <h4 className={styles.destName}>{dest.name}</h4>
-                  </div>
-                </Link>
-              </div>
+              <Link key={index} href={`/package/${slug}`} className={styles.slideItem}>
+                <div className={styles.windowFrame} style={{ animationDelay: `${0.1 + ((index % baseImages.length) * 0.15)}s` }}>
+                  <img
+                    src={dest.src}
+                    alt={dest.name}
+                    className={styles.image}
+                  />
+                  <h4 className={styles.destName}>{dest.name}</h4>
+                </div>
+              </Link>
             );
           })}
-        </Slider>
+        </div>
       </div>
     </section>
   );

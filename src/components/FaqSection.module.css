@@ -147,9 +147,97 @@
   border-radius: 12px;
 }
 
+/* ── Tablet (≤1024px) ── */
 @media (max-width: 1024px) {
   .container {
     grid-template-columns: 1fr;
-    gap: 50px;
+    gap: 40px;
+  }
+
+  .heading {
+    font-size: 32px;
+    margin-bottom: 25px;
+  }
+}
+
+/* ── Mobile (≤576px) ── */
+@media (max-width: 576px) {
+  .faqSection {
+    padding: 36px 4% 25px;
+  }
+
+  .container {
+    gap: 30px;
+  }
+
+  .heading {
+    font-size: 24px;
+    margin-bottom: 18px;
+    line-height: 1.25;
+  }
+
+  .faqList {
+    gap: 10px;
+  }
+
+  .faqItem {
+    padding: 14px 16px;
+    border-radius: 10px;
+  }
+
+  .faqQuestion {
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .icon {
+    font-size: 22px;
+    margin-left: 8px;
+    flex-shrink: 0;
+  }
+
+  .faqContent {
+    margin-top: 12px;
+  }
+
+  .faqAnswer {
+    font-size: 12.5px;
+    line-height: 1.55;
+    margin-bottom: 14px;
+  }
+
+  .learnMoreBtn {
+    font-size: 12px;
+    padding: 7px 18px;
+  }
+
+  .description {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .imageCollage {
+    gap: 8px;
+  }
+
+  .imgTop {
+    height: 160px;
+    border-radius: 10px;
+  }
+
+  .middleRow {
+    gap: 8px;
+  }
+
+  .imgHalf {
+    width: calc(50% - 4px);
+    height: 120px;
+    border-radius: 10px;
+  }
+
+  .imgBottom {
+    height: 140px;
+    border-radius: 10px;
   }
 }

@@ -56,17 +56,49 @@
   opacity: 1;
 }
 
+/* ── Tablet (≤1024px) ── */
 @media (max-width: 1024px) {
+  .logoGrid {
+    gap: 16px;
+  }
   .logoCard {
     width: calc(33.333% - 14px);
+    min-width: 140px;
+    height: 90px;
+    padding: 16px;
+  }
+  .heading {
+    font-size: 30px;
+    margin-bottom: 30px;
   }
 }
 
-@media (max-width: 600px) {
-  .logoCard {
-    width: calc(50% - 10px);
+/* ── Mobile (≤576px) — 3x2 Grid ── */
+@media (max-width: 576px) {
+  .recognizedSection {
+    padding: 30px 4% 20px;
   }
+
   .heading {
-    font-size: 28px;
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .logoGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns x 2 rows = 6 items */
+    gap: 8px;
+  }
+
+  .logoCard {
+    width: 100%;
+    min-width: unset;
+    height: 60px;
+    padding: 8px 6px;
+    border-radius: 6px;
+  }
+
+  .logoImg {
+    max-height: 38px;
   }
 }

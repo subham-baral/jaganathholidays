@@ -86,14 +86,68 @@
 @media (max-width: 1024px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .heading {
+    font-size: 34px;
+    margin-bottom: 35px;
+  }
+
+  .card {
+    height: 320px;
   }
 }
 
-@media (max-width: 768px) {
-  .grid {
-    grid-template-columns: 1fr;
+/* ── Mobile (≤576px) — 1st 2 (50% 50%) & 3rd (100%) ── */
+@media (max-width: 576px) {
+  .newsSection {
+    padding: 36px 4% 20px;
   }
+
   .heading {
-    font-size: 32px;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .card {
+    height: 195px;
+    border-radius: 14px;
+  }
+
+  /* Last item spans full width (100%) */
+  .card:last-child {
+    grid-column: span 2;
+    height: 180px;
+  }
+
+  .cardOverlay {
+    padding: 12px;
+    height: 85%;
+  }
+
+  .cardTitle {
+    font-size: 13px;
+    margin-bottom: 4px;
+    line-height: 1.25;
+  }
+
+  .cardDescription {
+    font-size: 10.5px;
+    line-height: 1.35;
+    margin-bottom: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .cardDate {
+    font-size: 9.5px;
   }
 }

@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RecognizedSection from "@/components/RecognizedSection";
+import BackToTop from "@/components/BackToTop";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,6 +32,7 @@ export default function RootLayout({ children }) {
         {children}
         <RecognizedSection />
         <Footer />
+        <BackToTop />
       </body>
     </html>
   );

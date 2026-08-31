@@ -64,7 +64,22 @@
 }
 
 @media (max-width: 576px) {
+  .featuresSection {
+    padding: 24px 4%;
+  }
+
   .grid {
     grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .featureItem {
+    background-color: #fff;
+    border-radius: 12px;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    display: flex;
+    box-shadow: 0 2px 10px #00000008;
   }
 }

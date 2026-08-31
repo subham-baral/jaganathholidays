@@ -11,44 +11,51 @@
   width: 100%;
   margin: -130px auto 0;
   padding-bottom: 80px;
-  overflow: hidden;
+  overflow: hidden; /* clips the track — this is what hides non-visible slides */
 }
 
-.slider {
-  width: 100%;
+/* The scrolling track — exactly 2× the content width so -50% = one full loop */
+.marqueeTrack {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 18s linear infinite;
 }
 
-.slideWrapper {
+.marqueeTrack:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* -50% of 2x content = 1 full set */
+}
+
+/* Each card item in the track */
+.slideItem {
+  text-decoration: none;
+  display: flex;
+  flex-shrink: 0;
   padding: 0 10px;
-  outline: none;
 }
 
 .windowFrame {
   opacity: 0;
   width: 160px;
-  margin: 0 auto;
   height: auto;
-  transition: transform .3s;
-  animation: slideUpFade .6s cubic-bezier(.2, .8, .2, 1) forwards;
+  transition: transform 0.3s;
+  animation: slideUpFade 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 @keyframes slideUpFade {
-  0% {
-    opacity: 0;
-    transform: translateY(60px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  0%   { opacity: 0; transform: translateY(60px); }
+  100% { opacity: 1; transform: translateY(0); }
 }
 
 .windowFrame:hover {
   transform: translateY(10px);
-  z-index: 2;
   cursor: pointer;
 }
 
@@ -68,31 +75,34 @@
   text-align: center;
   text-transform: capitalize;
   letter-spacing: 0.5px;
-  text-shadow: 0 2px 4px rgba(255,255,255,0.8);
+  text-shadow: 0 2px 4px rgba(255, 255, 255, 0.8);
 }
 
+/* ── Responsive ── */
 @media (max-width: 1024px) {
-  .windowFrame {
-    width: 140px;
-    height: auto;
-  }
+  .windowFrame { width: 140px; }
 }
 
 @media (max-width: 768px) {
-  .windowsContainer {
-    margin-top: -50px;
-  }
-  .windowFrame {
-    width: 100%;
-    max-width: 160px;
-    height: auto;
-  }
-  .destName {
-    font-size: 13px;
-  }
+  .windowsContainer { margin-top: -50px; }
+  .windowFrame { width: 130px; }
+  .destName { font-size: 13px; }
 }
 
-.linkWrapper {
-  text-decoration: none;
-  display: block;
+@media (max-width: 576px) {
+  .windowsContainer {
+    margin-top: -40px;
+    padding-bottom: 50px;
+  }
+  .slideItem { padding: 0 6px; }
+  .windowFrame {
+    width: 100%;
+    max-width: 130px;
+    height: auto;
+    margin: 0 auto;
+  }
+  .destName {
+    font-size: 14px;
+    margin-top: 8px;
+  }
 }

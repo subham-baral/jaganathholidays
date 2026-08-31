@@ -40,10 +40,15 @@
   border-radius: 2px;
 }
 
-.grid {
+/* ── Desktop & Tablet Grid ── */
+.desktopGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 30px;
+}
+
+.mobileSlider {
+  display: none;
 }
 
 .item {
@@ -144,17 +149,96 @@
   transform: translateX(4px);
 }
 
+/* ── Tablet (≤992px) ── */
 @media (max-width: 992px) {
-  .grid {
+  .desktopGrid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
+    gap: 24px;
   }
 }
 
-@media (max-width: 576px) {
-  .grid {
-    grid-template-columns: 1fr;
-    max-width: 400px;
-    margin: 0 auto;
+/* ── Mobile (≤640px) — Switch to Slider ── */
+@media (max-width: 640px) {
+  .ecoSection {
+    padding: 36px 4% 20px;
+  }
+
+  .header {
+    margin-bottom: 24px;
+  }
+
+  .subtitle {
+    font-size: 11px;
+  }
+
+  .heading {
+    font-size: 22px;
+    margin-bottom: 8px;
+  }
+
+  .underline {
+    width: 45px;
+    height: 3px;
+  }
+
+  .desktopGrid {
+    display: none;
+  }
+
+  .mobileSlider {
+    display: block;
+    padding-bottom: 30px;
+  }
+
+  .mobileSlider :global(.slick-track) {
+    display: flex !important;
+  }
+
+  .mobileSlider :global(.slick-slide) {
+    padding: 0 4px;
+    outline: none;
+  }
+
+  .mobileSlider :global(.slick-dots) {
+    bottom: -20px;
+  }
+
+  .mobileSlider :global(.slick-dots li button:before) {
+    font-size: 10px;
+    color: #d87e00;
+    opacity: 0.25;
+    transition: all 0.2s ease;
+  }
+
+  .mobileSlider :global(.slick-dots li.slick-active button:before) {
+    color: #d87e00;
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  .slideWrapper {
+    outline: none;
+  }
+
+  .item {
+    border-radius: 16px;
+    margin-bottom: 12px;
+  }
+
+  .imageWrapper {
+    height: 200px;
+  }
+
+  .content {
+    padding: 16px 14px;
+    gap: 10px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .bookBtn {
+    font-size: 12px;
   }
 }

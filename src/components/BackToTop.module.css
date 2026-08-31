@@ -1,0 +1,68 @@
+.backToTop {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffb84d, #d87e00);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(216, 126, 0, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.8);
+  transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.backToTop.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.backToTop:hover {
+  background: linear-gradient(135deg, #ffa726, #c07700);
+  transform: translateY(-4px) scale(1.08);
+  box-shadow: 0 12px 30px rgba(216, 126, 0, 0.6);
+}
+
+.backToTop:active {
+  transform: translateY(0) scale(0.95);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.backToTop:hover .iconWrapper {
+  transform: translateY(-2px);
+}
+
+.arrowIcon {
+  font-size: 22px;
+  stroke-width: 2.5;
+}
+
+/* ── Mobile (≤576px) ── */
+@media (max-width: 576px) {
+  .backToTop {
+    bottom: 20px;
+    right: 20px;
+    width: 42px;
+    height: 42px;
+    box-shadow: 0 6px 20px rgba(216, 126, 0, 0.4);
+  }
+
+  .arrowIcon {
+    font-size: 18px;
+  }
+}

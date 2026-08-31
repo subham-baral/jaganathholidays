@@ -5,7 +5,7 @@ import { FiUser, FiSmartphone, FiCalendar, FiUsers, FiMessageSquare, FiSend } fr
 import styles from './DestinationDetailsContent.module.css';
 import AnimatedButton from './AnimatedButton';
 
-export default function PlanJourneyForm() {
+export default function PlanJourneyForm({ defaultPackage }) {
   const [isStickyForm, setIsStickyForm] = useState(false);
 
   useEffect(() => {
@@ -19,16 +19,12 @@ export default function PlanJourneyForm() {
       }
 
       const currentScrollY = window.scrollY;
-      
-      // Threshold: Scroll position past the initial info box (approx 600px)
       const threshold = 600;
 
       if (currentScrollY > threshold) {
         if (currentScrollY < lastScrollY) {
-          // Scrolling UP - make it sticky
           setIsStickyForm(true);
         } else {
-          // Scrolling DOWN - hide/unstick
           setIsStickyForm(false);
         }
       } else {
@@ -62,30 +58,33 @@ export default function PlanJourneyForm() {
           </div>
         </div>
 
+        {/* Arrival & Departure side-by-side */}
         <div className={styles.formRow}>
           <div className={styles.formGroup}>
-            <label><FiCalendar className={styles.inputIcon} /> Arrival Date</label>
+            <label><FiCalendar className={styles.inputIcon} /> Arrival</label>
             <input type="date" />
           </div>
           <div className={styles.formGroup}>
-            <label><FiCalendar className={styles.inputIcon} /> Departure Date</label>
+            <label><FiCalendar className={styles.inputIcon} /> Departure</label>
             <input type="date" />
           </div>
         </div>
 
-        <div className={styles.formGroup}>
-          <label><FiUsers className={styles.inputIcon} /> No. of Persons</label>
-          <input type="number" min="1" placeholder="Enter number of persons" />
-        </div>
-
-        <div className={styles.formGroup}>
-          <label><FiUsers className={styles.inputIcon} /> No. of Children</label>
-          <input type="number" min="0" placeholder="Enter number of children" />
+        {/* No. of Persons & Children side-by-side */}
+        <div className={styles.formRow}>
+          <div className={styles.formGroup}>
+            <label><FiUsers className={styles.inputIcon} /> Persons</label>
+            <input type="number" min="1" placeholder="Adults" />
+          </div>
+          <div className={styles.formGroup}>
+            <label><FiUsers className={styles.inputIcon} /> Children</label>
+            <input type="number" min="0" placeholder="Children" />
+          </div>
         </div>
 
         <div className={styles.formGroup}>
           <label><FiMessageSquare className={styles.inputIcon} /> Message</label>
-          <textarea rows="4" placeholder="Tell us about your travel preferences..."></textarea>
+          <textarea rows="3" placeholder="Tell us about your travel preferences..."></textarea>
         </div>
 
         <AnimatedButton className={styles.submitBtn} type="button">

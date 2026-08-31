@@ -106,11 +106,50 @@
   color: #ccc;
 }
 
+/* ── Tablet (≤768px) ── */
 @media (max-width: 768px) {
   .bannerSection {
-    height: 300px;
+    height: 280px;
   }
   .title {
-    font-size: 36px;
+    font-size: 34px;
+    margin-bottom: 14px;
+  }
+  .breadcrumbNav {
+    padding: 8px 20px;
+  }
+  .breadcrumbItem {
+    font-size: 14px;
+  }
+  .separator {
+    margin: 0 8px;
+    font-size: 12px;
+  }
+}
+
+/* ── Mobile (≤576px) ── */
+@media (max-width: 576px) {
+  .bannerSection {
+    height: 210px;
+  }
+
+  .title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .breadcrumbNav {
+    padding: 5px 14px;
+    border-radius: 20px;
+  }
+
+  .breadcrumbItem {
+    font-size: 12px;
+  }
+
+  .separator {
+    margin: 0 5px;
+    font-size: 10px;
   }
 }
