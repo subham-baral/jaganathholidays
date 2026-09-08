@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RecognizedSection from "@/components/RecognizedSection";
 import BackToTop from "@/components/BackToTop";
+import CopyProtection from "@/components/CopyProtection";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,7 @@ export default function RootLayout({ children }) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <CopyProtection />
         <Header />
         {children}
         <RecognizedSection />
