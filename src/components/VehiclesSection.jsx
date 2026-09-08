@@ -1,16 +1,9 @@
-"use client";
-
-import { useState, useEffect } from 'react';
-import { FiUsers, FiBriefcase, FiWind, FiTag, FiSend } from 'react-icons/fi';
+import { getVehiclesList, getImageUrl } from '@/lib/api';
+import VehiclesSlider from './VehiclesSlider';
 import styles from './VehiclesSection.module.css';
-import AnimatedButton from './AnimatedButton';
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
-import EnquiryModal from './EnquiryModal';
 
-/* ── Data ── */
-const vehiclesData = [
+/* ── Fallback Data ── */
+const fallbackVehicles = [
   {
     title: "Tempo Traveller",
     capacity: "13+1 Seater",
@@ -68,13 +61,6 @@ const vehiclesData = [
   }
 ];
 
-function getSlidesToShow(width) {
-  if (width < 640) return 1;
-  if (width < 992) return 2;
-  if (width < 1300) return 3;
-  return 4;
-}
-
 /* ── Sub-components ── */
 function VehicleHeader() {
   return (
@@ -85,106 +71,73 @@ function VehicleHeader() {
   );
 }
 
-function VehicleSpecs({ specs }) {
-  return (
-    <div className={styles.specsGrid}>
-      <div className={styles.specItem}>
-        <FiUsers className={styles.specIcon} />
-        <span>{specs.seats}</span>
-      </div>
-      <div className={styles.specItem}>
-        <FiBriefcase className={styles.specIcon} />
-        <span>{specs.luggage}</span>
-      </div>
-      <div className={styles.specItem}>
-        <FiWind className={styles.specIcon} />
-        <span>{specs.ac}</span>
-      </div>
-      <div className={styles.specItem}>
-        <FiTag className={styles.specIcon} />
-        <span>{specs.drive}</span>
-      </div>
-    </div>
-  );
-}
+/* ── Data mapping helper ── */
+function mapVehicleData(items) {
+  if (!Array.isArray(items) || items.length === 0) {
+    return fallbackVehicles;
+  }
 
-function VehicleCard({ vehicle, onEnquire }) {
-  return (
-    <div className={styles.slideWrapper}>
-      <div className={styles.card}>
-        <div className={styles.imageWrapper}>
-          <img src={vehicle.image} alt={vehicle.title} className={styles.cardImage} />
-          <span className={styles.capacityBadge}>{vehicle.capacity}</span>
-        </div>
-        <div className={styles.cardContent}>
-          <h3 className={styles.cardTitle}>{vehicle.title}</h3>
-          <VehicleSpecs specs={vehicle.specs} />
-          <div className={styles.footer}>
-            <AnimatedButton
-              className={styles.bookBtn}
-              onClick={() => onEnquire(vehicle.title)}
-            >
-              <FiSend className={styles.sendIcon} /> Enquire Now
-            </AnimatedButton>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  return items.map((item, index) => {
+    const vData = item.data || {};
+
+    // Extract fuel type from terms
+    const fuelTerm = item.terms?.find(
+      (t) =>
+        t.taxonomy?.slug === 'fuel-type' ||
+        t.taxonomy?.name?.toLowerCase().includes('fuel')
+    );
+
+    const seatingCapacity = vData.seating_capacity || 4;
+    const capacity = `${seatingCapacity} Seater`;
+    const seats = `${seatingCapacity} Seats`;
+
+    const luggageCount =
+      vData.luggage !== undefined && vData.luggage !== null
+        ? `${vData.luggage} Bags`
+        : '4 Bags';
+
+    const ac =
+      vData.air_conditioning !== false ? 'AC Available' : 'Non-AC';
+
+    const driveOrFuel =
+      fuelTerm?.name || (vData.airbag ? 'Airbags' : 'Manual');
+
+    const image = getImageUrl(
+      vData.cover_image?.file_path || vData.cover_image,
+      `https://picsum.photos/400/250?random=${60 + index}`
+    );
+
+    return {
+      id: item.id || item._id || index,
+      title: item.title || vData.title || 'Vehicle',
+      capacity,
+      specs: {
+        seats,
+        luggage: luggageCount,
+        ac,
+        drive: driveOrFuel,
+      },
+      image,
+    };
+  });
 }
 
 /* ── Main Component ── */
-export default function VehiclesSection() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedVehicle, setSelectedVehicle] = useState('');
-  const [slidesToShow, setSlidesToShow] = useState(4);
+export default async function VehiclesSection({ initialVehicles = null } = {}) {
+  let rawVehicles = initialVehicles;
 
-  useEffect(() => {
-    const update = () => setSlidesToShow(getSlidesToShow(window.innerWidth));
-    update();
-    window.addEventListener('resize', update);
-    return () => window.removeEventListener('resize', update);
-  }, []);
+  if (!rawVehicles) {
+    rawVehicles = await getVehiclesList();
+  }
 
-  const settings = {
-    dots: true,
-    arrows: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: slidesToShow,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 4000,
-  };
-
-  const handleOpenEnquiry = (vehicleName) => {
-    setSelectedVehicle(vehicleName);
-    setIsModalOpen(true);
-  };
+  const vehicles = mapVehicleData(rawVehicles);
 
   return (
     <section className={styles.vehicleSection}>
       <div className={styles.container}>
         <VehicleHeader />
-        <div className={styles.sliderContainer}>
-          <Slider key={slidesToShow} {...settings}>
-            {vehiclesData.map((vehicle, index) => (
-              <VehicleCard
-                key={index}
-                vehicle={vehicle}
-                onEnquire={handleOpenEnquiry}
-              />
-            ))}
-          </Slider>
-        </div>
+        <VehiclesSlider vehicles={vehicles} />
       </div>
-
-      <EnquiryModal
-        show={isModalOpen}
-        handleClose={() => setIsModalOpen(false)}
-        itemName={selectedVehicle}
-        itemType="vehicle"
-      />
     </section>
   );
 }

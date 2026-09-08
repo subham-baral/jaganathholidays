@@ -102,3 +102,71 @@ export async function getPackagesList(limit = 6) {
     return [];
   }
 }
+
+/**
+ * Fetches list of vehicles from CMS API
+ */
+export async function getVehiclesList() {
+  try {
+    const res = await fetch(`${CMS_API_URL}/api/v1/delivery/contents`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${CMS_TOKEN}`,
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        content_type_id: 'vehicles',
+        status: 'published',
+      }),
+      next: { revalidate: 30 }, // Revalidate every 30s
+    });
+
+    if (!res.ok) {
+      console.error('Failed to fetch vehicles:', res.status, res.statusText);
+      return [];
+    }
+
+    const json = await res.json();
+    const items = json?.data?.data || json?.data || [];
+    return Array.isArray(items) ? items : [];
+  } catch (error) {
+    console.error('Error fetching vehicles list:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetches banner items / destination windows from CMS API
+ */
+export async function getBannerItems() {
+  try {
+    const res = await fetch(`${CMS_API_URL}/api/v1/delivery/contents`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${CMS_TOKEN}`,
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        content_type_id: 'banner-items',
+        status: 'published',
+      }),
+      next: { revalidate: 30 }, // Revalidate every 30s
+    });
+
+    if (!res.ok) {
+      console.error('Failed to fetch banner items:', res.status, res.statusText);
+      return [];
+    }
+
+    const json = await res.json();
+    const items = json?.data?.data || json?.data || [];
+    return Array.isArray(items) ? items : [];
+  } catch (error) {
+    console.error('Error fetching banner items:', error);
+    return [];
+  }
+}
+
+
