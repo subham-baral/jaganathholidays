@@ -113,6 +113,10 @@
   color: #333;
   font-weight: 600;
   transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
 }
 
 .pageBtn:hover:not(:disabled) {
@@ -132,10 +136,12 @@
   color: white;
 }
 
-.pageBtn:disabled {
+.pageBtn:disabled,
+.disabledPage {
   opacity: 0.5;
   cursor: not-allowed;
   background-color: #f1f1f1;
+  pointer-events: none;
 }
 
 /* Mobile Responsiveness */

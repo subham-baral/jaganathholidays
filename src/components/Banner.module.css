@@ -1,12 +1,22 @@
-.bannerContainer {
+.bannerSliderWrapper {
   position: relative;
   width: 100%;
-  height: 680px;
-  display: flex;
+  overflow: hidden;
+}
+
+.slideOuter {
+  outline: none;
+}
+
+.bannerSlide {
+  position: relative;
+  width: 100%;
+  min-height: 680px;
+  display: flex !important;
   align-items: center;
-  background-image: url('/jaganath-banner.webp');
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   color: white;
   padding: 0 5%;
   padding-bottom: 120px;
@@ -19,43 +29,24 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.45) 50%, rgba(0, 0, 0, 0.15) 100%);
   z-index: 1;
 }
 
 .bannerContent {
   position: relative;
   z-index: 2;
-  max-width: 650px;
-}
-
-.reviews {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.stars {
-  color: #ffc107;
-  display: flex;
-  gap: 4px;
-}
-
-.starIcon {
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
+  max-width: 680px;
 }
 
 .title {
   font-size: 56px;
   font-weight: 600;
-  line-height: 1.1;
+  line-height: 1.15;
   margin-bottom: 24px;
   letter-spacing: -0.5px;
+  white-space: pre-line;
+  word-break: break-word;
 }
 
 .subtitle {
@@ -63,6 +54,12 @@
   line-height: 1.6;
   margin-bottom: 40px;
   font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.btnLink {
+  display: inline-block;
+  text-decoration: none;
 }
 
 .btnDestinations {
@@ -79,29 +76,139 @@
 
 .btnDestinations:hover {
   background-color: #f8f9fa;
+  color: #ffffff !important;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* ── Custom Arrows ── */
+.arrowBtn {
+  position: absolute;
+  top: 45%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  outline: none;
+}
+
+.arrowBtn:hover {
+  background: #d87e00;
+  border-color: #d87e00;
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.arrowIcon {
+  font-size: 24px;
+}
+
+.prevArrow {
+  left: 28px;
+}
+
+.nextArrow {
+  right: 28px;
+}
+
+/* ── Slick Dots Customization ── */
+.bannerSliderWrapper :global(.slick-dots) {
+  bottom: 145px;
+  z-index: 5;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.bannerSliderWrapper :global(.slick-dots li) {
+  margin: 0;
+  width: auto;
+  height: auto;
+}
+
+.bannerSliderWrapper :global(.slick-dots li button) {
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.bannerSliderWrapper :global(.slick-dots li button:before) {
+  display: none;
+}
+
+.bannerSliderWrapper :global(.slick-dots li.slick-active button) {
+  background: #d87e00;
+  width: 32px;
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(216, 126, 0, 0.6);
+}
+
+/* ── Responsive ── */
+@media (max-width: 992px) {
+  .title {
+    font-size: 42px;
+  }
+  .arrowBtn {
+    width: 42px;
+    height: 42px;
+  }
+  .prevArrow {
+    left: 16px;
+  }
+  .nextArrow {
+    right: 16px;
+  }
+}
+
 @media (max-width: 768px) {
-  .bannerContainer {
-    height: auto;
-    padding: 80px 5%;
+  .bannerSlide {
+    min-height: 540px;
+    padding: 80px 5% 140px;
   }
 
   .bannerOverlay {
-    background: rgba(0, 0, 0, 0.6);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.5) 100%);
   }
 
   .title {
     font-size: 30px;
+    line-height: 1.25;
+    margin-bottom: 16px;
   }
 
   .subtitle {
-    font-size: 14px;
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 28px;
   }
 
   .btnDestinations {
-    padding: 10px 20px;
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+
+  .arrowBtn {
+    display: none !important;
+  }
+
+  .bannerSliderWrapper :global(.slick-dots) {
+    bottom: 130px;
   }
 }

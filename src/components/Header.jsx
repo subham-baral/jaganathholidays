@@ -74,11 +74,9 @@ export default function Header() {
           <Link href="/gallery" className={styles.navLink}>Gallery</Link>
           <div className={styles.dropdown}>
             <Link href="/blogs" className={`${styles.navLink} ${styles.dropdownTrigger}`}>
-              Blogs <FiChevronDown className={styles.dropdownArrow} />
+              Blog <FiChevronDown className={styles.dropdownArrow} />
             </Link>
-            <div className={styles.dropdownContent}>
-              <Link href="/blogs/details" className={styles.dropdownLink}>Blog Details</Link>
-            </div>
+
           </div>
           <Link href="/contact" className={styles.navLink}>Contact Us</Link>
         </nav>

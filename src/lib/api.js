@@ -1,6 +1,6 @@
 const CMS_API_URL = process.env.CMS_API_URL || 'https://cmsapi.one9ty.com';
 const CMS_TOKEN = process.env.CMS_TOKEN || '141|PLIcQEisrq76oVJH35rTn3CqkZWZ6xaCSwNDWCiw2ea64d79';
-const CMS_STORAGE_URL = "https://cdn.one9ty.com/one9ty-travel";
+const CMS_STORAGE_URL = process.env.CMS_MEDIA_URL || "https://cdn.one9ty.com/one9ty-travel";
 
 /**
  * Constructs a full image URL from a CMS media file path
@@ -168,5 +168,178 @@ export async function getBannerItems() {
     return [];
   }
 }
+
+/**
+ * Fetches main banners from CMS API
+ */
+export async function getMainBanners() {
+  try {
+    const res = await fetch(`${CMS_API_URL}/api/v1/delivery/contents`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${CMS_TOKEN}`,
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        content_type_id: 'main-banner',
+        status: 'published',
+      }),
+      next: { revalidate: 30 }, // Revalidate every 30s
+    });
+
+    if (!res.ok) {
+      console.error('Failed to fetch main banners:', res.status, res.statusText);
+      return [];
+    }
+
+    const json = await res.json();
+    const items = json?.data?.data || json?.data || [];
+    return Array.isArray(items) ? items : [];
+  } catch (error) {
+    console.error('Error fetching main banners:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetches blog details by slug from CMS API
+ */
+export async function getBlogBySlug(slug) {
+  if (!slug) return null;
+
+  try {
+    let res = await fetch(`${CMS_API_URL}/api/v1/delivery/contents/show`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${CMS_TOKEN}`,
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        slug: slug,
+        content_type: 'blog',
+      }),
+      next: { revalidate: 30 },
+    });
+
+    let data = await res.json();
+
+    if (!data?.success || !data?.data) {
+      const fallbackRes = await fetch(`${CMS_API_URL}/api/v1/delivery/contents/show`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${CMS_TOKEN}`,
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          slug: slug,
+          content_type: 'blogs',
+        }),
+        next: { revalidate: 30 },
+      });
+      data = await fallbackRes.json();
+    }
+
+    if (data?.success && data?.data) {
+      return data.data;
+    }
+
+    return null;
+  } catch (error) {
+    console.error(`Error fetching blog "${slug}":`, error);
+    return null;
+  }
+}
+
+/**
+ * Fetches list of latest blogs from CMS API
+ */
+export async function getBlogsList(limit = 3) {
+  try {
+    let res = await fetch(`${CMS_API_URL}/api/v1/delivery/contents`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${CMS_TOKEN}`,
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        content_type_id: 'blog',
+        status: 'published',
+      }),
+      next: { revalidate: 30 },
+    });
+
+    let json = await res.json();
+    let items = json?.data?.data || json?.data || [];
+
+    if (!Array.isArray(items) || items.length === 0) {
+      const fallbackRes = await fetch(`${CMS_API_URL}/api/v1/delivery/contents`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${CMS_TOKEN}`,
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          content_type_id: 'blogs',
+          status: 'published',
+        }),
+        next: { revalidate: 30 },
+      });
+      json = await fallbackRes.json();
+      items = json?.data?.data || json?.data || [];
+    }
+
+    return Array.isArray(items) ? items.slice(0, limit) : [];
+  } catch (error) {
+    console.error('Error fetching blogs list:', error);
+    return [];
+  }
+}
+
+/**
+ * Fetches gallery items with pagination from CMS API
+ */
+export async function getGalleryItems(page = 1) {
+  try {
+    const res = await fetch(`${CMS_API_URL}/api/v1/delivery/contents?page=${page}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${CMS_TOKEN}`,
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        content_type_id: 'gallery',
+        status: 'published',
+      }),
+      next: { revalidate: 30 },
+    });
+
+    if (!res.ok) {
+      console.error('Failed to fetch gallery items:', res.status, res.statusText);
+      return { items: [], currentPage: page, hasNextPage: false, hasPrevPage: false };
+    }
+
+    const json = await res.json();
+    const rawItems = json?.data?.data || json?.data || [];
+    const items = Array.isArray(rawItems) ? rawItems : [];
+
+    return {
+      items,
+      currentPage: Number(json?.data?.current_page) || Number(page) || 1,
+      hasNextPage: Boolean(json?.data?.next_page_url),
+      hasPrevPage: Boolean(json?.data?.prev_page_url) || page > 1,
+    };
+  } catch (error) {
+    console.error('Error fetching gallery items:', error);
+    return { items: [], currentPage: page, hasNextPage: false, hasPrevPage: false };
+  }
+}
+
+
 
 

@@ -84,4 +84,20 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  transition: color 0.25s ease;
 }
+
+.isLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.isLink:hover,
+.isLink:hover .bookNowText,
+.bookNowBtn:hover,
+.bookNowBtn:hover .bookNowText,
+:global(a:hover) .bookNowBtn,
+:global(a:hover) .bookNowText {
+  color: #ffffff !important;
+}
+

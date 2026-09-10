@@ -1,7 +1,10 @@
 import BreadcrumbBanner from '@/components/BreadcrumbBanner';
 import BlogList from '@/components/BlogList';
 
-export default function BlogsPage() {
+export default async function BlogsPage({ searchParams }) {
+  const resolvedSearchParams = await searchParams;
+  const page = Number(resolvedSearchParams?.page) || 1;
+
   const breadcrumbs = [
     { label: 'Home', link: '/' },
     { label: 'Blogs' }
@@ -14,7 +17,7 @@ export default function BlogsPage() {
         breadcrumbs={breadcrumbs} 
         bgImage="/jaganath-banner.webp"
       />
-      <BlogList />
+      <BlogList page={page} />
     </main>
   );
 }

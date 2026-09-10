@@ -1,13 +1,20 @@
-"use client"
+"use client";
+
+import Link from 'next/link';
 import styles from './AnimatedButton.module.css';
 
-export default function AnimatedButton({ children, className = '', onClick, type = 'button' }) {
-  return (
-    <button 
-      type={type} 
-      onClick={onClick} 
-      className={`${styles.bookNowBtn} ${className}`}
-    >
+export default function AnimatedButton({ 
+  href, 
+  children, 
+  className = '', 
+  onClick, 
+  type = 'button',
+  target,
+  rel,
+  ...props 
+}) {
+  const content = (
+    <>
       <span className={styles.bookNowHoverCircle}></span>
       <span className={styles.bookNowSvgLeft}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 487 487">
@@ -21,6 +28,46 @@ export default function AnimatedButton({ children, className = '', onClick, type
       </span>
       <span className={styles.bookNowOverlay}></span>
       <span className={styles.bookNowText}>{children}</span>
+    </>
+  );
+
+  if (href) {
+    const isExternal = href.startsWith('http://') || href.startsWith('https://');
+    if (isExternal) {
+      return (
+        <a
+          href={href}
+          target={target || "_blank"}
+          rel={rel || "noopener noreferrer"}
+          onClick={onClick}
+          className={`${styles.bookNowBtn} ${styles.isLink} ${className}`}
+          {...props}
+        >
+          {content}
+        </a>
+      );
+    }
+
+    return (
+      <Link
+        href={href}
+        onClick={onClick}
+        className={`${styles.bookNowBtn} ${styles.isLink} ${className}`}
+        {...props}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <button 
+      type={type} 
+      onClick={onClick} 
+      className={`${styles.bookNowBtn} ${className}`}
+      {...props}
+    >
+      {content}
     </button>
   );
 }

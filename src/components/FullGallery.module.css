@@ -334,3 +334,53 @@
     right: 10px;
   }
 }
+
+/* Pagination Controls */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 50px;
+}
+
+.pageBtn {
+  background-color: white;
+  border: 1px solid #ddd;
+  padding: 10px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #333;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  min-width: 44px;
+}
+
+.pageBtn:hover:not(:disabled) {
+  background-color: #fcf6ef;
+  border-color: #d87e00;
+  color: #d87e00;
+}
+
+.activePage {
+  background-color: #d87e00;
+  color: white;
+  border-color: #d87e00;
+}
+
+.activePage:hover:not(:disabled) {
+  background-color: #b56a00;
+  color: white;
+}
+
+.pageBtn:disabled,
+.disabledPage {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: #f1f1f1;
+  pointer-events: none;
+}
