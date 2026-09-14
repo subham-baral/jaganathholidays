@@ -160,11 +160,12 @@ const packagesData = [
   }
 ];
 
-async function fetchPackages(categorySlug, destinationSlug) {
+async function fetchPackages(categorySlug, destinationSlug, page = 1, perPage = 10) {
   try {
     const payload = {
       content_type_id: 'packages',
-      status: 'published'
+      status: 'published',
+      per_page: perPage
     };
 
     const taxonomyTerms = {};
@@ -179,7 +180,7 @@ async function fetchPackages(categorySlug, destinationSlug) {
       payload.taxonomy_terms = taxonomyTerms;
     }
 
-    const res = await fetch(`${process.env.CMS_API_URL}/api/v1/delivery/contents`, {
+    const res = await fetch(`${process.env.CMS_API_URL}/api/v1/delivery/contents?page=${page}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -190,7 +191,7 @@ async function fetchPackages(categorySlug, destinationSlug) {
     });
     const result = await res.json();
     if (result.success && result.data && result.data.data) {
-      return result.data.data.map((item, index) => {
+      const items = result.data.data.map((item, index) => {
         let desc = '';
         if (item.data.description) {
           desc = item.data.description.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').trim();
@@ -212,11 +213,12 @@ async function fetchPackages(categorySlug, destinationSlug) {
           slug: item.slug
         };
       });
+      return { items, total: result.data.total || items.length };
     }
   } catch (error) {
     console.error("Error fetching packages:", error);
   }
-  return packagesData;
+  return { items: packagesData, total: packagesData.length };
 }
 async function fetchTaxonomies() {
   try {
@@ -226,7 +228,7 @@ async function fetchTaxonomies() {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${process.env.CMS_TOKEN}`
       },
-      next: { revalidate: 30 } // Revalidate every 30s (testing mode)
+      next: { revalidate: 0 } // Revalidate every 30s (testing mode)
     });
     const result = await res.json();
     if (result.success && result.data) {
@@ -259,7 +261,7 @@ export default async function TourPackagesSection({
   limit = null,
   showSidebar = true,
   showPagination = true,
-  itemsPerPage = null,
+  itemsPerPage = 10,
   layout = 'list' // 'list' | 'grid'
 }) {
   // Resolve search and route parameters
@@ -288,7 +290,14 @@ export default async function TourPackagesSection({
   activeCategory = [...new Set(activeCategory.split(',').filter(Boolean))].join(',');
   activeLocation = [...new Set(activeLocation.split(',').filter(Boolean))].join(',');
 
-  const activePackagesData = await fetchPackages(activeCategory, activeLocation);
+  // Calculate pagination params before API call
+  const defaultItemsPerPage = layout === 'grid' ? 8 : 5;
+  const actualItemsPerPage = limit
+    ? Number(limit)
+    : (itemsPerPage ? Number(itemsPerPage) : defaultItemsPerPage);
+  const requestedPage = Math.max(Number(resolvedParams.page || 1), 1);
+
+  const { items: activePackagesData, total: apiTotal } = await fetchPackages(activeCategory, activeLocation, requestedPage, actualItemsPerPage);
   const { categories, destinations } = await fetchTaxonomies();
 
   const searchQuery = resolvedParams.query || resolvedParams.search || '';
@@ -326,17 +335,10 @@ export default async function TourPackagesSection({
     );
   }
 
-  // Perform Server-Side Pagination
-  const defaultItemsPerPage = layout === 'grid' ? 8 : 5;
-  const actualItemsPerPage = limit
-    ? Number(limit)
-    : (itemsPerPage ? Number(itemsPerPage) : defaultItemsPerPage);
-  const totalPages = Math.ceil(filteredPackages.length / actualItemsPerPage);
-  const currentPage = Math.min(Math.max(Number(resolvedParams.page || 1), 1), totalPages || 1);
-  const startIndex = (currentPage - 1) * actualItemsPerPage;
-  const paginatedPackages = limit
-    ? filteredPackages.slice(0, actualItemsPerPage)
-    : filteredPackages.slice(startIndex, startIndex + actualItemsPerPage);
+  // Use API's total for server-side pagination
+  const totalPages = Math.ceil(apiTotal / actualItemsPerPage);
+  const currentPage = Math.min(requestedPage, totalPages || 1);
+  const paginatedPackages = filteredPackages;
 
   // Check if any query parameter filter is applied
   let hasActiveFilters = false;
