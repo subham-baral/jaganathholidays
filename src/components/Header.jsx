@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FiMapPin, FiPhone, FiMail, FiChevronDown, FiMenu, FiX } from 'react-icons/fi';
+import { FiMapPin, FiPhone, FiMail, FiMenu, FiX } from 'react-icons/fi';
 import styles from './Header.module.css';
 import AnimatedButton from './AnimatedButton';
 
@@ -13,8 +13,6 @@ export default function Header() {
   const isPackageDetailsPage = pathname?.startsWith('/package/');
   
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDestinationsOpen, setIsDestinationsOpen] = useState(false);
-  const [isBlogsOpen, setIsBlogsOpen] = useState(false);
 
   // Prevent scrolling when mobile menu is open
   useEffect(() => {
@@ -72,17 +70,12 @@ export default function Header() {
           <Link href="/packages" className={styles.navLink}>Tour Packages</Link>
           <Link href="/destinations" className={styles.navLink}>Destinations</Link>
           <Link href="/gallery" className={styles.navLink}>Gallery</Link>
-          <div className={styles.dropdown}>
-            <Link href="/blogs" className={`${styles.navLink} ${styles.dropdownTrigger}`}>
-              Blog <FiChevronDown className={styles.dropdownArrow} />
-            </Link>
-
-          </div>
+          <Link href="/blogs" className={styles.navLink}>Blog</Link>
           <Link href="/contact" className={styles.navLink}>Contact Us</Link>
         </nav>
 
         <div className={styles.desktopAction}>
-          <AnimatedButton>
+          <AnimatedButton href="/book-now">
             BOOK NOW
           </AnimatedButton>
         </div>
@@ -125,24 +118,13 @@ export default function Header() {
 
           <Link href="/gallery" className={styles.mobileNavLink} onClick={closeMenu}>Gallery</Link>
           
-          <div className={styles.mobileDropdown}>
-            <div 
-              className={styles.mobileDropdownTrigger} 
-              onClick={() => setIsBlogsOpen(!isBlogsOpen)}
-            >
-              Blogs 
-              <FiChevronDown className={`${styles.mobileDropdownArrow} ${isBlogsOpen ? styles.arrowUp : ''}`} />
-            </div>
-            <div className={`${styles.mobileDropdownContent} ${isBlogsOpen ? styles.contentOpen : ''}`}>
-              <Link href="/blogs/details" className={styles.mobileSubLink} onClick={closeMenu}>Blog Details</Link>
-            </div>
-          </div>
+          <Link href="/blogs" className={styles.mobileNavLink} onClick={closeMenu}>Blog</Link>
 
           <Link href="/contact" className={styles.mobileNavLink} onClick={closeMenu}>Contact Us</Link>
         </nav>
 
         <div className={styles.mobileAction}>
-          <AnimatedButton className={styles.mobileBookBtn}>
+          <AnimatedButton href="/book-now" className={styles.mobileBookBtn} onClick={closeMenu}>
             BOOK NOW
           </AnimatedButton>
         </div>

@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import styles from './FaqSection.module.css';
-import AnimatedButton from './AnimatedButton';
 
 /* ── Data ── */
 const faqsData = [
@@ -48,36 +47,8 @@ function FaqItem({ faq, isActive, onToggle }) {
       {isActive && (
         <div className={styles.faqContent}>
           <p className={styles.faqAnswer}>{faq.answer}</p>
-          <AnimatedButton className={styles.learnMoreBtn}>Learn More</AnimatedButton>
         </div>
       )}
-    </div>
-  );
-}
-
-function FaqImageCollage() {
-  return (
-    <div className={styles.imageCollage}>
-      <img src="https://picsum.photos/600/300?random=110" alt="Temple" className={styles.imgTop} />
-      <div className={styles.middleRow}>
-        <img src="https://picsum.photos/290/250?random=111" alt="Waterfall" className={styles.imgHalf} />
-        <img src="https://picsum.photos/290/250?random=112" alt="Gate" className={styles.imgHalf} />
-      </div>
-      <img src="https://picsum.photos/600/250?random=113" alt="Mountains" className={styles.imgBottom} />
-    </div>
-  );
-}
-
-function FaqRightContent() {
-  return (
-    <div className={styles.rightColumn}>
-      <p className={styles.description}>
-        Have questions about your upcoming trip? Find answers to the most common queries
-        about our tour packages, hotel bookings, transportation, customization options, and
-        travel services. Our FAQ section is designed to help you plan your Odisha journey with
-        confidence and ease.
-      </p>
-      <FaqImageCollage />
     </div>
   );
 }
@@ -89,22 +60,18 @@ export default function FaqSection() {
   return (
     <section className={styles.faqSection}>
       <div className={styles.container}>
-        <div className={styles.leftColumn}>
-          <h2 className={styles.heading}>Frequently Asked<br />Questions</h2>
-          
-          <div className={styles.faqList}>
-            {faqsData.map((faq, index) => (
-              <FaqItem
-                key={index}
-                faq={faq}
-                isActive={activeIndex === index}
-                onToggle={() => setActiveIndex(activeIndex === index ? null : index)}
-              />
-            ))}
-          </div>
+        <h2 className={styles.heading}>Frequently Asked Questions</h2>
+        
+        <div className={styles.faqList}>
+          {faqsData.map((faq, index) => (
+            <FaqItem
+              key={index}
+              faq={faq}
+              isActive={activeIndex === index}
+              onToggle={() => setActiveIndex(activeIndex === index ? null : index)}
+            />
+          ))}
         </div>
-
-        <FaqRightContent />
       </div>
     </section>
   );
