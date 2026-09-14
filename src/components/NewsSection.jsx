@@ -55,9 +55,10 @@ async function fetchLatestBlogs() {
     });
 
     let result = await res.json();
+    let items = Array.isArray(result) ? result : (result.data?.data || result.data || []);
 
     // If 'blog' returned empty, try 'blogs'
-    if (!result.success || !result.data?.data?.length) {
+    if (!items.length) {
       const fallbackRes = await fetch(`${process.env.CMS_API_URL || 'https://cmsapi.one9ty.com'}/api/v1/delivery/contents`, {
         method: 'POST',
         headers: {
@@ -68,13 +69,11 @@ async function fetchLatestBlogs() {
         next: { revalidate: 30 },
       });
       const fallbackResult = await fallbackRes.json();
-      if (fallbackResult.success && fallbackResult.data?.data?.length > 0) {
-        result = fallbackResult;
-      }
+      items = Array.isArray(fallbackResult) ? fallbackResult : (fallbackResult.data?.data || fallbackResult.data || []);
     }
 
-    if (result.success && result.data?.data?.length > 0) {
-      const apiArticles = result.data.data.slice(0, 3).map((item, index) => {
+    if (items.length > 0) {
+      const apiArticles = items.slice(0, 3).map((item, index) => {
         const itemData = item.data || {};
         const title = itemData.title || item.title || 'Odisha Travel Story';
         const rawDesc = itemData.short_description || itemData.description || itemData.content || '';

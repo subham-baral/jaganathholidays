@@ -80,6 +80,17 @@
   opacity: 0.95;
 }
 
+.noResult {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #64748b;
+  padding: 40px 20px;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  border: 1px dashed #cbd5e1;
+}
+
 /* ── Tablet (≤1024px) ── */
 @media (max-width: 1024px) {
   .heading {

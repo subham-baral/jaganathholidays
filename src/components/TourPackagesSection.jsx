@@ -1,14 +1,14 @@
 import Link from 'next/link';
-import { 
-  FiClock, 
-  FiMapPin, 
-  FiStar, 
-  FiSearch, 
-  FiChevronLeft, 
-  FiChevronRight, 
-  FiX, 
-  FiPhone, 
-  FiMail, 
+import {
+  FiClock,
+  FiMapPin,
+  FiStar,
+  FiSearch,
+  FiChevronLeft,
+  FiChevronRight,
+  FiX,
+  FiPhone,
+  FiMail,
   FiEye,
   FiFilter
 } from 'react-icons/fi';
@@ -166,7 +166,7 @@ async function fetchPackages(categorySlug, destinationSlug) {
       content_type_id: 'packages',
       status: 'published'
     };
-    
+
     const taxonomyTerms = {};
     if (categorySlug && categorySlug !== 'all') {
       taxonomyTerms.category = [categorySlug];
@@ -174,7 +174,7 @@ async function fetchPackages(categorySlug, destinationSlug) {
     if (destinationSlug && destinationSlug !== 'all') {
       taxonomyTerms.destinations = [destinationSlug];
     }
-    
+
     if (Object.keys(taxonomyTerms).length > 0) {
       payload.taxonomy_terms = taxonomyTerms;
     }
@@ -193,9 +193,9 @@ async function fetchPackages(categorySlug, destinationSlug) {
       return result.data.data.map((item, index) => {
         let desc = '';
         if (item.data.description) {
-           desc = item.data.description.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').trim();
-           desc = desc.replace(/^Introduction\s*/i, '');
-           desc = desc.substring(0, 150) + '...';
+          desc = item.data.description.replace(/<[^>]*>?/gm, ' ').replace(/\s+/g, ' ').trim();
+          desc = desc.replace(/^Introduction\s*/i, '');
+          desc = desc.substring(0, 150) + '...';
         }
         return {
           id: item.id || index,
@@ -245,14 +245,14 @@ async function fetchTaxonomies() {
   } catch (error) {
     console.error("Error fetching taxonomies:", error);
   }
-  return { 
+  return {
     categories: [{ name: 'All', slug: 'all' }],
     destinations: [{ name: 'All', slug: 'all' }]
   };
 }
 
-export default async function TourPackagesSection({ 
-  searchParams, 
+export default async function TourPackagesSection({
+  searchParams,
   routeParams,
   pageType = 'packages', // 'packages' | 'destination' | 'category'
   basePath = '/packages',
@@ -263,12 +263,12 @@ export default async function TourPackagesSection({
   layout = 'list' // 'list' | 'grid'
 }) {
   // Resolve search and route parameters
-  const resolvedParams = searchParams && typeof searchParams.then === 'function' 
-    ? await searchParams 
+  const resolvedParams = searchParams && typeof searchParams.then === 'function'
+    ? await searchParams
     : (searchParams || {});
 
-  const resolvedRouteParams = routeParams && typeof routeParams.then === 'function' 
-    ? await routeParams 
+  const resolvedRouteParams = routeParams && typeof routeParams.then === 'function'
+    ? await routeParams
     : (routeParams || {});
 
   const currentSlug = resolvedRouteParams.slug || '';
@@ -305,36 +305,36 @@ export default async function TourPackagesSection({
   // Perform Server-Side Filtering
   let filteredPackages = [...activePackagesData];
 
-  if (activeCategory && activeCategory.toLowerCase() !== 'all') {
-    filteredPackages = filteredPackages.filter(
-      pkg => pkg.category.toLowerCase() === activeCategory.toLowerCase()
-    );
-  }
+  // if (activeCategory && activeCategory.toLowerCase() !== 'all') {
+  //   filteredPackages = filteredPackages.filter(
+  //     pkg => pkg.category.toLowerCase() === activeCategory.toLowerCase()
+  //   );
+  // }
 
-  if (activeLocation && activeLocation.toLowerCase() !== 'all') {
-    filteredPackages = filteredPackages.filter(
-      pkg => pkg.location.toLowerCase().includes(activeLocation.toLowerCase())
-    );
-  }
+  // if (activeLocation && activeLocation.toLowerCase() !== 'all') {
+  //   filteredPackages = filteredPackages.filter(
+  //     pkg => pkg.location.toLowerCase().includes(activeLocation.toLowerCase())
+  //   );
+  // }
 
   if (searchQuery) {
     const q = searchQuery.toLowerCase();
     filteredPackages = filteredPackages.filter(
-      pkg => pkg.title.toLowerCase().includes(q) || 
-             pkg.description.toLowerCase().includes(q) ||
-             pkg.location.toLowerCase().includes(q)
+      pkg => pkg.title.toLowerCase().includes(q) ||
+        pkg.description.toLowerCase().includes(q) ||
+        pkg.location.toLowerCase().includes(q)
     );
   }
 
   // Perform Server-Side Pagination
   const defaultItemsPerPage = layout === 'grid' ? 8 : 5;
-  const actualItemsPerPage = limit 
-    ? Number(limit) 
+  const actualItemsPerPage = limit
+    ? Number(limit)
     : (itemsPerPage ? Number(itemsPerPage) : defaultItemsPerPage);
   const totalPages = Math.ceil(filteredPackages.length / actualItemsPerPage);
   const currentPage = Math.min(Math.max(Number(resolvedParams.page || 1), 1), totalPages || 1);
   const startIndex = (currentPage - 1) * actualItemsPerPage;
-  const paginatedPackages = limit 
+  const paginatedPackages = limit
     ? filteredPackages.slice(0, actualItemsPerPage)
     : filteredPackages.slice(startIndex, startIndex + actualItemsPerPage);
 
@@ -349,8 +349,8 @@ export default async function TourPackagesSection({
   }
 
   // Search form submit action url
-  const searchActionUrl = pageType === 'destination' 
-    ? `/destination/${currentSlug}` 
+  const searchActionUrl = pageType === 'destination'
+    ? `/destination/${currentSlug}`
     : (pageType === 'category' ? `/cayegory/${currentSlug}` : '/packages');
 
   // Sidebar link URL builders
@@ -366,14 +366,14 @@ export default async function TourPackagesSection({
       }
     }
     const catString = currentCats.join(',');
-    
+
     // Always navigate to /packages when playing with multi-select to avoid route conflicts
     const targetPath = '/packages';
     const current = new URLSearchParams();
     if (catString) current.set('category', catString);
     if (activeLocation) current.set('location', activeLocation);
     if (searchQuery) current.set('query', searchQuery);
-    
+
     const qs = current.toString();
     return `${targetPath}${qs ? '?' + qs : ''}`;
   };
@@ -396,7 +396,7 @@ export default async function TourPackagesSection({
     if (activeCategory) current.set('category', activeCategory);
     if (destString) current.set('location', destString);
     if (searchQuery) current.set('query', searchQuery);
-    
+
     const qs = current.toString();
     return `${targetPath}${qs ? '?' + qs : ''}`;
   };
@@ -434,10 +434,10 @@ export default async function TourPackagesSection({
 
   // URL builder for bottom pagination
   const getPaginationUrl = (pageNum) => {
-    const targetPath = pageType === 'destination' 
-      ? `/destination/${currentSlug}` 
+    const targetPath = pageType === 'destination'
+      ? `/destination/${currentSlug}`
       : (pageType === 'category' ? `/cayegory/${currentSlug}` : '/packages');
-    
+
     const current = new URLSearchParams();
     if (pageType === 'category') {
       if (activeLocation) current.set('location', activeLocation);
@@ -449,7 +449,7 @@ export default async function TourPackagesSection({
     }
     if (searchQuery) current.set('query', searchQuery);
     current.set('page', pageNum.toString());
-    
+
     const qs = current.toString();
     return `${targetPath}${qs ? '?' + qs : ''}`;
   };
@@ -458,7 +458,7 @@ export default async function TourPackagesSection({
     <section className={styles.section}>
       <div className={styles.container}>
         <div className={`${styles.layoutGrid} ${!showSidebar ? styles.noSidebar : ''}`}>
-          
+
           {showSidebar && (
             <>
               <input type="checkbox" id="mobile-filter-toggle" className={styles.mobileFilterCheckbox} />
@@ -543,9 +543,9 @@ export default async function TourPackagesSection({
                               Details
                             </AnimatedButton>
                           </Link>
-                          <EnquiryTriggerBtn 
-                            itemName={pkg.title} 
-                            className={styles.verticalEnquiryBtn} 
+                          <EnquiryTriggerBtn
+                            itemName={pkg.title}
+                            className={styles.verticalEnquiryBtn}
                           />
                         </div>
                       </div>
@@ -614,7 +614,7 @@ export default async function TourPackagesSection({
             {/* Bottom Pagination */}
             {showPagination && !limit && totalPages > 1 && (
               <div className={styles.pagination}>
-                <Link 
+                <Link
                   href={getPaginationUrl(currentPage - 1)}
                   className={`${styles.pageLink} ${styles.navLink} ${currentPage === 1 ? styles.disabledLink : ''}`}
                 >
@@ -622,7 +622,7 @@ export default async function TourPackagesSection({
                 </Link>
 
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                  <Link 
+                  <Link
                     key={pageNum}
                     href={getPaginationUrl(pageNum)}
                     className={`${styles.pageLink} ${currentPage === pageNum ? styles.pageLinkActive : ''}`}
@@ -631,7 +631,7 @@ export default async function TourPackagesSection({
                   </Link>
                 ))}
 
-                <Link 
+                <Link
                   href={getPaginationUrl(currentPage + 1)}
                   className={`${styles.pageLink} ${styles.navLink} ${currentPage === totalPages ? styles.disabledLink : ''}`}
                 >
@@ -646,10 +646,10 @@ export default async function TourPackagesSection({
               <p className={styles.promoText}>Talk to our travel experts to craft a fully customized vacation itinerary just for you.</p>
               <a href="tel:+919876543210" className={styles.promoPhone}>+91 98765 43210</a>
               <a href="mailto:info@jaganathholidays.com" className={styles.promoEmail}>info@jaganathholidays.com</a>
-              <a 
-                href="https://wa.me/919876543210?text=I'm%20interested%20in%20customizing%20a%20tour%20package." 
-                target="_blank" 
-                rel="noopener noreferrer" 
+              <a
+                href="https://wa.me/919876543210?text=I'm%20interested%20in%20customizing%20a%20tour%20package."
+                target="_blank"
+                rel="noopener noreferrer"
                 className={styles.whatsappBtn}
                 style={{ maxWidth: '300px', margin: '0 auto' }}
               >
@@ -662,7 +662,7 @@ export default async function TourPackagesSection({
           {/* Right Column: Sidebar */}
           {showSidebar && (
             <div className={styles.sidebarCol}>
-              
+
               <div className={styles.sidebarMobileHeader}>
                 <h3>Filters</h3>
                 <label htmlFor="mobile-filter-toggle" className={styles.closeFilterBtn}>
@@ -678,18 +678,18 @@ export default async function TourPackagesSection({
                     const isActive = (!activeCategory && cat.slug === 'all') || (activeCategory && activeCategory.split(',').includes(cat.slug));
                     return (
                       <li key={cat.slug}>
-                        <Link 
+                        <Link
                           href={getCategoryFilterUrl(cat.slug)}
                           className={`${styles.filterLink} ${isActive ? styles.filterLinkActive : ''}`}
                           scroll={false}
                         >
                           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                             {cat.slug !== 'all' && (
-                              <input 
-                                type="checkbox" 
-                                checked={isActive} 
-                                readOnly 
-                                className={styles.filterCheckbox} 
+                              <input
+                                type="checkbox"
+                                checked={isActive}
+                                readOnly
+                                className={styles.filterCheckbox}
                               />
                             )}
                             <span>{cat.name}</span>
@@ -709,18 +709,18 @@ export default async function TourPackagesSection({
                     const isActive = (!activeLocation && dest.slug === 'all') || (activeLocation && activeLocation.split(',').includes(dest.slug));
                     return (
                       <li key={dest.slug}>
-                        <Link 
+                        <Link
                           href={getDestinationFilterUrl(dest.slug)}
                           className={`${styles.filterLink} ${isActive ? styles.filterLinkActive : ''}`}
                           scroll={false}
                         >
                           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                             {dest.slug !== 'all' && (
-                              <input 
-                                type="checkbox" 
-                                checked={isActive} 
-                                readOnly 
-                                className={styles.filterCheckbox} 
+                              <input
+                                type="checkbox"
+                                checked={isActive}
+                                readOnly
+                                className={styles.filterCheckbox}
                               />
                             )}
                             <span>{dest.name}</span>
@@ -738,10 +738,10 @@ export default async function TourPackagesSection({
                 <p className={styles.promoText}>Talk to our travel experts to craft a fully customized vacation itinerary just for you.</p>
                 <a href="tel:+919876543210" className={styles.promoPhone}>+91 98765 43210</a>
                 <a href="mailto:info@jaganathholidays.com" className={styles.promoEmail}>info@jaganathholidays.com</a>
-                <a 
-                  href="https://wa.me/919876543210?text=I'm%20interested%20in%20customizing%20a%20tour%20package." 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href="https://wa.me/919876543210?text=I'm%20interested%20in%20customizing%20a%20tour%20package."
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={styles.whatsappBtn}
                 >
                   <FaWhatsapp size={20} /> Chat on WhatsApp
