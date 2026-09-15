@@ -44,8 +44,7 @@ function FooterBrand() {
   return (
     <div className={styles.brandColumn}>
       <div className={styles.logos}>
-        <img src="/footer-1.png" alt="Odisha Logo 1" className={styles.logoImage} />
-        <img src="/footer-2.png" alt="Odisha Logo 2" className={styles.logoImage} />
+        <img src="/jaganath-holidays-logo.png" alt="Odisha Logo 1" className={styles.logoImage} />
       </div>
       
       <ul className={styles.contactList}>

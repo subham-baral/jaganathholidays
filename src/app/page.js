@@ -13,7 +13,43 @@ import FaqSection from "@/components/FaqSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import TeamSection from "@/components/TeamSection";
 
-export default function Home() {
+async function fetchReviews() {
+  try {
+    const res = await fetch(`${process.env.CMS_API_URL || 'https://cmsapi.one9ty.com'}/api/v1/delivery/contents/show`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.CMS_TOKEN || '141|PLIcQEisrq76oVJH35rTn3CqkZWZ6xaCSwNDWCiw2ea64d79'}`
+      },
+      body: JSON.stringify({
+        slug: "reviews",
+        content_type: "reviews"
+      }),
+      next: { revalidate: 0 }
+    });
+
+    const result = await res.json();
+
+    // Response shape: { success, data: { ...meta, data: { reviews: [{name, rating, content}] } } }
+    const reviews = result?.data?.data?.reviews;
+
+    if (Array.isArray(reviews) && reviews.length > 0) {
+      return reviews.map((item, index) => ({
+        id: index,
+        name: item.name || 'Customer',
+        rating: item.rating || 5,
+        text: item.content || ''
+      }));
+    }
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+  }
+  return [];
+}
+
+export default async function Home() {
+  const reviewsData = await fetchReviews();
+
   return (
     <main>
       <Banner />
@@ -27,7 +63,7 @@ export default function Home() {
       <AccommodationsSection />
       <EcoRetreatSection />
       <NewsSection />
-      <TestimonialsSection />
+      <TestimonialsSection reviewsData={reviewsData} />
       <FaqSection />
       {/* <TeamSection /> */}
     </main>

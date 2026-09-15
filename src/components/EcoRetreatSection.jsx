@@ -1,33 +1,42 @@
-"use client";
-
 import styles from './EcoRetreatSection.module.css';
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
+import EcoRetreatSectionClient from './EcoRetreatSectionClient';
+import { getImageUrl } from '@/lib/api';
 
-/* ── Data ── */
-const retreatsData = [
-  { 
-    name: 'Konark', 
-    image: 'https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=600&auto=format&fit=crop',
-    tagline: 'Misty Beach Retreat'
-  },
-  { 
-    name: 'Paradip', 
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=600&auto=format&fit=crop',
-    tagline: 'Port & Golden Sands'
-  },
-  { 
-    name: 'Bhitarkanika', 
-    image: 'https://images.unsplash.com/photo-1471005197911-88e9d4a7834d?q=80&w=600&auto=format&fit=crop',
-    tagline: 'Mangroves & Wildlife'
-  },
-  { 
-    name: 'Sambalpur', 
-    image: 'https://images.unsplash.com/photo-1706115872892-7bb5e53cb9b3?q=80&w=600&auto=format&fit=crop',
-    tagline: 'Mahanadi River Beauty'
-  },
-];
+async function fetchEcoRetreats() {
+  try {
+    const payload = {
+      slug: "eco-retreat",
+      content_type: "hotel"
+    };
+
+    const res = await fetch(`${process.env.CMS_API_URL || 'https://cmsapi.one9ty.com'}/api/v1/delivery/contents/show`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${process.env.CMS_TOKEN || '141|PLIcQEisrq76oVJH35rTn3CqkZWZ6xaCSwNDWCiw2ea64d79'}`
+      },
+      body: JSON.stringify(payload),
+      next: { revalidate: 0 }
+    });
+
+    const result = await res.json();
+
+    // Response shape: { success, data: { ...meta, data: { items: [{name, image: {file_path}, location}] } } }
+    const items = result?.data?.data?.items;
+
+    if (Array.isArray(items) && items.length > 0) {
+      return items.map((item, index) => ({
+        id: index,
+        name: item.name || 'Eco Retreat',
+        image: getImageUrl(item.image?.file_path || item.image),
+        location: item.location || ''
+      }));
+    }
+  } catch (error) {
+    console.error("Error fetching eco retreats:", error);
+  }
+  return [];
+}
 
 /* ── Sub-components ── */
 function EcoHeader() {
@@ -40,63 +49,20 @@ function EcoHeader() {
   );
 }
 
-function EcoCard({ retreat }) {
-  return (
-    <div className={styles.item}>
-      <div className={`${styles.imageWrapper} shineEffect`}>
-        <img src={retreat.image} alt={retreat.name} className={styles.image} />
-        <div className={styles.imageOverlay}></div>
-        <span className={styles.tag}>{retreat.tagline}</span>
-      </div>
-      <div className={styles.content}>
-        <h3 className={styles.title}>{retreat.name}</h3>
-        <span className={styles.bookBtn}>
-          Book Now 
-          <svg className={styles.arrowIcon} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </span>
-      </div>
-    </div>
-  );
-}
-
 /* ── Main Component ── */
-export default function EcoRetreatSection() {
-  const sliderSettings = {
-    dots: true,
-    arrows: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 3500,
-  };
+export default async function EcoRetreatSection() {
+  const retreatsData = await fetchEcoRetreats();
 
   return (
     <section className={styles.ecoSection}>
       <div className={styles.container}>
         <EcoHeader />
-        
-        {/* Desktop / Tablet Grid */}
-        <div className={styles.desktopGrid}>
-          {retreatsData.map((retreat, index) => (
-            <EcoCard key={index} retreat={retreat} />
-          ))}
-        </div>
 
-        {/* Mobile Slider */}
-        <div className={styles.mobileSlider}>
-          <Slider {...sliderSettings}>
-            {retreatsData.map((retreat, index) => (
-              <div key={index} className={styles.slideWrapper}>
-                <EcoCard retreat={retreat} />
-              </div>
-            ))}
-          </Slider>
-        </div>
+        {retreatsData.length > 0 ? (
+          <EcoRetreatSectionClient retreatsData={retreatsData} />
+        ) : (
+          <div className={styles.noResult}>No eco retreats available</div>
+        )}
       </div>
     </section>
   );

@@ -4,33 +4,9 @@ import { useState, useEffect } from 'react';
 import styles from './TestimonialsSection.module.css';
 import AnimatedButton from './AnimatedButton';
 import Slider from "react-slick";
-import { FaStar } from 'react-icons/fa';
+import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-
-/* ── Data ── */
-const testimonialsData = [
-  {
-    text: "Our Odisha trip was perfectly organized by Jagannath Holidays. From hotel bookings to local sightseeing, everything was managed smoothly. The team was responsive and ensured we had a comfortable and memorable experience.",
-    name: "Amit Sharma"
-  },
-  {
-    text: "Our Odisha trip was perfectly organized by Jagannath Holidays. From hotel bookings to local sightseeing, everything was managed smoothly. The team was responsive and ensured we had a comfortable and memorable experience.",
-    name: "Priya Patel"
-  },
-  {
-    text: "Our Odisha trip was perfectly organized by Jagannath Holidays. From hotel bookings to local sightseeing, everything was managed smoothly. The team was responsive and ensured we had a comfortable and memorable experience.",
-    name: "Rahul Verma"
-  },
-  {
-    text: "Our Odisha trip was perfectly organized by Jagannath Holidays. From hotel bookings to local sightseeing, everything was managed smoothly. The team was responsive and ensured we had a comfortable and memorable experience.",
-    name: "Sneha Mohanty"
-  },
-  {
-    text: "Our Odisha trip was perfectly organized by Jagannath Holidays. From hotel bookings to local sightseeing, everything was managed smoothly. The team was responsive and ensured we had a comfortable and memorable experience.",
-    name: "Debasish Das"
-  }
-];
 
 function getSlidesToShow(width) {
   if (width < 640) return 1;
@@ -49,21 +25,30 @@ function TestimonialsHeader() {
   );
 }
 
-function StarRating({ count = 5 }) {
+function StarRating({ rating = 5 }) {
+  const fullStars = Math.floor(rating);
+  const hasHalf = rating % 1 >= 0.25 && rating % 1 < 0.75;
+  const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0) - (rating % 1 >= 0.75 ? 1 : 0);
+  const extraFull = rating % 1 >= 0.75 ? 1 : 0;
+
   return (
     <div className={styles.stars}>
-      {[...Array(count)].map((_, i) => (
-        <FaStar key={i} className={styles.starIcon} />
+      {[...Array(fullStars + extraFull)].map((_, i) => (
+        <FaStar key={`full-${i}`} className={styles.starIcon} />
+      ))}
+      {hasHalf && <FaStarHalfAlt key="half" className={styles.starIcon} />}
+      {[...Array(Math.max(0, emptyStars))].map((_, i) => (
+        <FaRegStar key={`empty-${i}`} className={styles.starIcon} />
       ))}
     </div>
   );
 }
 
-function TestimonialCard({ text, name }) {
+function TestimonialCard({ text, name, rating }) {
   return (
     <div className={styles.slideWrapper}>
       <div className={styles.card}>
-        <StarRating />
+        <StarRating rating={rating} />
         <p className={styles.reviewText}>{text}</p>
         <div className={styles.reviewerName}>– {name}</div>
       </div>
@@ -72,7 +57,7 @@ function TestimonialCard({ text, name }) {
 }
 
 /* ── Main Component ── */
-export default function TestimonialsSection() {
+export default function TestimonialsSection({ reviewsData = [] }) {
   const [slidesToShow, setSlidesToShow] = useState(4);
 
   useEffect(() => {
@@ -93,6 +78,8 @@ export default function TestimonialsSection() {
     autoplaySpeed: 4000,
   };
 
+  if (!reviewsData || reviewsData.length === 0) return null;
+
   return (
     <section className={styles.testimonialsSection}>
       <div className={styles.container}>
@@ -100,11 +87,12 @@ export default function TestimonialsSection() {
         
         <div className={styles.sliderContainer}>
           <Slider key={slidesToShow} {...settings}>
-            {testimonialsData.map((testimonial, index) => (
+            {reviewsData.map((testimonial, index) => (
               <TestimonialCard
                 key={index}
                 text={testimonial.text}
                 name={testimonial.name}
+                rating={testimonial.rating}
               />
             ))}
           </Slider>
