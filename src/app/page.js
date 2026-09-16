@@ -12,7 +12,6 @@ import NewsSection from "@/components/NewsSection";
 import FaqSection from "@/components/FaqSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import TeamSection from "@/components/TeamSection";
-import RoadVideoSection from "@/components/RoadVideoSection";
 
 async function fetchReviews() {
   try {
@@ -67,7 +66,6 @@ export default async function Home() {
       <TestimonialsSection reviewsData={reviewsData} />
       <FaqSection />
       {/* <TeamSection /> */}
-      <RoadVideoSection />
     </main>
   );
 }

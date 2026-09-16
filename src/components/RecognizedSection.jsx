@@ -1,4 +1,8 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
 import styles from './RecognizedSection.module.css';
+import RoadVideoSection from './RoadVideoSection';
 
 /* ── Data ── */
 const recognizedLogos = [
@@ -24,18 +28,25 @@ function LogoCard({ name, img }) {
 }
 
 /* ── Main Component ── */
-export default function RecognizedSection() {
+export default function RecognizedSection({ showVideo }) {
+  const pathname = usePathname();
+  const isHomePage = pathname === '/';
+  const shouldShowVideo = showVideo !== undefined ? showVideo : isHomePage;
+
   return (
-    <section className={styles.recognizedSection}>
-      <div className={styles.container}>
-        <RecognizedHeader />
-        
-        <div className={styles.logoGrid}>
-          {recognizedLogos.map((logo, index) => (
-            <LogoCard key={index} {...logo} />
-          ))}
+    <>
+      <section className={styles.recognizedSection}>
+        <div className={styles.container}>
+          <RecognizedHeader />
+          
+          <div className={styles.logoGrid}>
+            {recognizedLogos.map((logo, index) => (
+              <LogoCard key={index} {...logo} />
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+      {shouldShowVideo && <RoadVideoSection />}
+    </>
   );
 }

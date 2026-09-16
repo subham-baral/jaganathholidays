@@ -3,17 +3,20 @@
 .wrapper {
   position: relative;
   width: 100%;
-  background: #fff;
-  padding: 0 calc((100% - 1300px) / 2 + 5%);
+  max-width: 100%;
+  background: #000;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  line-height: 0;
 }
 
 .videoCard {
-  border-radius: 20px;
+  width: 100%;
+  border-radius: 0;
   overflow: hidden;
-  height: 180px;
-  box-shadow:
-    0 8px 30px rgba(0, 0, 0, 0.15),
-    0 0 0 1px rgba(255, 255, 255, 0.08);
+  height: 200px;
+  box-shadow: none;
 }
 
 .video {
@@ -26,18 +29,18 @@
 /* ── Responsive ── */
 @media (max-width: 768px) {
   .videoCard {
-    height: 140px;
-    border-radius: 16px;
+    height: 150px;
+    border-radius: 0;
   }
 }
 
 @media (max-width: 576px) {
   .wrapper {
-    padding: 0 4%;
+    padding: 0;
   }
 
   .videoCard {
     height: 120px;
-    border-radius: 14px;
+    border-radius: 0;
   }
 }
