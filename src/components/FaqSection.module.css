@@ -91,6 +91,27 @@
   border: 1px dashed #cbd5e1;
 }
 
+.showMoreBtn {
+  display: block;
+  margin: 28px auto 0;
+  padding: 12px 36px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #fff;
+  background: #948b11;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 14px rgba(148, 139, 17, 0.3);
+}
+
+.showMoreBtn:hover {
+  background: #7a7310;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(148, 139, 17, 0.4);
+}
+
 /* ── Tablet (≤1024px) ── */
 @media (max-width: 1024px) {
   .heading {
