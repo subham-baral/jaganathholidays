@@ -160,7 +160,7 @@ const packagesData = [
   }
 ];
 
-async function fetchPackages(categorySlug, destinationSlug, page = 1, perPage = 10) {
+async function fetchPackages(categorySlug, destinationSlug, page = 1, perPage = 15) {
   try {
     const payload = {
       content_type_id: 'packages',

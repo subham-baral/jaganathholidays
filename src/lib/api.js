@@ -340,6 +340,25 @@ export async function getGalleryItems(page = 1) {
   }
 }
 
-
-
-
+/**
+ * Fetches destinations taxonomy terms from CMS API
+ */
+export async function getDestinationsTaxonomy() {
+  try {
+    const res = await fetch(`${CMS_API_URL}/api/v1/delivery/taxonomies?slug=destinations`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${CMS_TOKEN}`
+      },
+      next: { revalidate: 30 }
+    });
+    const result = await res.json();
+    if (result.success && result.data && result.data.length > 0) {
+      return result.data[0].terms || [];
+    }
+  } catch (error) {
+    console.error("Error fetching destinations:", error);
+  }
+  return [];
+}

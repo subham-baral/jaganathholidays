@@ -1,12 +1,13 @@
 import styles from './LovedDestinations.module.css';
-import Link from 'next/link';
+import LovedDestinationsSlider from './LovedDestinationsSlider';
+import { getDestinationsTaxonomy } from '@/lib/api';
 
-/* ── Data ── */
-const destinations = [
-  { name: 'Puri',       image: '/loved-destination-1.png' },
-  { name: 'Konark',     image: '/loved-destination-2.png' },
-  { name: 'Daringbadi', image: '/loved-destination-3.png' },
-  { name: 'Satapada',   image: '/loved-destination-4.jpg' },
+/* ── Fallback Data ── */
+const fallbackDestinations = [
+  { name: 'Puri',       slug: 'puri',       image: '/loved-destination-1.png' },
+  { name: 'Konark',     slug: 'konark',     image: '/loved-destination-2.png' },
+  { name: 'Daringbadi', slug: 'daringbadi', image: '/loved-destination-3.png' },
+  { name: 'Satapada',   slug: 'satapada',   image: '/loved-destination-4.jpg' },
 ];
 
 /* ── Sub-components ── */
@@ -19,30 +20,23 @@ function SectionHeader() {
   );
 }
 
-function DestinationCard({ name, image }) {
-  const slug = name.toLowerCase().replace(/\s+/g, '-');
-  return (
-    <Link href={`/destination/${slug}`} className={styles.card}>
-      <img src={image} alt={name} className={styles.cardImage} />
-      <div className={styles.cardOverlay}>
-        <h3 className={styles.cardTitle}>{name}</h3>
-        <span className={styles.bookNow}>Book Now</span>
-      </div>
-    </Link>
-  );
-}
-
 /* ── Main Component ── */
-export default function LovedDestinations() {
+export default async function LovedDestinations({ destinations: initialDestinations = null }) {
+  let destinations = initialDestinations;
+
+  if (!destinations || destinations.length === 0) {
+    destinations = await getDestinationsTaxonomy();
+  }
+
+  if (!destinations || destinations.length === 0) {
+    destinations = fallbackDestinations;
+  }
+
   return (
     <section className={styles.destinationsSection}>
       <div className={styles.container}>
         <SectionHeader />
-        <div className={styles.cardsGrid}>
-          {destinations.map((dest) => (
-            <DestinationCard key={dest.name} {...dest} />
-          ))}
-        </div>
+        <LovedDestinationsSlider destinations={destinations} />
       </div>
     </section>
   );

@@ -12,6 +12,7 @@ import NewsSection from "@/components/NewsSection";
 import FaqSection from "@/components/FaqSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import TeamSection from "@/components/TeamSection";
+import { getDestinationsTaxonomy } from "@/lib/api";
 
 async function fetchReviews() {
   try {
@@ -48,14 +49,17 @@ async function fetchReviews() {
 }
 
 export default async function Home() {
-  const reviewsData = await fetchReviews();
+  const [reviewsData, destinationsData] = await Promise.all([
+    fetchReviews(),
+    getDestinationsTaxonomy(),
+  ]);
 
   return (
     <main>
       <Banner />
       <DestinationsWindows />
       <AboutSection />
-      <LovedDestinations />
+      <LovedDestinations destinations={destinationsData} />
       <HoneymoonSection />
       <PopularTourPackages />
       <FeaturesSection />

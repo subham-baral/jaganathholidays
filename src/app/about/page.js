@@ -5,12 +5,15 @@ import WhyChooseUs from '@/components/WhyChooseUs';
 import LovedDestinations from '@/components/LovedDestinations';
 import TestimonialsSection from '@/components/TestimonialsSection';
 import StatsSection from '@/components/StatsSection';
+import { getDestinationsTaxonomy } from '@/lib/api';
 
-export default function AboutPage() {
+export default async function AboutPage() {
   const breadcrumbs = [
     { label: 'Home', link: '/' },
     { label: 'About Us' }
   ];
+
+  const destinationsData = await getDestinationsTaxonomy();
 
   return (
     <main>
@@ -24,7 +27,7 @@ export default function AboutPage() {
       <VisionMissionSection />
       <WhyChooseUs />
        <StatsSection />
-      <LovedDestinations />
+      <LovedDestinations destinations={destinationsData} />
       <TestimonialsSection />
     </main>
   );

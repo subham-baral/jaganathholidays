@@ -1,7 +1,7 @@
 .destinationsSection {
   background-color: #fff;
   width: 100%;
-  padding: 50px 5%;
+  padding: 50px 5% 40px;
 }
 
 .container {
@@ -21,106 +21,243 @@
   font-weight: 700;
   margin-bottom: 10px;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
 }
 
 .heading {
-  color: #111;
+  color: #1a2b49;
   font-size: 42px;
   font-weight: 800;
   line-height: 1.2;
 }
 
-/* ── Grid ── */
-.cardsGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+/* ── Slider Container ── */
+.sliderWrapper {
+  position: relative;
+  padding: 10px 0 5px;
+}
+
+.sliderWrapper :global(.slick-track) {
+  display: flex !important;
+}
+
+.sliderWrapper :global(.slick-slide) {
+  padding: 0 10px;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column;
+}
+
+.sliderWrapper :global(.slick-slide > div) {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.slideItem {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  outline: none;
+}
+
+/* ── Slick Dots ── */
+.sliderWrapper :global(.slick-dots) {
+  bottom: -15px;
+}
+
+.sliderWrapper :global(.slick-dots li) {
+  margin: 0 4px;
+}
+
+.sliderWrapper :global(.slick-dots li button:before) {
+  font-size: 11px;
+  color: #d87e00;
+  opacity: 0.25;
+  transition: all 0.25s ease;
+}
+
+.sliderWrapper :global(.slick-dots li.slick-active button:before) {
+  color: #d87e00;
+  opacity: 1;
+  transform: scale(1.25);
+}
+
+/* ── Navigation Arrows ── */
+.navArrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  color: #1a2b49;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 22px;
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.navArrow:hover {
+  background: #d87e00;
+  color: #ffffff;
+  box-shadow: 0 8px 24px rgba(216, 126, 0, 0.38);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.prevArrow {
+  left: -22px;
+}
+
+.nextArrow {
+  right: -22px;
 }
 
 /* ── Card ── */
 .card {
   position: relative;
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
   height: 380px;
   cursor: pointer;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   text-decoration: none;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #0f172a;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.16);
+}
+
+.cardImageWrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1e293b;
 }
 
 .cardImage {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 .card:hover .cardImage {
-  transform: scale(1.06);
+  transform: scale(1.08);
 }
 
 .cardOverlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  position: relative;
+  z-index: 2;
   width: 100%;
-  height: 60%;
-  background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.45) 50%, transparent 100%);
+  background: linear-gradient(
+    to top,
+    rgba(10, 15, 29, 0.95) 0%,
+    rgba(10, 15, 29, 0.7) 45%,
+    rgba(10, 15, 29, 0.25) 75%,
+    transparent 100%
+  );
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   padding: 24px 20px;
+  transition: background 0.3s ease;
+}
+
+.badge {
+  display: inline-block;
+  align-self: flex-start;
+  background: rgba(216, 126, 0, 0.85);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  margin-bottom: 8px;
 }
 
 .cardTitle {
-  color: #fff;
-  font-size: 26px;
+  color: #ffffff;
+  font-size: 24px;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  line-height: 1.25;
+  transition: color 0.2s ease;
+}
+
+.card:hover .cardTitle {
+  color: #ffaa33;
 }
 
 .bookNow {
-  color: #fff;
+  color: #ffffff;
   font-size: 13px;
   font-weight: 600;
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  display: inline-block;
-  width: max-content;
-  transition: border-color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0.9;
+  transition: all 0.25s ease;
+}
+
+.arrowIcon {
+  font-size: 14px;
+  transition: transform 0.25s ease;
 }
 
 .card:hover .bookNow {
-  border-color: #fff;
+  opacity: 1;
+  color: #ffffff;
 }
 
-/* ── Tablet (≤1024px) — 2 columns ── */
-@media (max-width: 1024px) {
-  .cardsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.card:hover .arrowIcon {
+  transform: translateX(4px);
+}
 
+/* ── Tablet (≤1024px) ── */
+@media (max-width: 1024px) {
   .heading {
     font-size: 34px;
   }
 
   .card {
-    height: 300px;
+    height: 330px;
+  }
+
+  .cardTitle {
+    font-size: 21px;
+  }
+
+  .prevArrow {
+    left: -12px;
+  }
+
+  .nextArrow {
+    right: -12px;
   }
 }
 
-/* ── Mobile (≤576px) — 2 × 2 grid ── */
+/* ── Mobile (≤576px) ── */
 @media (max-width: 576px) {
   .destinationsSection {
-    padding: 36px 4%;
+    padding: 36px 4% 30px;
   }
 
   .headingArea {
@@ -129,32 +266,46 @@
 
   .subheading {
     font-size: 13px;
+    letter-spacing: 1px;
   }
 
   .heading {
-    font-size: 22px;
+    font-size: 24px;
   }
 
-  .cardsGrid {
-    grid-template-columns: repeat(2, 1fr); /* 2 × 2 */
-    gap: 12px;
+  .sliderWrapper {
+    padding: 5px 0 25px;
+  }
+
+  .sliderWrapper :global(.slick-slide) {
+    padding: 0 6px;
   }
 
   .card {
-    height: 180px;
-    border-radius: 12px;
+    height: 270px;
+    border-radius: 14px;
   }
 
   .cardOverlay {
-    padding: 12px;
+    padding: 16px 14px;
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 2px 7px;
+    margin-bottom: 6px;
   }
 
   .cardTitle {
-    font-size: 16px;
-    margin-bottom: 2px;
+    font-size: 18px;
+    margin-bottom: 6px;
   }
 
   .bookNow {
-    font-size: 11px;
+    font-size: 12px;
+  }
+
+  .navArrow {
+    display: none !important;
   }
 }
