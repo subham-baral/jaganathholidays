@@ -3,38 +3,59 @@ import EcoRetreatSectionClient from './EcoRetreatSectionClient';
 import { getImageUrl } from '@/lib/api';
 
 async function fetchEcoRetreats() {
-  try {
-    const payload = {
-      slug: "eco-retreat",
-      content_type: "hotel"
-    };
+  const candidateSlugs = ["home-page-hotels", "eco-retreat"];
 
-    const res = await fetch(`${process.env.CMS_API_URL || 'https://cmsapi.one9ty.com'}/api/v1/delivery/contents/show`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.CMS_TOKEN || '141|PLIcQEisrq76oVJH35rTn3CqkZWZ6xaCSwNDWCiw2ea64d79'}`
-      },
-      body: JSON.stringify(payload),
-      next: { revalidate: 0 }
-    });
+  for (const slug of candidateSlugs) {
+    try {
+      const payload = {
+        slug,
+        content_type: "hotel"
+      };
 
-    const result = await res.json();
+      const res = await fetch(`${process.env.CMS_API_URL || 'https://cmsapi.one9ty.com'}/api/v1/delivery/contents/show`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.CMS_TOKEN || '141|PLIcQEisrq76oVJH35rTn3CqkZWZ6xaCSwNDWCiw2ea64d79'}`
+        },
+        body: JSON.stringify(payload),
+        next: { revalidate: 0 }
+      });
 
-    // Response shape: { success, data: { ...meta, data: { items: [{name, image: {file_path}, location}] } } }
-    const items = result?.data?.data?.items;
+      const result = await res.json();
+      const items = result?.data?.data?.items;
 
-    if (Array.isArray(items) && items.length > 0) {
-      return items.map((item, index) => ({
-        id: index,
-        name: item.name || 'Eco Retreat',
-        image: getImageUrl(item.image?.file_path || item.image),
-        location: item.location || ''
-      }));
+      if (Array.isArray(items) && items.length > 0) {
+        return items.map((item, index) => {
+          let photosList = [];
+
+          if (Array.isArray(item.photos) && item.photos.length > 0) {
+            photosList = item.photos
+              .map((p) => getImageUrl(p?.file_path || p?.url || p))
+              .filter(Boolean);
+          } else if (item.image) {
+            const singleImg = getImageUrl(item.image?.file_path || item.image);
+            if (singleImg) photosList.push(singleImg);
+          }
+
+          if (photosList.length === 0) {
+            photosList = [`https://picsum.photos/600/400?random=${index + 50}`];
+          }
+
+          return {
+            id: item.id || index,
+            name: item.name || 'Eco Retreat',
+            image: photosList[0],
+            images: photosList,
+            location: item.location || ''
+          };
+        });
+      }
+    } catch (error) {
+      console.error(`Error fetching eco retreats for slug "${slug}":`, error);
     }
-  } catch (error) {
-    console.error("Error fetching eco retreats:", error);
   }
+
   return [];
 }
 

@@ -2,7 +2,7 @@ import { getVehiclesList, getImageUrl } from '@/lib/api';
 import VehiclesSlider from './VehiclesSlider';
 import styles from './VehiclesSection.module.css';
 
-/* ── Fallback Data ── */
+/* ── Fallback Data with multiple photos ── */
 const fallbackVehicles = [
   {
     title: "Tempo Traveller",
@@ -13,7 +13,12 @@ const fallbackVehicles = [
       ac: "Dual AC",
       drive: "Manual"
     },
-    image: "https://picsum.photos/400/250?random=60"
+    image: "https://picsum.photos/600/400?random=60",
+    images: [
+      "https://picsum.photos/600/400?random=60",
+      "https://picsum.photos/600/400?random=160",
+      "https://picsum.photos/600/400?random=260"
+    ]
   },
   {
     title: "Force Urbania",
@@ -24,7 +29,12 @@ const fallbackVehicles = [
       ac: "Roof AC",
       drive: "Manual"
     },
-    image: "https://picsum.photos/400/250?random=61"
+    image: "https://picsum.photos/600/400?random=61",
+    images: [
+      "https://picsum.photos/600/400?random=61",
+      "https://picsum.photos/600/400?random=161",
+      "https://picsum.photos/600/400?random=261"
+    ]
   },
   {
     title: "SML Coach Bus",
@@ -35,7 +45,12 @@ const fallbackVehicles = [
       ac: "Cabin AC",
       drive: "Manual"
     },
-    image: "https://picsum.photos/400/250?random=62"
+    image: "https://picsum.photos/600/400?random=62",
+    images: [
+      "https://picsum.photos/600/400?random=62",
+      "https://picsum.photos/600/400?random=162",
+      "https://picsum.photos/600/400?random=262"
+    ]
   },
   {
     title: "Innova Crysta",
@@ -46,7 +61,12 @@ const fallbackVehicles = [
       ac: "Auto AC",
       drive: "Auto/Manual"
     },
-    image: "https://picsum.photos/400/250?random=63"
+    image: "https://picsum.photos/600/400?random=63",
+    images: [
+      "https://picsum.photos/600/400?random=63",
+      "https://picsum.photos/600/400?random=163",
+      "https://picsum.photos/600/400?random=263"
+    ]
   },
   {
     title: "Toyota Fortuner",
@@ -57,7 +77,12 @@ const fallbackVehicles = [
       ac: "All-Row AC",
       drive: "4x4 Auto"
     },
-    image: "https://picsum.photos/400/250?random=64"
+    image: "https://picsum.photos/600/400?random=64",
+    images: [
+      "https://picsum.photos/600/400?random=64",
+      "https://picsum.photos/600/400?random=164",
+      "https://picsum.photos/600/400?random=264"
+    ]
   }
 ];
 
@@ -102,10 +127,26 @@ function mapVehicleData(items) {
     const driveOrFuel =
       fuelTerm?.name || (vData.airbag ? 'Airbags' : 'Manual');
 
-    const image = getImageUrl(
-      vData.cover_image?.file_path || vData.cover_image,
-      `https://picsum.photos/400/250?random=${60 + index}`
-    );
+    // Extract photos / images
+    const rawPhotos = vData.photos || item.photos || vData.gallery || vData.images;
+    let imagesList = [];
+
+    if (Array.isArray(rawPhotos) && rawPhotos.length > 0) {
+      imagesList = rawPhotos
+        .map((p) => getImageUrl(p?.file_path || p?.url || p))
+        .filter(Boolean);
+    }
+
+    if (vData.cover_image) {
+      const coverUrl = getImageUrl(vData.cover_image?.file_path || vData.cover_image);
+      if (coverUrl && !imagesList.includes(coverUrl)) {
+        imagesList.unshift(coverUrl);
+      }
+    }
+
+    if (imagesList.length === 0) {
+      imagesList = [`https://picsum.photos/600/400?random=${60 + index}`];
+    }
 
     return {
       id: item.id || item._id || index,
@@ -117,7 +158,8 @@ function mapVehicleData(items) {
         ac,
         drive: driveOrFuel,
       },
-      image,
+      image: imagesList[0],
+      images: imagesList,
     };
   });
 }

@@ -12,31 +12,52 @@ import {
 } from 'react-icons/fa';
 
 /* ── Footer Data ── */
-const quickLinks = [
-  { label: 'About Us', href: '/about' },
-  { label: 'Testimonials', href: '#' },
-  { label: 'Terms & Conditions', href: '#' },
-  { label: 'Privacy Policy', href: '#' },
-  { label: 'Reservation Policy', href: '#' },
-  { label: 'Contact Us', href: '/contact' }
-];
-
 const popularDestinations = [
-  { label: 'Konark', href: '/destination/konark' },
+  { label: 'Bhubaneswar', href: '/destination/bhubaneswar' },
   { label: 'Puri', href: '/destination/puri' },
-  { label: 'Chilika', href: '/destination/satapada' },
-  { label: 'Satkosia', href: '/packages' },
-  { label: 'Varanasi Tour', href: '/packages' },
-  { label: 'Similipal', href: '/packages' }
+  { label: 'Konark', href: '/destination/konark' },
+  { label: 'Chilika', href: '/destination/chilika-lake' },
+  { label: 'Koraput', href: '/destination/koraput' },
+  { label: 'Bhitarakanika', href: '/destination/bhitarakanika' },
+  { label: 'Rajahans', href: '/destination/rajahans-island-tour' },
+  { label: 'Satapada', href: '/destination/satapada' },
+  { label: 'Satkosia', href: '/destination/satkosia' }
 ];
 
-const tourPackagesLinks = [
-  { label: 'Spiritual Tour Odisha', href: '/packages' },
-  { label: 'Puri Gangasagar Tour', href: '/packages' },
-  { label: 'Odisha Family Tour Package', href: '/packages' },
-  { label: 'Satkosia Wildlife Tour', href: '/packages' },
-  { label: 'Tribal Tour Odisha', href: '/packages' },
-  { label: 'Bhubaneswar City Tour', href: '/packages' }
+const tourPackagesColumn1 = [
+  { label: 'Jagannath Dham & Golden Beach', href: '/package/jagannath-dham-and-golden-beach' },
+  { label: 'Bhubaneswar Puri Chilika Konark Tour', href: '/package/bhubaneswar-puri-chilika-konark-tour-packages' },
+  { label: 'Honeymoon Tours', href: '/package/honeymoon-tours-in-odisha' },
+  { label: 'Golden Triangle Tour', href: '/package/golden-triangle-tour-of-odisha' },
+  { label: 'Konark Sun Temple Tour', href: '/package/konark-sun-tample-tour' },
+  { label: 'Beach Tour', href: '/package/beach-tour-packages' },
+  { label: 'Bhitarkanika Forest Tour', href: '/package/bhitarkanika-forest-crocodile-river-safari' },
+  { label: 'Koraput Tour', href: '/package/koraput-tour-package' },
+  { label: 'Puri Jagannath and Chilika Lake Tour', href: '/package/puri-jagannatha-and-chilika-lake-tour-packages' },
+  { label: 'Ram Temple and Jagannath Puri', href: '/package/ram-temple-and-jagannath-puri-tour-packages' },
+  { label: 'Chilika Island Puri Konark BBSR', href: '/package/chilika-island-puri-konark-bhubaneswar-tour-packages' }
+];
+
+const tourPackagesColumn2 = [
+  { label: 'Rajahans Island Chilika Tour', href: '/package/rajahans-island-and-chilika-tour-package' },
+  { label: 'Satkosia Wildlife Tour', href: '/package/satkosia-wildlife-tour-packages' },
+  { label: 'Tribal Tours in Odisha', href: '/package/tribal-tours-in-odisha' },
+  { label: 'Bhubaneswar City Tour', href: '/package/bhubaneswar-city-tour-packages' },
+  { label: 'Family Tour in Odisha', href: '/package/family-tours-in-odisha' },
+  { label: 'Senior Citizen Tour', href: '/package/senior-citizen-tour-packages-in-odisha' },
+  { label: 'Similipal National Park Tour', href: '/package/simlipal-national-park-tour-packages' },
+  { label: 'Puri Ratha Yatra Spiritual Tour', href: '/package/puri-ratha-yatra-spiritual-tour-packages' },
+  { label: 'Satapada Dolphin Tour', href: '/package/satapada-dolphin-tour-package' },
+  { label: 'Deomali Hills Adventure Tour', href: '/package/deomali-hills-adventure-tour' },
+  { label: 'Jagannath Cart Festival Tour', href: '/package/jagannath-cart-festival-tour-packages-of-odisha' }
+];
+
+const bottomLinks = [
+  { label: 'About Us', href: '/about' },
+  { label: 'Contact Us', href: '/contact' },
+  { label: 'Privacy Policy', href: '#' },
+  { label: 'Terms & Conditions', href: '#' },
+  { label: 'Reservation Policy', href: '#' }
 ];
 
 /* ── Sub-components ── */
@@ -44,7 +65,7 @@ function FooterBrand() {
   return (
     <div className={styles.brandColumn}>
       <div className={styles.logos}>
-        <img src="/jaganath-holidays-logo.png" alt="Odisha Logo 1" className={styles.logoImage} />
+        <img src="/jaganath-holidays-logo.png" alt="Jagannath Holidays Logo" className={styles.logoImage} />
       </div>
       
       <ul className={styles.contactList}>
@@ -93,6 +114,15 @@ function FooterBottom() {
       <p className={styles.copyright}>
         Copyright © 2026, Jagannath Holidays. All rights reserved.
       </p>
+
+      <div className={styles.bottomLinks}>
+        {bottomLinks.map((link, idx) => (
+          <Link key={idx} href={link.href} className={styles.bottomLink}>
+            {link.label}
+          </Link>
+        ))}
+      </div>
+
       <div className={styles.socialIcons}>
         <a href="#" aria-label="Facebook"><FaFacebookF /></a>
         <a href="#" aria-label="X (Twitter)">
@@ -114,9 +144,21 @@ export default function Footer() {
       <div className={styles.container}>
         <div className={styles.topSection}>
           <FooterBrand />
-          <FooterLinkColumn title="Quick Links" links={quickLinks} className={styles.halfWidth} />
-          <FooterLinkColumn title="Popular Destinations" links={popularDestinations} className={styles.halfWidth} />
-          <FooterLinkColumn title="Tour Packages" links={tourPackagesLinks} className={styles.fullWidth} />
+          <FooterLinkColumn 
+            title="Popular Destinations" 
+            links={popularDestinations} 
+            className={styles.destColumn} 
+          />
+          <FooterLinkColumn 
+            title="Tour Packages" 
+            links={tourPackagesColumn1} 
+            className={styles.packageColumn} 
+          />
+          <FooterLinkColumn 
+            title="Odisha Packages" 
+            links={tourPackagesColumn2} 
+            className={styles.packageColumn} 
+          />
         </div>
 
         <FooterBottom />

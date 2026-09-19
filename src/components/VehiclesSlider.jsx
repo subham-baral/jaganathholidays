@@ -8,6 +8,8 @@ import "slick-carousel/slick/slick-theme.css";
 import styles from './VehiclesSection.module.css';
 import AnimatedButton from './AnimatedButton';
 import EnquiryModal from './EnquiryModal';
+import CardImageSlider from './CardImageSlider';
+import ImageSliderModal from './ImageSliderModal';
 
 function getSlidesToShow(width) {
   if (width < 640) return 1;
@@ -39,22 +41,24 @@ function VehicleSpecs({ specs }) {
   );
 }
 
-function VehicleCard({ vehicle, onEnquire }) {
+function VehicleCard({ vehicle, onEnquire, onOpenGallery }) {
+  const images = vehicle.images && vehicle.images.length > 0
+    ? vehicle.images
+    : [vehicle.image || 'https://picsum.photos/600/400?random=60'];
+
   return (
     <div className={styles.slideWrapper}>
       <div className={styles.card}>
         <div className={styles.imageWrapper}>
-          <img
-            src={vehicle.image}
+          <CardImageSlider
+            images={images}
             alt={vehicle.title}
-            className={styles.cardImage}
-            loading="lazy"
-            onError={(e) => {
-              e.currentTarget.src = "https://picsum.photos/400/250?random=60";
-            }}
-          />
-          <span className={styles.capacityBadge}>{vehicle.capacity}</span>
+            onImageClick={(index) => onOpenGallery(vehicle, index)}
+          >
+            <span className={styles.capacityBadge}>{vehicle.capacity}</span>
+          </CardImageSlider>
         </div>
+
         <div className={styles.cardContent}>
           <h3 className={styles.cardTitle}>{vehicle.title}</h3>
           <VehicleSpecs specs={vehicle.specs} />
@@ -76,6 +80,15 @@ export default function VehiclesSlider({ vehicles = [] }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState('');
   const [slidesToShow, setSlidesToShow] = useState(4);
+
+  // Gallery Modal state
+  const [galleryModal, setGalleryModal] = useState({
+    isOpen: false,
+    images: [],
+    initialIndex: 0,
+    title: '',
+    subtitle: ''
+  });
 
   useEffect(() => {
     const update = () => setSlidesToShow(getSlidesToShow(window.innerWidth));
@@ -126,6 +139,24 @@ export default function VehiclesSlider({ vehicles = [] }) {
     setIsModalOpen(true);
   };
 
+  const handleOpenGallery = (vehicle, initialIndex = 0) => {
+    const images = vehicle.images && vehicle.images.length > 0
+      ? vehicle.images
+      : [vehicle.image || 'https://picsum.photos/600/400?random=60'];
+
+    setGalleryModal({
+      isOpen: true,
+      images,
+      initialIndex,
+      title: vehicle.title || 'Vehicle',
+      subtitle: vehicle.capacity || ''
+    });
+  };
+
+  const handleCloseGallery = () => {
+    setGalleryModal((prev) => ({ ...prev, isOpen: false }));
+  };
+
   if (!vehicles || vehicles.length === 0) {
     return null;
   }
@@ -139,6 +170,7 @@ export default function VehiclesSlider({ vehicles = [] }) {
               key={vehicle.id || index}
               vehicle={vehicle}
               onEnquire={handleOpenEnquiry}
+              onOpenGallery={handleOpenGallery}
             />
           ))}
         </Slider>
@@ -149,6 +181,16 @@ export default function VehiclesSlider({ vehicles = [] }) {
         handleClose={() => setIsModalOpen(false)}
         itemName={selectedVehicle}
         itemType="vehicle"
+      />
+
+      {/* Fullscreen Image Slider Modal on Click */}
+      <ImageSliderModal
+        isOpen={galleryModal.isOpen}
+        images={galleryModal.images}
+        initialIndex={galleryModal.initialIndex}
+        title={galleryModal.title}
+        subtitle={galleryModal.subtitle}
+        onClose={handleCloseGallery}
       />
     </>
   );
