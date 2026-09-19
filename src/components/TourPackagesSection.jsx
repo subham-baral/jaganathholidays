@@ -264,7 +264,7 @@ export default async function TourPackagesSection({
   limit = null,
   showSidebar = true,
   showPagination = true,
-  itemsPerPage = 10,
+  itemsPerPage = 15,
   layout = 'list' // 'list' | 'grid'
 }) {
   // Resolve search and route parameters
