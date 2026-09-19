@@ -165,7 +165,10 @@ async function fetchPackages(categorySlug, destinationSlug, page = 1, perPage = 
     const payload = {
       content_type_id: 'packages',
       status: 'published',
-      per_page: perPage
+      per_page: perPage,
+      sort_by: "data.sort_order",
+      sort_order: "asc"
+
     };
 
     const taxonomyTerms = {};
