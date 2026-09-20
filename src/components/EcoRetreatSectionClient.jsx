@@ -9,9 +9,11 @@ import CardImageSlider from './CardImageSlider';
 import ImageSliderModal from './ImageSliderModal';
 
 function EcoCard({ retreat, onOpenGallery }) {
-  const images = retreat.photos && retreat.photos.length > 0
+  const images = (Array.isArray(retreat.photos) && retreat.photos.length > 0)
     ? retreat.photos
-    : [retreat.photos || '/jaganath-banner.webp'];
+    : (Array.isArray(retreat.images) && retreat.images.length > 0)
+    ? retreat.images
+    : [retreat.image || '/jaganath-banner.webp'];
 
   return (
     <div className={styles.item}>

@@ -47,6 +47,7 @@ async function fetchEcoRetreats() {
             name: item.name || 'Eco Retreat',
             image: photosList[0],
             images: photosList,
+            photos: photosList,
             location: item.location || ''
           };
         });
