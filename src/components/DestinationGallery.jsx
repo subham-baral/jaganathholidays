@@ -19,7 +19,7 @@ const defaultGalleryImages = [
 function GalleryHeader({ title }) {
   return (
     <div className={styles.header}>
-      <span className={styles.subtitle}>Explore the destinations</span>
+      {/* <span className={styles.subtitle}>Explore the destinations</span> */}
       <h2 className={styles.title}>{title}</h2>
     </div>
   );
@@ -55,7 +55,7 @@ export default function DestinationGallery({ gallery = [], title = "Tour Gallery
   return (
     <section id="tour-gallery" className={styles.gallerySection}>
       <div className={styles.container}>
-        <GalleryHeader title={title} />
+        <GalleryHeader title={"Gallery"} />
         
         <div className={styles.grid}>
           {images.map((img, index) => (

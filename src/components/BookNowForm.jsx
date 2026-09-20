@@ -8,12 +8,9 @@ import {
   FiMessageSquare, 
   FiCheckCircle, 
   FiSend, 
-  FiMapPin, 
-  FiShield, 
-  FiClock, 
-  FiHeadphones,
-  FiAward
+  FiMapPin
 } from 'react-icons/fi';
+import { FaWhatsapp } from 'react-icons/fa';
 import styles from './BookNowForm.module.css';
 
 export default function BookNowForm() {
@@ -254,39 +251,52 @@ export default function BookNowForm() {
             </div>
 
             <div className={styles.trustCard}>
-              <h4 className={styles.trustTitle}>Why Book With Jagannath Holidays?</h4>
+              <h4 className={styles.trustTitle}>Contact Jagannath Holidays</h4>
               
               <div className={styles.trustItem}>
-                <FiAward className={styles.trustIcon} />
+                <FiPhone className={styles.trustIcon} />
                 <div>
-                  <h5>Government Authorized</h5>
-                  <p>Certified travel operator in Odisha with 10+ years of local hospitality experience.</p>
+                  <h5>Call Us</h5>
+                  <a href="tel:+911234567890" className={styles.contactLink}>
+                    +91 1234567890
+                  </a>
                 </div>
               </div>
 
               <div className={styles.trustItem}>
-                <FiShield className={styles.trustIcon} />
+                <FiMail className={styles.trustIcon} />
                 <div>
-                  <h5>100% Price Transparency</h5>
-                  <p>No hidden charges or unexpected fees during your journey.</p>
+                  <h5>Email</h5>
+                  <a href="mailto:info@jagannathholidays.com" className={styles.contactLink}>
+                    info@jagannathholidays.com
+                  </a>
                 </div>
               </div>
 
               <div className={styles.trustItem}>
-                <FiClock className={styles.trustIcon} />
+                <FaWhatsapp className={styles.trustIcon} />
                 <div>
-                  <h5>24/7 On-Trip Assistance</h5>
-                  <p>Dedicated travel manager available around the clock while you travel.</p>
+                  <h5>WhatsApp</h5>
+                  <a 
+                    href="https://wa.me/911234567890" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className={styles.contactLink}
+                  >
+                    +91 1234567890 (Chat Now)
+                  </a>
                 </div>
               </div>
-            </div>
 
-            <div className={styles.hotlineCard}>
-              <FiHeadphones className={styles.hotlineIcon} />
-              <h4>Need Urgent Assistance?</h4>
-              <p>Speak directly with our Odisha travel expert for quick phone booking.</p>
-              <a href="tel:+911234567890" className={styles.hotlinePhone}>+91 1234567890</a>
-              <span className={styles.hotlineEmail}>info@jagannathholidays.com</span>
+              <div className={styles.trustItem}>
+                <FiMapPin className={styles.trustIcon} />
+                <div>
+                  <h5>Visit Us</h5>
+                  <p>
+                    Rasulgarh, Bhubaneswar, 751010, Odisha, India
+                  </p>
+                </div>
+              </div>
             </div>
 
           </div>
