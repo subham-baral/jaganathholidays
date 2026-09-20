@@ -67,25 +67,57 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 60%;
-  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+  height: 65%;
+  background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.45) 55%, rgba(0,0,0,0) 100%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 30px 24px;
+  padding: 24px 20px;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .cardTitle {
   color: #fff;
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
+  line-height: 1.25;
 }
 
 .cardLocation {
   color: #ddd;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.viewPhotosBtn {
+  color: #d87e00;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: color 0.25s ease;
+  width: fit-content;
+}
+
+.arrowIcon {
+  transition: transform 0.25s ease;
+}
+
+.card:hover .arrowIcon {
+  transform: translateX(4px);
+}
+
+.card:hover .viewPhotosBtn {
+  color: #ff9900;
 }
 
 @media (max-width: 1024px) {
@@ -146,5 +178,12 @@
   .cardLocation {
     font-size: 10px;
     color: #e2e8f0;
+    margin-bottom: 2px;
+  }
+
+  .viewPhotosBtn {
+    font-size: 9.5px;
+    margin-top: 2px;
+    gap: 3px;
   }
 }
