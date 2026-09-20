@@ -4,7 +4,7 @@ import { getImageUrl } from '@/lib/api';
 async function fetchAccommodations() {
   try {
     const payload = {
-      slug: "hotel",
+      slug: "eco-retreat",
       content_type: "hotel"
     };
 

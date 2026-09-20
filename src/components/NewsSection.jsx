@@ -3,29 +3,7 @@ import styles from './NewsSection.module.css';
 import { getImageUrl, stripHtml } from '@/lib/api';
 
 /* ── Fallback Data ── */
-const dummyArticles = [
-  {
-    title: "Odisha's Top Attractions",
-    description: "Explore the most popular tourist destinations across Odisha.",
-    date: "Date: 21 Jun 2026",
-    image: "https://picsum.photos/500/350?random=90",
-    link: "/blogs"
-  },
-  {
-    title: "Best Time to Visit Odisha",
-    description: "Find the ideal season for a comfortable and memorable trip.",
-    date: "Date: 21 Jun 2026",
-    image: "https://picsum.photos/500/350?random=91",
-    link: "/blogs"
-  },
-  {
-    title: "Odisha Golden Triangle Tour",
-    description: "Discover the heritage and beauty of Puri, Konark, and Bhubaneswar.",
-    date: "Date: 21 Jun 2026",
-    image: "https://picsum.photos/500/350?random=92",
-    link: "/blogs"
-  }
-];
+const dummyArticles = [];
 
 function formatDate(dateStr) {
   if (!dateStr) return 'Date: 21 Jun 2026';
@@ -51,7 +29,7 @@ async function fetchLatestBlogs() {
         'Authorization': `Bearer ${process.env.CMS_TOKEN || '141|PLIcQEisrq76oVJH35rTn3CqkZWZ6xaCSwNDWCiw2ea64d79'}`
       },
       body: JSON.stringify({ content_type_id: 'blog', status: 'published' }),
-      next: { revalidate: 30 },
+      next: { revalidate: 0 },
     });
 
     let result = await res.json();
@@ -77,7 +55,9 @@ async function fetchLatestBlogs() {
         const itemData = item.data || {};
         const title = itemData.title || item.title || 'Odisha Travel Story';
         const rawDesc = itemData.short_description || itemData.description || itemData.content || '';
-        const description = stripHtml(rawDesc) || 'Discover the heritage and beauty of Odisha with Jagannath Holidays.';
+        const plainDesc = stripHtml(rawDesc) || 'Discover the heritage and beauty of Odisha with Jagannath Holidays.';
+        const words = plainDesc.split(/\s+/).filter(Boolean);
+        const description = words.length > 14 ? `${words.slice(0, 14).join(' ')}...` : plainDesc;
         const date = formatDate(item.published_at || itemData.published_date || item.created_at);
         const rawImage = itemData.featured_image || itemData.thumbnail || itemData.cover_image || itemData.image;
         const defaultFallbackImage = `https://picsum.photos/500/350?random=${index + 90}`;

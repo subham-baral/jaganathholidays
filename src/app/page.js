@@ -11,7 +11,6 @@ import EcoRetreatSection from "@/components/EcoRetreatSection";
 import NewsSection from "@/components/NewsSection";
 import FaqSection from "@/components/FaqSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import TeamSection from "@/components/TeamSection";
 import { getDestinationsTaxonomy } from "@/lib/api";
 
 async function fetchReviews() {
