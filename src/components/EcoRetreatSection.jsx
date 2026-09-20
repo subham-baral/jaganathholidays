@@ -3,7 +3,7 @@ import EcoRetreatSectionClient from './EcoRetreatSectionClient';
 import { getImageUrl } from '@/lib/api';
 
 async function fetchEcoRetreats() {
-  const candidateSlugs = ["home-page-hotels", "eco-retreat"];
+  const candidateSlugs = ["eco-retreat"];
 
   for (const slug of candidateSlugs) {
     try {

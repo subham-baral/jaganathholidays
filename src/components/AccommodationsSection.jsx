@@ -3,7 +3,7 @@ import AccommodationsSectionClient from './AccommodationsSectionClient';
 import { getImageUrl } from '@/lib/api';
 
 async function fetchAccommodations() {
-  const candidateSlugs = ["eco-retreat", "home-page-hotels", "hotel"];
+  const candidateSlugs = ["home-page-hotels"];
 
   for (const slug of candidateSlugs) {
     try {

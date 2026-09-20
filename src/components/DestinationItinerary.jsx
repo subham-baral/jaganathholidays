@@ -26,8 +26,8 @@ const defaultItineraryData = [
 ];
 
 /* ── Sub-components ── */
-function ItineraryHeader() {
-  return <h2 className={styles.sectionTitle}>Tour Itinerary</h2>;
+function ItineraryHeader({ embedded }) {
+  return <h2 className={embedded ? styles.embeddedTitle : styles.sectionTitle}>Tour Itinerary</h2>;
 }
 
 function ItineraryItem({ item, isLast }) {
@@ -54,7 +54,7 @@ function ItineraryItem({ item, isLast }) {
 }
 
 /* ── Main Component ── */
-export default function DestinationItinerary({ itinerary = [] }) {
+export default function DestinationItinerary({ itinerary = [], embedded = false }) {
   const itineraryData = Array.isArray(itinerary) && itinerary.length > 0
     ? itinerary.map((item, index) => ({
         day: item.day_number ? `Day ${item.day_number}` : (item.day || `Day ${index + 1}`),
@@ -63,20 +63,34 @@ export default function DestinationItinerary({ itinerary = [] }) {
       }))
     : defaultItineraryData;
 
+  const timelineContent = (
+    <>
+      <ItineraryHeader embedded={embedded} />
+      
+      <div className={styles.timeline}>
+        {itineraryData.map((item, index) => (
+          <ItineraryItem 
+            key={index} 
+            item={item} 
+            isLast={index === itineraryData.length - 1} 
+          />
+        ))}
+      </div>
+    </>
+  );
+
+  if (embedded) {
+    return (
+      <div id="tour-itinerary" className={styles.embeddedContainer}>
+        {timelineContent}
+      </div>
+    );
+  }
+
   return (
     <section id="tour-itinerary" className={styles.itinerarySection}>
       <div className={styles.container}>
-        <ItineraryHeader />
-        
-        <div className={styles.timeline}>
-          {itineraryData.map((item, index) => (
-            <ItineraryItem 
-              key={index} 
-              item={item} 
-              isLast={index === itineraryData.length - 1} 
-            />
-          ))}
-        </div>
+        {timelineContent}
       </div>
     </section>
   );

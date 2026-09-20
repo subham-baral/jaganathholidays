@@ -8,8 +8,8 @@ import styles from './DestinationDetailsBanner.module.css';
 /* ── Data ── */
 const defaultTabs = [
   { name: "Introduction", id: "introduction" },
-  { name: "What to Expect", id: "what-to-expect" },
   { name: "Tour Itinerary", id: "tour-itinerary" },
+  { name: "What to Expect", id: "what-to-expect" },
   { name: "Tour Gallery", id: "tour-gallery" }
 ];
 

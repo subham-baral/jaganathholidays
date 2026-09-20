@@ -1,6 +1,7 @@
 import { FiCheck, FiX, FiMapPin, FiUsers, FiClock, FiGift, FiPhone, FiMail } from 'react-icons/fi';
 import styles from './DestinationDetailsContent.module.css';
 import PlanJourneyForm from './PlanJourneyForm';
+import DestinationItinerary from './DestinationItinerary';
 
 /* ── Sub-components: Left Column ── */
 
@@ -169,6 +170,7 @@ function SidebarNeedHelp() {
 /* ── Main Component ── */
 export default function DestinationDetailsContent({
   description = "",
+  itinerary = [],
   priceIncludes = [],
   priceExcludes = [],
   complementaries = [],
@@ -213,6 +215,7 @@ export default function DestinationDetailsContent({
         {/* Left Column: Information */}
         <div className={styles.leftColumn}>
           <ContentOverview description={description} />
+          <DestinationItinerary itinerary={itinerary} embedded={true} />
           <ContentIncludes list={incList} />
           <ContentExcludes list={excList} />
           <ContentComplementaries list={compList} />
@@ -223,7 +226,7 @@ export default function DestinationDetailsContent({
         <div className={styles.rightColumn}>
           <SidebarTourInfo startingPoint={startingPoint} endPoint={endPoint} duration={duration} />
           <PlanJourneyForm defaultPackage={packageTitle} />
-          <SidebarNeedHelp />
+          {/* <SidebarNeedHelp /> */}
         </div>
 
       </div>

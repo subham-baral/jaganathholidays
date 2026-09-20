@@ -189,6 +189,7 @@ export default async function PackageDetailsPage({ params }) {
 
       <DestinationDetailsContent 
         description={description}
+        itinerary={itinerary}
         priceIncludes={priceIncludes}
         priceExcludes={priceExcludes}
         complementaries={complementaries}
@@ -200,8 +201,6 @@ export default async function PackageDetailsPage({ params }) {
       />
 
       <DestinationWhatToExpect />
-
-      <DestinationItinerary itinerary={itinerary} />
 
       <DestinationGallery gallery={tourGallery} title={`${title} Gallery`} />
 
