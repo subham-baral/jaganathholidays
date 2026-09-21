@@ -50,7 +50,8 @@ async function fetchAccommodations() {
             image: photosList[0],
             images: photosList,
             photos: photosList,
-            location: item.location || ''
+            location: item.location || '',
+            star_rating: item.star_rating || item.starRating || null
           };
         });
       }

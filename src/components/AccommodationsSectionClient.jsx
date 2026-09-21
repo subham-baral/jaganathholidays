@@ -1,9 +1,49 @@
 "use client";
 
 import { useState } from 'react';
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { FaStar } from 'react-icons/fa';
 import styles from './AccommodationsSection.module.css';
 import CardImageSlider from './CardImageSlider';
 import ImageSliderModal from './ImageSliderModal';
+
+function formatStarRating(rating) {
+  if (!rating) return '';
+  const str = String(rating).trim();
+  if (/^\d+(\.\d+)?$/.test(str)) {
+    return `${str} Star`;
+  }
+  return str;
+}
+
+function PrevArrow({ onClick }) {
+  return (
+    <button
+      type="button"
+      className={`${styles.navArrow} ${styles.prevArrow}`}
+      onClick={onClick}
+      aria-label="Previous Hotel"
+    >
+      <FiChevronLeft />
+    </button>
+  );
+}
+
+function NextArrow({ onClick }) {
+  return (
+    <button
+      type="button"
+      className={`${styles.navArrow} ${styles.nextArrow}`}
+      onClick={onClick}
+      aria-label="Next Hotel"
+    >
+      <FiChevronRight />
+    </button>
+  );
+}
 
 function AccommodationCard({ hotel, onOpenGallery }) {
   const images = (Array.isArray(hotel.images) && hotel.images.length > 0)
@@ -19,6 +59,13 @@ function AccommodationCard({ hotel, onOpenGallery }) {
         alt={hotel.name}
         onImageClick={(index) => onOpenGallery(hotel, index)}
       >
+        {hotel.star_rating && (
+          <span className={styles.starBadge}>
+            <FaStar className={styles.starIcon} />
+            <span>{formatStarRating(hotel.star_rating)}</span>
+          </span>
+        )}
+
         <div className={styles.cardOverlay}>
           <h3 className={styles.cardTitle}>{hotel.name}</h3>
           {hotel.location && <p className={styles.cardLocation}>{hotel.location}</p>}
@@ -70,16 +117,66 @@ export default function AccommodationsSectionClient({ accommodationsData = [] })
     setGalleryModal((prev) => ({ ...prev, isOpen: false }));
   };
 
+  if (!accommodationsData || accommodationsData.length === 0) {
+    return null;
+  }
+
+  const total = accommodationsData.length;
+
+  const sliderSettings = {
+    dots: true,
+    arrows: true,
+    infinite: total > 4,
+    speed: 600,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: total > 4,
+    autoplaySpeed: 3800,
+    pauseOnHover: true,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
+    responsive: [
+      {
+        breakpoint: 1200,
+        settings: {
+          slidesToShow: Math.min(3, total),
+          slidesToScroll: 1,
+          infinite: total > 3,
+        }
+      },
+      {
+        breakpoint: 840,
+        settings: {
+          slidesToShow: Math.min(2, total),
+          slidesToScroll: 1,
+          infinite: total > 2,
+        }
+      },
+      {
+        breakpoint: 576,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: total > 1,
+          arrows: false,
+        }
+      }
+    ]
+  };
+
   return (
     <>
-      <div className={styles.cardsGrid}>
-        {accommodationsData.map((hotel, index) => (
-          <AccommodationCard
-            key={hotel.id || index}
-            hotel={hotel}
-            onOpenGallery={handleOpenGallery}
-          />
-        ))}
+      <div className={styles.sliderWrapper}>
+        <Slider {...sliderSettings}>
+          {accommodationsData.map((hotel, index) => (
+            <div key={hotel.id || index} className={styles.slideItem}>
+              <AccommodationCard
+                hotel={hotel}
+                onOpenGallery={handleOpenGallery}
+              />
+            </div>
+          ))}
+        </Slider>
       </div>
 
       {/* Fullscreen Image Slider Modal on click */}
