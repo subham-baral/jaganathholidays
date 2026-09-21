@@ -234,6 +234,10 @@ export default function BookNowForm() {
                   <span className={styles.sumVal}>{formData.phone || 'Not entered'}</span>
                 </div>
                 <div className={styles.summaryRow}>
+                  <span className={styles.sumLabel}>WhatsApp</span>
+                  <span className={styles.sumVal}>{formData.whatsapp || 'Not entered'}</span>
+                </div>
+                <div className={styles.summaryRow}>
                   <span className={styles.sumLabel}>Email</span>
                   <span className={styles.sumVal}>{formData.email || 'Not entered'}</span>
                 </div>

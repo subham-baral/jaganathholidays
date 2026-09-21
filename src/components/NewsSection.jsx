@@ -100,7 +100,7 @@ function ArticleCard({ title, description, date, image, link = '/blogs/details' 
       <img src={image} alt={title} className={styles.cardImage} />
       <div className={styles.cardOverlay}>
         <h3 className={styles.cardTitle}>{title}</h3>
-        <p className={styles.cardDescription}>{description}</p>
+        {/* <p className={styles.cardDescription}>{description}</p> */}
         <div className={styles.cardDate}>{date}</div>
       </div>
     </Link>
