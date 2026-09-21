@@ -168,10 +168,6 @@ export default function ContactForm({
       ) : (
         <form onSubmit={handleSubmit} noValidate>
           <div className={styles.formHeader}>
-            <div className={styles.badge}>
-              <span className={styles.badgeDot}></span>
-              Fast Response • Travel Specialists
-            </div>
             <h2 className={styles.formTitle}>{title}</h2>
             <p className={styles.formSubtitle}>{subtitle}</p>
           </div>

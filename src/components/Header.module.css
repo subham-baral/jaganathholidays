@@ -37,6 +37,16 @@
   color: inherit;
 }
 
+.topBarLink {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.topBarLink:hover {
+  color: #ff5722;
+}
+
 /* Main Nav */
 .mainNav {
   display: flex;

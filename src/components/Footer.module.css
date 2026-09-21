@@ -84,6 +84,18 @@
   font-weight: 600;
 }
 
+.contactLink {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ddd;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contactLink:hover {
+  color: #ff5722;
+}
+
 .linkColumn {
   display: flex;
   flex-direction: column;

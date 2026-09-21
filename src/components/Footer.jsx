@@ -78,15 +78,15 @@ function FooterBrand() {
         </li>
         <li>
           <FaPhoneAlt className={styles.contactIcon} />
-          <div className={styles.contactText}>+91 1234567890</div>
+          <a href="tel:+911234567890" className={styles.contactLink}>+91 1234567890</a>
         </li>
         <li>
           <FaEnvelope className={styles.contactIcon} />
-          <div className={styles.contactText}>info@jagannathholidays.com</div>
+          <a href="mailto:info@jagannathholidays.com" className={styles.contactLink}>info@jagannathholidays.com</a>
         </li>
         <li>
           <FaGlobe className={styles.contactIcon} />
-          <div className={styles.contactText}>www.jagannathholidays.com</div>
+          <a href="https://www.jagannathholidays.com" target="_blank" rel="noopener noreferrer" className={styles.contactLink}>www.jagannathholidays.com</a>
         </li>
       </ul>
     </div>
@@ -155,7 +155,7 @@ export default function Footer() {
             className={styles.packageColumn} 
           />
           <FooterLinkColumn 
-            title="Odisha Packages" 
+            title="More Packages" 
             links={tourPackagesColumn2} 
             className={styles.packageColumn} 
           />

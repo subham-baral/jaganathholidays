@@ -40,11 +40,11 @@ export default function Header() {
         <div className={styles.topBarRight}>
           <div className={styles.topBarItem}>
             <FiPhone className={styles.topBarIcon} />
-            <span>+91 1234567890</span>
+            <a href="tel:+911234567890" className={styles.topBarLink}>+91 1234567890</a>
           </div>
           <div className={styles.topBarItem}>
             <FiMail className={styles.topBarIcon} />
-            <span>info@jagannathholidays.com</span>
+            <a href="mailto:info@jagannathholidays.com" className={styles.topBarLink}>info@jagannathholidays.com</a>
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@ export default function Header() {
           <Link href="/about" className={styles.navLink}>About Us</Link>
           <Link href="/packages" className={styles.navLink}>Tour Packages</Link>
           <Link href="/destinations" className={styles.navLink}>Destinations</Link>
-          <Link href="/gallery" className={styles.navLink}>Gallery</Link>
+          {/* <Link href="/gallery" className={styles.navLink}>Gallery</Link> */}
           <Link href="/blogs" className={styles.navLink}>Blog</Link>
           <Link href="/contact" className={styles.navLink}>Contact Us</Link>
         </nav>
