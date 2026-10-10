@@ -22,7 +22,6 @@ export default function BookNowPage() {
         bgVideo="/videos/road.mp4"
       />
       <BookNowForm />
-      <RecognizedSection />
       <BookNowFaq />
     </main>
   );

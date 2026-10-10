@@ -74,20 +74,20 @@ export default function Header() {
           <Link href="/contact" className={styles.navLink}>Contact Us</Link>
         </nav>
 
-        <div className={styles.desktopAction}>
-          <AnimatedButton href="/book-now">
+        <div className={styles.headerActions}>
+          <AnimatedButton href="/book-now" className={styles.headerBookBtn}>
             BOOK NOW
           </AnimatedButton>
-        </div>
 
-        {/* Hamburger Icon for Mobile */}
-        <button 
-          className={styles.hamburgerBtn}
-          onClick={() => setIsMenuOpen(true)}
-          aria-label="Open Menu"
-        >
-          <FiMenu />
-        </button>
+          {/* Hamburger Icon for Mobile */}
+          <button 
+            className={styles.hamburgerBtn}
+            onClick={() => setIsMenuOpen(true)}
+            aria-label="Open Menu"
+          >
+            <FiMenu />
+          </button>
+        </div>
       </header>
 
       {/* Mobile Overlay (dims background) */}

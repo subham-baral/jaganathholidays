@@ -287,6 +287,12 @@
 
 /* --- Mobile Menu Styles --- */
 
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .hamburgerBtn {
   display: none;
   background: none;
@@ -295,6 +301,9 @@
   color: #111;
   cursor: pointer;
   padding: 5px;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
 }
 
 .mobileOverlay {
@@ -431,15 +440,59 @@
     display: none;
   }
 
+  .headerActions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .headerBookBtn {
+    padding: 7px 14px !important;
+    white-space: nowrap;
+    border-radius: 6px !important;
+  }
+
+  .headerBookBtn span {
+    font-size: 13px !important;
+  }
+
   .hamburgerBtn {
-    display: block;
+    display: flex;
   }
 
   .mainNav {
-    padding: 15px 5%;
+    padding: 12px 5%;
   }
 
   .logoImage {
     height: 45px;
   }
 }
+
+@media (max-width: 480px) {
+  .mainNav {
+    padding: 10px 4%;
+  }
+
+  .headerActions {
+    gap: 8px;
+  }
+
+  .headerBookBtn {
+    padding: 6px 11px !important;
+  }
+
+  .headerBookBtn span {
+    font-size: 12px !important;
+  }
+
+  .logoImage {
+    height: 38px;
+  }
+
+  .hamburgerBtn {
+    font-size: 26px;
+    padding: 4px;
+  }
+}
+

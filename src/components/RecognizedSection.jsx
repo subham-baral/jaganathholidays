@@ -46,7 +46,7 @@ export default function RecognizedSection({ showVideo }) {
           </div>
         </div>
       </section>
-      {shouldShowVideo && <RoadVideoSection />}
+       <RoadVideoSection />
     </>
   );
 }
